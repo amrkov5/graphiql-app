@@ -1,0 +1,2 @@
+cd ./api-client
+npx lint-staged && npm run type-check

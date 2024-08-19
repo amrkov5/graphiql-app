@@ -1,0 +1,43 @@
+{
+  "name": "api-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format:fix": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "prepare": "cd .. && husky api-client/.husky",
+    "type-check": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.tsx": [
+      "npm run format:fix",
+      "npm run lint"
+    ],
+    "*.ts": [
+      "npm run format:fix",
+      "npm run lint"
+    ]
+  },
+  "dependencies": {
+    "next": "14.2.5",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.5",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.9",
+    "postcss": "^8",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
