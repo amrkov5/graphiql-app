@@ -13,7 +13,6 @@ const SignUpPage: React.FC = () => {
 
   return (
     <div>
-      <h1>Sign Up</h1>
       <AuthForm isRegistering={true} onSubmit={handleSignUp} />
     </div>
   );

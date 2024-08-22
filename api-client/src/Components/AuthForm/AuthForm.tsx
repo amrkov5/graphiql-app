@@ -13,6 +13,7 @@ interface AuthFormProps {
 }
 
 export interface AuthFormInputs {
+  name?: string | null;
   email: string;
   password: string;
   confirmPassword?: string | null;
@@ -30,8 +31,21 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <p>{isRegistering ? 'Sign Up' : 'Sign In'}</p>
+      <h1>{isRegistering ? 'Sign Up' : 'Sign In'}</h1>
       <div className={styles.formWrapper}>
+        {isRegistering && (
+          <div>
+            <label htmlFor="name">Name</label>
+            <input
+              className={styles.formInput}
+              {...register('name')}
+              id="name"
+              //   type="password"
+            />
+            <p className={styles.errorMessage}>{errors.name?.message}</p>
+          </div>
+        )}
+
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -40,7 +54,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
             id="email"
             type="email"
           />
-          {errors.email && <p>{errors.email.message}</p>}
+          <p className={styles.errorMessage}>{errors.email?.message}</p>
         </div>
 
         <div>
@@ -51,7 +65,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
             id="password"
             type="password"
           />
-          {errors.password && <p>{errors.password.message}</p>}
+          <p className={styles.errorMessage}>{errors.password?.message}</p>
         </div>
 
         {isRegistering && (
@@ -63,7 +77,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
               id="confirmPassword"
               type="password"
             />
-            {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+            <p className={styles.errorMessage}>
+              {errors.confirmPassword?.message}
+            </p>
           </div>
         )}
       </div>{' '}

@@ -7,7 +7,7 @@
   background-color: transparent;
   transition: 0.2s ease-in-out;
 }
-.btn:hover {
+.btn:hover:not(:disabled) {
   box-shadow: 0 0 5px var(--text-color);
   transform: scale(1.05);
   cursor: pointer;
@@ -46,6 +46,16 @@
 }
 
 .btn:disabled {
-  background-color: #1033538f;
-  color: #a0a0a0;
+  background-color: #363d428f;
+  color: #746767;
+  border: 1px solid #746767;
+}
+
+.errorMessage {
+  color: rgb(230, 28, 28);
+  font-size: 0.875rem;
+  margin-top: 3px;
+  margin-bottom: 0;
+  min-height: 1.25rem;
+  text-align: end;
 }

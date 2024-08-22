@@ -2,6 +2,19 @@ import * as yup from 'yup';
 
 export const AuthFormSchema = (isRegistering: boolean) => {
   return yup.object().shape({
+    name: isRegistering
+      ? yup
+          .string()
+          .required('Name is required')
+          .test(
+            'no-leading-trailing-spaces',
+            'No leading or trailing spaces allowed',
+            (value) => {
+              return value === value?.trim();
+            }
+          )
+      : yup.string().nullable(),
+
     email: yup
       .string()
       .email('Invalid email format')
@@ -10,11 +23,11 @@ export const AuthFormSchema = (isRegistering: boolean) => {
     password: yup
       .string()
       .min(8, 'Password must be at least 8 characters')
-      .matches(/[a-zA-Z]/, 'Password must contain at least one letter')
-      .matches(/\d/, 'Password must contain at least one digit')
+      .matches(/[a-zA-Z]/, 'At least one letter required')
+      .matches(/\d/, 'At least one digit required')
       .matches(
         /[!@#$%^&*(),.?":{}|<>]/,
-        'Password must contain at least one special character'
+        'At least one special character required'
       )
       .matches(
         /[\p{L}\p{N}\p{P}\p{S}\p{M}]/u,
