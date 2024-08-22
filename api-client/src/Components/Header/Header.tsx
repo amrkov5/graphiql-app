@@ -5,7 +5,7 @@ import {
   logInWithEmailAndPassword,
   logout,
   registerWithEmailAndPassword,
-} from '@/firebase';
+} from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -86,7 +86,10 @@ export default function Header() {
   );
 
   return (
-    <header className={`${styles.header} ${sticky ? styles.sticky : ''}`}>
+    <header
+      className={`${styles.header} ${sticky ? styles.sticky : ''}`}
+      data-testid="header"
+    >
       <Link href={'/'} className={styles.headerLogo}>
         <Logo />
       </Link>

@@ -5,7 +5,7 @@ import RSLogo from './RSLogo';
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} data-testid="footer">
       <Link
         href={'https://github.com/amrkov5/graphiql-app'}
         className={styles.footerLink}
