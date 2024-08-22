@@ -1,0 +1,25 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 10px 20px;
+  border-top: 1px solid var(--text-color);
+}
+.footerLink {
+  text-decoration: none;
+  color: var(--text-color);
+  transition: 0.2s ease-in-out;
+}
+.footerLink:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 5px var(--text-color);
+  text-decoration: none;
+}
+.rsLogo {
+  width: 50px;
+  transition: 0.2s ease-in-out;
+}
+.rsLogo:hover {
+  transform: scale(1.05);
+}
