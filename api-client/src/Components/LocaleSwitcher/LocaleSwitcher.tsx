@@ -1,6 +1,6 @@
 'use client';
 
-import { Locale, setUserLocale } from '@/services/locale';
+import { Locale, setUserLocale } from '../../services/locale';
 import { useLocale } from 'next-intl';
 import styles from './LocaleSwitcher.module.css';
 
