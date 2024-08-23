@@ -3,7 +3,7 @@
 
 COMMIT_MSG_FILE=$1
 COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
-PATTERN="^(init|feat|fix|docs|refactor|config):.*+$"
+PATTERN="^(chore|init|feat|fix|docs|refactor|config):.*+$"
 
 if ! echo $COMMIT_MSG | grep -Eq $PATTERN; then
   echo "Invalid commit message format!"
