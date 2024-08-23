@@ -80,6 +80,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
             />
             <span
               className={styles.passwordToggleIcon}
+              data-testid="password-toggle-icon"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
@@ -99,6 +100,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
               />
               <span
                 className={styles.passwordToggleIcon}
+                data-testid="confirm-password-toggle-icon"
                 onClick={toggleConfirmPasswordVisibility}
               >
                 {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}

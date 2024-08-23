@@ -8,7 +8,12 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ message, onClose }) => {
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
+    <div
+      className={styles.modalOverlay}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <p>{message}</p>
         <button className={styles.btn} onClick={onClose}>
