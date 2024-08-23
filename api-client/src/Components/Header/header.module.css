@@ -1,0 +1,41 @@
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--text-color);
+  transition: height 0.2s ease-in-out;
+  z-index: 999;
+}
+.sticky {
+  height: 60px;
+}
+.btnWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.btn {
+  width: 90px;
+  height: 40px;
+  color: var(--text-color);
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  background-color: transparent;
+  transition: 0.2s ease-in-out;
+}
+.btn:hover {
+  box-shadow: 0 0 5px var(--text-color);
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.headerLogo {
+  transition: 0.2s ease-in-out;
+}
+.headerLogo:hover {
+  transform: scale(1.05);
+}

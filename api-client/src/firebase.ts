@@ -3,18 +3,17 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  // ​​  sendPasswordResetEmail,
   signOut,
 } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
+  apiKey: 'AIzaSyAAIbETc6OqC7IIaTTszwxTzv7s38fHE_M',
+  authDomain: 'api-client-17877.firebaseapp.com',
+  projectId: 'api-client-17877',
+  storageBucket: 'api-client-17877.appspot.com',
+  messagingSenderId: '732007876387',
+  appId: '1:732007876387:web:6baa334cd75664deff2e96',
 };
 
 const app = initializeApp(firebaseConfig);

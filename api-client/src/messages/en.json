@@ -2,6 +2,7 @@
   "Header": {
     "login": "Sign In",
     "register": "Sign Up",
-    "logout": "Sign Out"
+    "logout": "Sign Out",
+    "main": "Main page"
   }
 }

@@ -1,8 +1,15 @@
-import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer';
+import type { Metadata } from 'next';
 import { getLocale, getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
+
 import './globals.css';
+
+export const metadata: Metadata = {
+  title: 'API Client',
+  description: 'API Client for RS School',
+};
 
 export default async function RootLayout({
   children,
