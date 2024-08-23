@@ -5,7 +5,16 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDoc,
+  doc,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAAIbETc6OqC7IIaTTszwxTzv7s38fHE_M',
@@ -29,6 +38,23 @@ const logInWithEmailAndPassword = async (email: string, password: string) => {
   }
 };
 
+const getUserName = async (id: string) => {
+  const usersCollectionRef = collection(db, 'users');
+  const q = query(usersCollectionRef, where('uid', '==', id));
+  try {
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const doc = querySnapshot.docs[0];
+      const userData = doc.data();
+      return userData.displayName;
+    } else {
+      throw new Error("User hasn't been found");
+    }
+  } catch {
+    throw new Error('DB Error');
+  }
+};
+
 const registerWithEmailAndPassword = async (
   name: string,
   email: string,
@@ -39,7 +65,7 @@ const registerWithEmailAndPassword = async (
     const user = res.user;
     await addDoc(collection(db, 'users'), {
       uid: user.uid,
-      name,
+      displayName: name,
       authProvider: 'local',
       email,
     });
@@ -59,4 +85,5 @@ export {
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   logout,
+  getUserName,
 };
