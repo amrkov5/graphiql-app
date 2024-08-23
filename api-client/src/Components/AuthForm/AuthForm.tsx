@@ -44,79 +44,81 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <h1>{isRegistering ? 'Sign Up' : 'Sign In'}</h1>
       <div className={styles.formWrapper}>
-        {isRegistering && (
+        <div className={styles.formInputsWrapper}>
+          {isRegistering && (
+            <div className={styles.passwordContainer}>
+              <label htmlFor="name">Name</label>
+              <input
+                className={styles.formInput}
+                {...register('name')}
+                id="name"
+              />
+            </div>
+          )}
+          {isRegistering && (
+            <p className={styles.errorMessage}>{errors.name?.message}</p>
+          )}
           <div className={styles.passwordContainer}>
-            <label htmlFor="name">Name</label>
-            <input
-              className={styles.formInput}
-              {...register('name')}
-              id="name"
-            />
-          </div>
-        )}
-        {isRegistering && (
-          <p className={styles.errorMessage}>{errors.name?.message}</p>
-        )}
-        <div className={styles.passwordContainer}>
-          <label htmlFor="email">Email</label>
-          <div className={styles.passwordWrapper}>
-            <input
-              className={styles.formInput}
-              {...register('email')}
-              id="email"
-              type="email"
-            />
-          </div>
-        </div>
-        <p className={styles.errorMessage}>{errors.email?.message}</p>
-        <div className={styles.passwordContainer}>
-          <label htmlFor="password">Password</label>
-          <div className={styles.passwordWrapper}>
-            <input
-              className={styles.formInput}
-              {...register('password')}
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-            />
-            <span
-              className={styles.passwordToggleIcon}
-              data-testid="password-toggle-icon"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-            </span>
-          </div>
-        </div>
-        <p className={styles.errorMessage}>{errors.password?.message}</p>
-        {isRegistering && (
-          <div className={styles.passwordContainer}>
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="email">Email</label>
             <div className={styles.passwordWrapper}>
               <input
                 className={styles.formInput}
-                {...register('confirmPassword')}
-                id="confirmPassword"
-                type={showConfirmPassword ? 'text' : 'password'}
+                {...register('email')}
+                id="email"
+                type="email"
+              />
+            </div>
+          </div>
+          <p className={styles.errorMessage}>{errors.email?.message}</p>
+          <div className={styles.passwordContainer}>
+            <label htmlFor="password">Password</label>
+            <div className={styles.passwordWrapper}>
+              <input
+                className={styles.formInput}
+                {...register('password')}
+                id="password"
+                type={showPassword ? 'text' : 'password'}
               />
               <span
                 className={styles.passwordToggleIcon}
-                data-testid="confirm-password-toggle-icon"
-                onClick={toggleConfirmPasswordVisibility}
+                data-testid="password-toggle-icon"
+                onClick={togglePasswordVisibility}
               >
-                {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
               </span>
             </div>
           </div>
-        )}{' '}
-        {isRegistering && (
-          <p className={styles.errorMessage}>
-            {errors.confirmPassword?.message}
-          </p>
-        )}
-      </div>{' '}
-      <button className={styles.btn} type="submit" disabled={!isValid}>
-        {isRegistering ? 'Sign Up' : 'Sign In'}
-      </button>
+          <p className={styles.errorMessage}>{errors.password?.message}</p>
+          {isRegistering && (
+            <div className={styles.passwordContainer}>
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <div className={styles.passwordWrapper}>
+                <input
+                  className={styles.formInput}
+                  {...register('confirmPassword')}
+                  id="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                />
+                <span
+                  className={styles.passwordToggleIcon}
+                  data-testid="confirm-password-toggle-icon"
+                  onClick={toggleConfirmPasswordVisibility}
+                >
+                  {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                </span>
+              </div>
+            </div>
+          )}{' '}
+          {isRegistering && (
+            <p className={styles.errorMessage}>
+              {errors.confirmPassword?.message}
+            </p>
+          )}
+        </div>{' '}
+        <button className={styles.btn} type="submit" disabled={!isValid}>
+          {isRegistering ? 'Sign Up' : 'Sign In'}
+        </button>
+      </div>
     </form>
   );
 };

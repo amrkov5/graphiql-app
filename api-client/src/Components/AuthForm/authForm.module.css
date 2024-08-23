@@ -27,10 +27,18 @@
 .formWrapper {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 10px;
   border: 1px solid var(--text-color);
   padding: 50px 30px 30px 30px;
+  border-radius: 15px;
+}
+
+.formInputsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
   border-radius: 15px;
 }
 
