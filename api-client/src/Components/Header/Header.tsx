@@ -54,7 +54,7 @@ export default function Header() {
       alert('go to main');
     } else {
       router.push('/signin');
-      logInWithEmailAndPassword('anton@mail.com', '123qweASD!');
+      // logInWithEmailAndPassword('anton@mail.com', '123qweASD!');
     }
   };
 
