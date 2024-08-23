@@ -24,6 +24,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm<AuthFormInputs>({
     resolver: yupResolver(AuthFormSchema(isRegistering)),
     mode: 'onChange',
@@ -40,7 +41,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
               className={styles.formInput}
               {...register('name')}
               id="name"
-              //   type="password"
             />
             <p className={styles.errorMessage}>{errors.name?.message}</p>
           </div>
