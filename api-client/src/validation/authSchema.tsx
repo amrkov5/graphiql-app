@@ -22,7 +22,7 @@ export const AuthFormSchema = (isRegistering: boolean) => {
 
     password: yup
       .string()
-      .min(8, 'Password must be at least 8 characters')
+      .min(8, 'Must be at least 8 characters long')
       .matches(/[a-zA-Z]/, 'At least one letter required')
       .matches(/\d/, 'At least one digit required')
       .matches(

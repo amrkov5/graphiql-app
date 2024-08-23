@@ -10,10 +10,12 @@ import { onAuthStateChanged } from 'firebase/auth';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
+import { useRouter } from 'next/navigation';
 
 import styles from './header.module.css';
 
 export default function Header() {
+  const router = useRouter();
   const [sticky, setSticky] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,7 +53,7 @@ export default function Header() {
     if (isLoggedIn) {
       alert('go to main');
     } else {
-      alert('go to login page');
+      router.push('/signin');
       logInWithEmailAndPassword('anton@mail.com', '123qweASD!');
     }
   };
@@ -61,8 +63,8 @@ export default function Header() {
       alert('logging out');
       logout();
     } else {
-      alert('go to register page');
-      registerWithEmailAndPassword('anton', 'anton@mail.com', '123qweASD!');
+      router.push('/signup');
+      // registerWithEmailAndPassword('anton', 'anton@mail.com', '123qweASD!');
     }
   };
 
