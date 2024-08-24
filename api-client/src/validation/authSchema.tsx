@@ -22,8 +22,7 @@ export const AuthFormSchema = (isRegistering: boolean) => {
 
     password: yup
       .string()
-      .min(8, 'Must be at least 8 characters long')
-      .matches(/[a-zA-Z]/, 'At least one letter required')
+      .matches(/[a-zA-Zа-яА-ЯёЁ]/, 'At least one letter required')
       .matches(/\d/, 'At least one digit required')
       .matches(
         /[!@#$%^&*(),.?":{}|<>]/,
@@ -33,6 +32,7 @@ export const AuthFormSchema = (isRegistering: boolean) => {
         /[\p{L}\p{N}\p{P}\p{S}\p{M}]/u,
         'Password must support Unicode characters'
       )
+      .min(8, 'Must be at least 8 characters long')
       .required('Password is required'),
 
     confirmPassword: isRegistering
