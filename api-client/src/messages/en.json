@@ -4,5 +4,13 @@
     "register": "Sign Up",
     "logout": "Sign Out",
     "main": "Main page"
+  },
+  "AuthForm": {
+    "login": "Sign In",
+    "register":"Sign Up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirm": "Confirm password"
   }
 }

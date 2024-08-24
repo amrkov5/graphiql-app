@@ -4,6 +4,20 @@ import SignInPage from './page';
 import { useRouter } from 'next/navigation';
 import { logInWithEmailAndPassword, auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
+
+const localeMessages = {
+  AuthForm: {
+    email: 'Email',
+    password: 'Password',
+  },
+};
+
+vi.mock('next-intl/server', () => ({
+  getLocale: vi.fn(() => 'en'),
+  getMessages: vi.fn(() => localeMessages),
+}));
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -37,8 +51,14 @@ describe('SignInPage', () => {
     );
   });
 
-  it('renders the AuthForm component', () => {
-    render(<SignInPage />);
+  it('renders the AuthForm component', async () => {
+    const locale = await getLocale();
+    const messages = await getMessages();
+    render(
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <SignInPage />
+      </NextIntlClientProvider>
+    );
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
   });
