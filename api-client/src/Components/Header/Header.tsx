@@ -1,20 +1,17 @@
 'use client';
 
-import {
-  auth,
-  logInWithEmailAndPassword,
-  logout,
-  registerWithEmailAndPassword,
-} from '../../firebase';
+import { auth, logout } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import Link from 'next/link';
 import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import styles from './header.module.css';
 
 export default function Header() {
+  const router = useRouter();
   const t = useTranslations('Header');
   const [sticky, setSticky] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,8 +50,8 @@ export default function Header() {
     if (isLoggedIn) {
       alert('go to main');
     } else {
-      alert('go to login page');
-      logInWithEmailAndPassword('anton@mail.com', '123qweASD!');
+      router.push('/signin');
+      // logInWithEmailAndPassword('anton@mail.com', '123qweASD!');
     }
   };
 
@@ -63,8 +60,8 @@ export default function Header() {
       alert('logging out');
       logout();
     } else {
-      alert('go to register page');
-      registerWithEmailAndPassword('anton', 'anton@mail.com', '123qweASD!');
+      router.push('/signup');
+      // registerWithEmailAndPassword('anton', 'anton@mail.com', '123qweASD!');
     }
   };
 

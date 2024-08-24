@@ -21,12 +21,12 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (err) {
-    console.error(err);
-    alert((err as FirebaseError).message);
-  }
+  // try {
+  await signInWithEmailAndPassword(auth, email, password);
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert((err as FirebaseError).message);
+  //   }
 };
 
 const registerWithEmailAndPassword = async (
