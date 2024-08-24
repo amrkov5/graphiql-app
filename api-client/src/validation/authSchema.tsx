@@ -3,17 +3,15 @@ import * as yup from 'yup';
 export const AuthFormSchema = (isRegistering: boolean) => {
   return yup.object().shape({
     name: isRegistering
-      ? yup
-          .string()
-          .required('Name is required')
-          .test(
-            'no-leading-trailing-spaces',
-            'No leading or trailing spaces allowed',
-            (value) => {
-              return value === value?.trim();
-            }
-          )
-      : yup.string().nullable(),
+      ? yup.string().required('Name is required')
+      : // .test(
+        //   'no-leading-trailing-spaces',
+        //   'No leading or trailing spaces allowed',
+        //   (value) => {
+        //     return value === value?.trim();
+        //   }
+        // )
+        yup.string().nullable(),
 
     email: yup
       .string()

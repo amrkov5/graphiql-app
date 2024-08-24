@@ -25,7 +25,17 @@ const SignUpPage: React.FC = () => {
   const handleSignUp = async (data: AuthFormInputs) => {
     console.log('Sign up data:', data);
     if (data.name) {
-      await registerWithEmailAndPassword(data.name, data.email, data.password);
+      const trimmedData = {
+        name: data.name.trim(),
+        email: data.email.trim(),
+        password: data.password.trim(),
+      };
+
+      await registerWithEmailAndPassword(
+        trimmedData.name,
+        trimmedData.email,
+        trimmedData.password
+      );
     }
     router.push('/');
   };
