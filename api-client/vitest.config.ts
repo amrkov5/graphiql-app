@@ -15,7 +15,7 @@ export default defineConfig({
     globals: true,
     include: ['src/**/*.test.tsx'],
     coverage: {
-      include: ['src/Components/**', 'src/app/**'],
+      include: ['src/components/**', 'src/app/**'],
     },
   },
 });

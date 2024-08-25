@@ -16,11 +16,12 @@
 .btnWrapper {
   display: flex;
   justify-content: space-between;
-  width: 200px;
+  align-items: center;
+  gap: 20px;
 }
 .btn {
   width: 90px;
-  height: 30px;
+  height: 40px;
   color: var(--text-color);
   border-radius: 5px;
   border: 1px solid var(--text-color);
