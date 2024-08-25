@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { getLocale, getMessages } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
 import Header from '../Components/Header/Header';
 import Footer from '../Components/Footer/Footer';
 
@@ -9,17 +11,21 @@ export const metadata: Metadata = {
   description: 'API Client for RS School',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Header />
+          {children}
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
