@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { auth, getUserName } from '@/firebase';
+import { auth, getUserName } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
@@ -25,7 +25,7 @@ export default function Welcome() {
   }, [isLoggedIn]);
 
   return (
-    <div className={styles.welcomeWrapper}>
+    <div className={styles.welcomeWrapper} data-testid="welcome">
       <h1 className={styles.welcomeHeading}>
         Welcome{isLoggedIn ? ` back, ${userName}` : ''}!
       </h1>

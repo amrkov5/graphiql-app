@@ -52,7 +52,7 @@ export default function Header() {
       alert('go to main');
     } else {
       alert('go to login page');
-      logInWithEmailAndPassword('anton@mail.com', '123qweASD!');
+      logInWithEmailAndPassword('anton@maill.com', '123qweASD!');
     }
   };
 
@@ -62,7 +62,7 @@ export default function Header() {
       logout();
     } else {
       alert('go to register page');
-      registerWithEmailAndPassword('anton', 'anton@mail.com', '123qweASD!');
+      registerWithEmailAndPassword('anton', 'anton@maill.com', '123qweASD!');
     }
   };
 
