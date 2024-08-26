@@ -9,11 +9,9 @@ import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 const SignUpPage: React.FC = () => {
   const router = useRouter();
   const [isSignedIn, setIisSignedIn] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsLoading(false);
       if (user) {
         router.push('/');
       } else setIisSignedIn(false);
