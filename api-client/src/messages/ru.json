@@ -11,7 +11,18 @@
     "name": "Имя",
     "email": "Почта",
     "password": "Пароль",
-    "confirm": "Подтвердите пароль"
+    "confirm": "Подтвердите пароль",
+    "nameRequired": "Введите имя",
+    "emailFormat": "Неверный формат электронной почты",
+    "emailRequired": "Введите электронную почту",
+    "PSWDletterRequired": "Пароль должен содержать хотя бы одну букву",
+    "PSWDdigitRequired": "Пароль должен содержать хотя бы одну цифру",
+    "PSWDspecCharRequired": "Требуется хотя бы один специальный символ",
+    "PSWDsupportUnicode": "Пароль должен поддерживать Unicode символы",
+    "PSWDlength": "Пароль должен содержать не менее 8 символов",
+    "PSWDrequired": "Введите пароль",
+    "ConfirmPSWDdoNotMatch": "Пароли не совпадают",
+    "ConfirmPSWDrequired": "Подтвердите ваш пароль"
   },
 
   "NotFound": {

@@ -43,7 +43,7 @@
 }
 
 .formInput {
-  width: 190px;
+  width: 220px;
   height: 30px;
   color: var(--text-color);
   border-radius: 5px;
@@ -51,6 +51,7 @@
   background-color: transparent;
   transition: 0.2s ease-in-out;
   margin-left: 10px;
+  padding-right: 30px;
 }
 
 .btn:disabled {
@@ -79,17 +80,6 @@
   display: flex;
   align-items: center;
   position: relative;
-}
-
-.formInput {
-  width: 190px;
-  height: 30px;
-  color: var(--text-color);
-  border-radius: 5px;
-  border: 1px solid var(--text-color);
-  background-color: transparent;
-  transition: 0.2s ease-in-out;
-  padding-right: 30px;
 }
 
 .passwordToggleIcon {

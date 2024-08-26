@@ -1,43 +1,30 @@
 import * as yup from 'yup';
 
-export const AuthFormSchema = (isRegistering: boolean) => {
+export const AuthFormSchema = (
+  isRegistering: boolean,
+  t: (key: string) => string
+) => {
   return yup.object().shape({
     name: isRegistering
-      ? yup.string().required('Name is required')
-      : // .test(
-        //   'no-leading-trailing-spaces',
-        //   'No leading or trailing spaces allowed',
-        //   (value) => {
-        //     return value === value?.trim();
-        //   }
-        // )
-        yup.string().nullable(),
+      ? yup.string().required(t('nameRequired'))
+      : yup.string().nullable(),
 
-    email: yup
-      .string()
-      .email('Invalid email format')
-      .required('Email is required'),
+    email: yup.string().email(t('emailFormat')).required(t('emailRequired')),
 
     password: yup
       .string()
-      .matches(/[a-zA-Zа-яА-ЯёЁ]/, 'At least one letter required')
-      .matches(/\d/, 'At least one digit required')
-      .matches(
-        /[!@#$%^&*(),.?":{}|<>]/,
-        'At least one special character required'
-      )
-      .matches(
-        /[\p{L}\p{N}\p{P}\p{S}\p{M}]/u,
-        'Password must support Unicode characters'
-      )
-      .min(8, 'Must be at least 8 characters long')
-      .required('Password is required'),
+      .required(t('PSWDrequired'))
+      .matches(/[a-zA-Zа-яА-ЯёЁ]/, t('PSWDletterRequired'))
+      .matches(/\d/, t('PSWDdigitRequired'))
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, t('PSWDspecCharRequired'))
+      .matches(/[\p{L}\p{N}\p{P}\p{S}\p{M}]/u, t('PSWDsupportUnicode'))
+      .min(8, t('PSWDlength')),
 
     confirmPassword: isRegistering
       ? yup
           .string()
-          .oneOf([yup.ref('password')], 'Passwords do not match')
-          .required('Confirm your password')
+          .oneOf([yup.ref('password')], t('ConfirmPSWDdoNotMatch'))
+          .required(t('ConfirmPSWDrequired'))
       : yup.string().nullable(),
   });
 };
