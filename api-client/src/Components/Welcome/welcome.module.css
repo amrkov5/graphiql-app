@@ -1,0 +1,36 @@
+.welcomeWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 20px;
+  width: 600px;
+  height: 100%;
+}
+.welcomeHeading {
+  text-align: center;
+}
+.linkWrapper {
+  display: flex;
+  column-gap: 50px;
+  justify-content: center;
+  width: 500px;
+}
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 30px;
+  color: var(--text-color);
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+.link:hover {
+  box-shadow: 0 0 5px var(--text-color);
+  transform: scale(1.05);
+  cursor: pointer;
+}

@@ -51,7 +51,6 @@ export default function Header() {
       alert('go to main');
     } else {
       router.push('/signin');
-      // logInWithEmailAndPassword('anton@mail.com', '123qweASD!');
     }
   };
 
@@ -61,7 +60,6 @@ export default function Header() {
       logout();
     } else {
       router.push('/signup');
-      // registerWithEmailAndPassword('anton', 'anton@mail.com', '123qweASD!');
     }
   };
 

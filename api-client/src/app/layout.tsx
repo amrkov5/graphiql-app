@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { getLocale, getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import Header from '../Components/Header/Header';
+import Footer from '../Components/Footer/Footer';
 
 import './globals.css';
 
