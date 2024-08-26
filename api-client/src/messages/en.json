@@ -5,6 +5,16 @@
     "logout": "Sign Out",
     "main": "Main page"
   },
+  "Welcome": {
+    "greeting": "Welcome",
+    "return": "Welcome back",
+    "history": "History",
+    "about": "About us",
+    "rest": "REST Client",
+    "graphiql": "GraphiQL Client",
+    "login": "Sign In",
+    "register": "Sign Up"
+  },
   "AuthForm": {
     "login": "Sign In",
     "register": "Sign Up",

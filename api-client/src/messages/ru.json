@@ -5,6 +5,16 @@
     "logout": "Выйти",
     "main": "Главная страница"
   },
+  "Welcome": {
+    "greeting": "Добро пожаловать",
+    "return": "С возвращением",
+    "history": "История",
+    "about": "О нас",
+    "rest": "REST Клиент",
+    "graphiql": "GraphiQL Клиент",
+    "login": "Войти",
+    "register": "Регистрация"
+  },
   "AuthForm": {
     "login": "Войти",
     "register": "Регистрация",
