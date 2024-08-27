@@ -11,7 +11,7 @@
     "name": "Name",
     "email": "Email",
     "password": "Password",
-    "confirm": "Confirm password",
+    "confirm": "Confirm the password",
     "nameRequired": "Name is required",
     "emailFormat": "Invalid email format",
     "emailRequired": "Email is required",

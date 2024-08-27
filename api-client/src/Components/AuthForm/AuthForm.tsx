@@ -122,7 +122,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
           }
           {isRegistering && (
             <div className={styles.passwordContainer}>
-              <label htmlFor="confirmPassword">{t('confirm')}</label>
+              <label htmlFor="confirmPassword" className={styles.lbl}>
+                {t('confirm')}
+              </label>
               <div className={styles.passwordWrapper}>
                 <input
                   className={styles.formInput}
