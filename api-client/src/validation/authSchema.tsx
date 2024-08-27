@@ -13,10 +13,7 @@ export const AuthFormSchema = (isRegistering: boolean) => {
         // )
         yup.string().nullable(),
 
-    email: yup
-      .string()
-      .email('Invalid email format')
-      .required('Email is required'),
+    email: yup.string().email('email').required('Email is required'),
 
     password: yup
       .string()

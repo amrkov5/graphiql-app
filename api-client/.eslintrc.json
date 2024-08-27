@@ -7,8 +7,8 @@
   ],
   "rules": {
     "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
-    "no-unused-vars": "error"
+    "react/react-in-jsx-scope": "off"
+    // "no-unused-vars": "error"
   },
   "settings": {
     "next": {

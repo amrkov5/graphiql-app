@@ -1,7 +1,7 @@
 'use client';
 
-import { auth, logout } from '../../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { logout } from '../../firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Link from 'next/link';
 import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 import { useTranslations } from 'next-intl';
@@ -16,6 +16,8 @@ export default function Header() {
   const [sticky, setSticky] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const auth = getAuth();
+  console.log(auth);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +46,7 @@ export default function Header() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [isLoggedIn]);
 
   const onSignInMainClick = () => {
     if (isLoggedIn) {
