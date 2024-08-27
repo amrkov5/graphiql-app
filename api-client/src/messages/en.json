@@ -7,10 +7,15 @@
   },
   "AuthForm": {
     "login": "Sign In",
-    "register":"Sign Up",
+    "register": "Sign Up",
     "name": "Name",
     "email": "Email",
     "password": "Password",
     "confirm": "Confirm password"
+  },
+  "NotFound": {
+    "404": "Page Not Found",
+    "message": "The Page you are looking for does not exist",
+    "toMain": "Go to Main"
   }
 }
