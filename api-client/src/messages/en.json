@@ -7,10 +7,19 @@
   },
   "AuthForm": {
     "login": "Sign In",
-    "register":"Sign Up",
+    "register": "Sign Up",
     "name": "Name",
     "email": "Email",
     "password": "Password",
     "confirm": "Confirm password"
+  },
+  "SignUpPage": {
+    "modalMessage": "An account with this email already exists."
+  },
+  "SignInPage": {
+    "modalMessage": "Sign-in failed. Please check your credentials and try again."
+  },
+  "Modal": {
+    "modalClose": "Close"
   }
 }

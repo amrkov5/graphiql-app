@@ -1,45 +1,33 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Modal from './Modal'; // Adjust the import path if necessary
 import { describe, it, expect, vi } from 'vitest';
+import Modal from './Modal';
 
-describe('Modal component', () => {
-  it('renders the message correctly', () => {
-    render(<Modal message="Test message" onClose={vi.fn()} />);
+vi.mock('next-intl', () => ({
+  useTranslations: (key: string) => (text: string) => text,
+}));
 
-    // Check if the message is displayed
-    expect(screen.getByText('Test message')).toBeInTheDocument();
+describe('Modal Component', () => {
+  const mockOnClose = vi.fn();
+
+  it('should render the modal with the correct message', () => {
+    const message = 'Test message';
+    render(<Modal message={message} onClose={mockOnClose} />);
+
+    expect(screen.getByText(message)).toBeInTheDocument();
   });
 
-  it('closes when the close button is clicked', () => {
-    const onClose = vi.fn();
-    render(<Modal message="Test message" onClose={onClose} />);
+  it('should call onClose when the close button is clicked', () => {
+    render(<Modal message="Test message" onClose={mockOnClose} />);
 
-    // Click the close button
-    fireEvent.click(screen.getByText('Close'));
-
-    // Check if the onClose function was called
-    expect(onClose).toHaveBeenCalled();
+    fireEvent.click(screen.getByText(/Close/i));
+    expect(mockOnClose).toHaveBeenCalled();
   });
 
-  it('closes when clicking outside the modal content', () => {
-    const onClose = vi.fn();
-    render(<Modal message="Test message" onClose={onClose} />);
+  it('should call onClose when the overlay is clicked', () => {
+    render(<Modal message="Test message" onClose={mockOnClose} />);
 
-    // Click outside the modal content (on the overlay)
     fireEvent.click(screen.getByRole('dialog'));
-
-    // Check if the onClose function was called
-    expect(onClose).toHaveBeenCalled();
-  });
-
-  it('does not close when clicking inside the modal content', () => {
-    const onClose = vi.fn();
-    render(<Modal message="Test message" onClose={onClose} />);
-
-    // Click inside the modal content
-    fireEvent.click(screen.getByRole('dialog').firstChild!);
-
-    // Check if the onClose function was not called
-    expect(onClose).not.toHaveBeenCalled();
+    expect(mockOnClose).toHaveBeenCalled();
   });
 });

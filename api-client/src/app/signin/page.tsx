@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, logInWithEmailAndPassword } from '../../firebase';
-import AuthForm, { AuthFormInputs } from '../../components/AuthForm/AuthForm';
-import Modal from '../../components/Modal/Modal';
+import AuthForm, { AuthFormInputs } from '../../Components/AuthForm/AuthForm';
+import Modal from '../../Components/Modal/Modal';
+import { useTranslations } from 'next-intl';
 import styles from './SignInPage.module.css';
 
 const SignInPage: React.FC = () => {
@@ -13,6 +14,7 @@ const SignInPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSignedIn, setIisSignedIn] = useState(true);
   const router = useRouter();
+  const t = useTranslations('SignInPage');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -67,10 +69,7 @@ const SignInPage: React.FC = () => {
             />
           </div>
           {isSignInFaulty && (
-            <Modal
-              message="Sign-in failed. Please check your credentials and try again."
-              onClose={handleCloseModal}
-            />
+            <Modal message={t('modalMessage')} onClose={handleCloseModal} />
           )}
         </div>
       )}
