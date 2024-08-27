@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import AuthForm, { AuthFormInputs } from '../../components/AuthForm/AuthForm';
+import AuthForm, { AuthFormInputs } from '../../Components/AuthForm/AuthForm';
 import { auth, registerWithEmailAndPassword } from '../../firebase';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';

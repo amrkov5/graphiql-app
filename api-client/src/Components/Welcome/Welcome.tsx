@@ -32,7 +32,7 @@ export default function Welcome() {
       <div className={styles.linkWrapper}>
         {!isLoggedIn && (
           <>
-            <Link href={'/login'} className={styles.link}>
+            <Link href={'/signin'} className={styles.link}>
               Sign In
             </Link>
             <Link href={'/signup'} className={styles.link}>

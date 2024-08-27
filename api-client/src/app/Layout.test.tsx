@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react';
 import { describe, it, vi, expect } from 'vitest';
 import RootLayout from './layout';
-import { useRouter as mockUseRouter } from 'next/navigation';
 
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(() => ({

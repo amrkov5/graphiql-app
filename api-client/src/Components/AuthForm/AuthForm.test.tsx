@@ -1,7 +1,7 @@
 // AuthForm.test.tsx
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import AuthForm, { AuthFormInputs } from './AuthForm';
+import AuthForm from './AuthForm';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 
