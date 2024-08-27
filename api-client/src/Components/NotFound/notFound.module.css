@@ -1,0 +1,26 @@
+.btn {
+  width: 90px;
+  height: 30px;
+  color: var(--text-color);
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  background-color: transparent;
+  transition: 0.2s ease-in-out;
+}
+.btn:hover {
+  box-shadow: 0 0 5px var(--text-color);
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.message {
+  font-size: 18px;
+}
