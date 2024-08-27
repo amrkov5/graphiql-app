@@ -42,6 +42,11 @@
       "role": "Developer",
       "bio": "I am a third-year student majoring in Software Engineering. My background has primarily been in working with C# and Java, where I have gained a solid understanding of programming principles and practices. Recently, I have decided to venture into the exciting world of web development. I am passionate about expanding my knowledge and skills, and I am eager to see where this path in web development will take me.",
       "github": "https://github.com/veta306"
-    }
+    },
+  },
+  "NotFound": {
+    "404": "Page Not Found",
+    "message": "The Page you are looking for does not exist",
+    "toMain": "Go to Main"
   }
 }
