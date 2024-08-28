@@ -22,43 +22,24 @@ export interface AuthFormInputs {
 
 const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
   const t = useTranslations('AuthForm');
+  const e = useTranslations('ValidationErrors');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const schema = useMemo(
-    () => AuthFormSchema(isRegistering, t),
-    [isRegistering, t]
-  );
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, touchedFields },
-    trigger,
-    watch,
+    formState: { errors, isValid },
   } = useForm<AuthFormInputs>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(AuthFormSchema(isRegistering)),
     mode: 'onChange',
   });
-
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
-
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword((prevState) => !prevState);
   };
-
-  useEffect(() => {
-    trigger();
-  }, [t, trigger]);
-
-  useEffect(() => {
-    const subscription = watch(() => {
-      trigger();
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, trigger]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -77,7 +58,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
           )}
           {isRegistering && (
             <p className={styles.errorMessage}>
-              {touchedFields.name && errors.name && errors.name.message}
+              {errors.name ? e(`${errors.name?.message}`) : ''}
             </p>
           )}
           <div className={styles.passwordContainer}>
@@ -91,10 +72,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
               />
             </div>
           </div>
-          <p className={styles.errorMessage}>
-            {touchedFields.email && errors.email && errors.email.message}
-          </p>
 
+          <p className={styles.errorMessage}>
+            {errors.email ? e(`${errors.email?.message}`) : ''}
+          </p>
           <div className={styles.passwordContainer}>
             <label htmlFor="password">{t('password')}</label>
             <div className={styles.passwordWrapper}>
@@ -113,13 +94,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
               </span>
             </div>
           </div>
-          {
-            <p className={styles.errorMessage}>
-              {touchedFields.password &&
-                errors.password &&
-                errors.password.message}
-            </p>
-          }
+          <p className={styles.errorMessage}>
+            {errors.password ? e(`${errors.password?.message}`) : ''}
+          </p>
           {isRegistering && (
             <div className={styles.passwordContainer}>
               <label htmlFor="confirmPassword" className={styles.lbl}>
@@ -144,9 +121,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
           )}
           {isRegistering && (
             <p className={styles.errorMessage}>
-              {touchedFields.confirmPassword &&
-                errors.confirmPassword &&
-                errors.confirmPassword.message}
+              {errors.confirmPassword
+                ? e(`${errors.confirmPassword?.message}`)
+                : ''}
             </p>
           )}
         </div>

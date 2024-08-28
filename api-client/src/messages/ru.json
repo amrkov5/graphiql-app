@@ -11,7 +11,9 @@
     "name": "Имя",
     "email": "Почта",
     "password": "Пароль",
-    "confirm": "Подтвердите пароль",
+    "confirm": "Подтвердите пароль"
+  },
+  "ValidationErrors": {
     "nameRequired": "Введите имя",
     "emailFormat": "Неверный формат электронной почты",
     "emailRequired": "Введите электронную почту",
@@ -24,7 +26,6 @@
     "ConfirmPSWDdoNotMatch": "Пароли не совпадают",
     "ConfirmPSWDrequired": "Подтвердите ваш пароль"
   },
-
   "NotFound": {
     "404": "Страница не найдена",
     "message": "Страница, которую вы ищете, не существует",
