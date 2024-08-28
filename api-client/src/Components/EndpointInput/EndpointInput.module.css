@@ -1,4 +1,4 @@
-.input[type='text'] {
+.input {
   background-color: #2d2d2d;
   color: #ffffff;
   border: 1px solid #3a3a3a;
@@ -10,6 +10,6 @@
   transition: border-color 0.3s ease;
 }
 
-.input[type='text']:focus {
+.input:focus {
   border-color: #007acc;
 }

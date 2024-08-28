@@ -22,6 +22,7 @@ const MethodSelector: React.FC<MethodSelectorProps> = ({
       value={method}
       onChange={handleMethodChange}
       className={styles.select}
+      name="method"
     >
       {METHODS.map((method) => (
         <option key={method} value={method}>

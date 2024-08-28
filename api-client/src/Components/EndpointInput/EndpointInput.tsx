@@ -7,19 +7,22 @@ interface EndpointInputProps {
 }
 
 const EndpointInput: React.FC<EndpointInputProps> = ({ url, setUrl }) => {
+  const [localUrl, setLocalUrl] = useState(atob(decodeURIComponent(url)));
+
   const handleEndpointChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const encodedUrl = btoa(event.target.value);
+    setLocalUrl(event.target.value);
     setUrl(encodedUrl);
   };
 
   return (
     <input
-      autoFocus={true}
       type="text"
-      value={atob(decodeURIComponent(url))}
+      value={localUrl}
       onChange={handleEndpointChange}
       placeholder="Enter endpoint URL"
       className={styles.input}
+      name="url"
     />
   );
 };

@@ -1,1 +1,9 @@
-export const METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
+export const METHODS = [
+  'GET',
+  'POST',
+  'PUT',
+  'PATCH',
+  'DELETE',
+  'HEAD',
+  'OPTIONS',
+];

@@ -1,13 +1,25 @@
 .container {
+  width: 100%;
+  max-width: 1000px;
+  align-self: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  margin: 20px;
   padding: 20px;
   background-color: #1e1e1e;
   border: 1px solid #3a3a3a;
   border-radius: 6px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
 }
 
 .send {
