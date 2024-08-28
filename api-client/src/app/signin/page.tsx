@@ -42,10 +42,6 @@ const SignInPage: React.FC = () => {
     setIsSignInFaulty(false);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       {!isSignedIn && (
