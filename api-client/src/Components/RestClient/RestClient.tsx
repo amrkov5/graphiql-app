@@ -36,9 +36,9 @@ const RestClient: React.FC<RestClientProps> = ({
     updateUrl();
 
     return () => updateUrl.cancel();
-  }, [method, url, body]);
+  }, [method, url, body, searchParams]);
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
       <div className={styles.inputSection}>
         <MethodSelector method={method} setMethod={setMethod} />
         <EndpointInput url={url} setUrl={setUrl} />
@@ -46,7 +46,7 @@ const RestClient: React.FC<RestClientProps> = ({
       </div>
       <HeadersEditor />
       <BodyEditor body={body} setBody={setBody} />
-    </main>
+    </div>
   );
 };
 

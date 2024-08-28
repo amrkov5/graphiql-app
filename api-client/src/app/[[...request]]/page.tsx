@@ -5,11 +5,7 @@ import { METHODS } from '../../constants';
 
 const ClientPage = ({ params }: { params: { request?: string[] } }) => {
   if (!params.request) {
-    return (
-      <main className="main">
-        <Welcome />
-      </main>
-    );
+    return <Welcome />;
   } else if (params.request.length <= 3) {
     if (METHODS.includes(params.request[0])) {
       return (
