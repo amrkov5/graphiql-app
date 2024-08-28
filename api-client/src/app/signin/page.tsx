@@ -7,7 +7,6 @@ import { auth, logInWithEmailAndPassword } from '../../firebase';
 import AuthForm, { AuthFormInputs } from '../../Components/AuthForm/AuthForm';
 import Modal from '../../Components/Modal/Modal';
 import { useTranslations } from 'next-intl';
-import styles from './SignInPage.module.css';
 
 const SignInPage: React.FC = () => {
   const [isSignInFaulty, setIsSignInFaulty] = useState(false);
@@ -52,13 +51,7 @@ const SignInPage: React.FC = () => {
     <>
       {!isSignedIn && (
         <div>
-          <div
-            className={
-              isSignInFaulty
-                ? styles.formContainerWithModal
-                : styles.formContainer
-            }
-          >
+          <div>
             <AuthForm
               isRegistering={false}
               onSubmit={(data) => {

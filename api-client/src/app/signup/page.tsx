@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import Modal from '../../Components/Modal/Modal';
 import { useTranslations } from 'next-intl';
-import styles from './SignUpPage.module.css';
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
@@ -59,22 +58,15 @@ const SignUpPage: React.FC = () => {
     <>
       {!isSignedIn && (
         <div>
-          <div
-            className={
-              isSignUpFaulty
-                ? styles.formContainerWithModal
-                : styles.formContainer
-            }
-          >
-            <AuthForm
-              isRegistering={true}
-              onSubmit={(data) => {
-                handleSignUp(data, () => {
-                  document.querySelector('form')?.reset();
-                });
-              }}
-            />
-          </div>
+          <AuthForm
+            isRegistering={true}
+            onSubmit={(data) => {
+              handleSignUp(data, () => {
+                document.querySelector('form')?.reset();
+              });
+            }}
+          />
+
           {isSignUpFaulty && (
             <Modal message={t('modalMessage')} onClose={handleCloseModal} />
           )}
