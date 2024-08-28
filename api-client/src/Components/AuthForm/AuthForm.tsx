@@ -22,6 +22,7 @@ export interface AuthFormInputs {
 
 const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
   const t = useTranslations('AuthForm');
+  const e = useTranslations('Errors');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -71,7 +72,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
               />
             </div>
           </div>
-          <p className={styles.errorMessage}>{errors.email?.message}</p>
+          <p className={styles.errorMessage}>{e(`${errors.email?.message}`)}</p>
           <div className={styles.passwordContainer}>
             <label htmlFor="password">{t('password')}</label>
             <div className={styles.passwordWrapper}>
@@ -90,7 +91,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
               </span>
             </div>
           </div>
-          <p className={styles.errorMessage}>{errors.password?.message}</p>
+          <p className={styles.errorMessage}>
+            {e(`${errors.password?.message}`)}
+          </p>
           {isRegistering && (
             <div className={styles.passwordContainer}>
               <label htmlFor="confirmPassword">{t('confirm')}</label>

@@ -5,8 +5,9 @@
     "logout": "Sign Out",
     "main": "Main page"
   },
-  "Error": {
-    "email": "Invalid email format"
+  "Errors": {
+    "email": "Invalid email format",
+    "password": "At least one letter required"
   },
   "Welcome": {
     "greeting": "Welcome",
