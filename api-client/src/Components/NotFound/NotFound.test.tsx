@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import NotFound from './NotFound';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 
 // Mock the useRouter and useTranslations hooks
 vi.mock('next/navigation', () => ({

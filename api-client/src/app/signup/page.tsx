@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { auth, registerWithEmailAndPassword } from '../../firebase';
+import { auth, registerWithEmailAndPassword } from '../../firebase/firebase';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
@@ -21,7 +21,6 @@ const SignUpPage: React.FC = () => {
   }, [router]);
 
   const handleSignUp = async (data: AuthFormInputs) => {
-    console.log('Sign up data:', data);
     if (data.name) {
       const trimmedData = {
         name: data.name.trim(),

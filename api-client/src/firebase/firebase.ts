@@ -29,7 +29,9 @@ const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
   // try {
-  await signInWithEmailAndPassword(auth, email, password);
+  const res = await signInWithEmailAndPassword(auth, email, password);
+  const user = res.user;
+  return user;
   //   } catch (err) {
   //     console.error(err);
   //     alert((err as FirebaseError).message);
@@ -67,9 +69,10 @@ const registerWithEmailAndPassword = async (
       authProvider: 'local',
       email,
     });
+    return user;
   } catch (err) {
-    console.error(err);
     alert((err as FirebaseError).message);
+    return null;
   }
 };
 

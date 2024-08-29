@@ -1,7 +1,6 @@
 'use client';
 
-import { auth, logout } from '../../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { logout } from '../../firebase/firebase';
 import Link from 'next/link';
 import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 import { useTranslations } from 'next-intl';
@@ -9,13 +8,21 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import styles from './header.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectLoginState, setLogIn, setLogOut } from '@/slices/loginSlice';
 
-export default function Header() {
+export default function Header({
+  initialLoggedIn,
+}: {
+  initialLoggedIn: boolean;
+}) {
   const router = useRouter();
   const t = useTranslations('Header');
   const [sticky, setSticky] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+  const loginStatus = useSelector(selectLoginState);
+  const [isAuth, setIsAuth] = useState(initialLoggedIn);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,30 +41,37 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-      setIsLoading(false);
-    });
+    if (initialLoggedIn) {
+      dispatch(setLogIn());
+    }
+  }, [initialLoggedIn, dispatch]);
 
-    return () => unsubscribe();
-  }, []);
+  useEffect(() => {
+    if (!isFirstLoad) {
+      setIsAuth(loginStatus);
+    }
+    setIsFirstLoad(false);
+  }, [loginStatus, isFirstLoad]);
 
   const onSignInMainClick = () => {
-    if (isLoggedIn) {
-      alert('go to main');
+    if (loginStatus) {
+      router.push('/');
     } else {
       router.push('/signin');
     }
   };
 
-  const onSignUpOutClick = () => {
-    if (isLoggedIn) {
-      alert('logging out');
+  const onSignUpOutClick = async () => {
+    if (loginStatus) {
+      dispatch(setLogOut());
       logout();
+      const response = await fetch('http://localhost:3000/api/logout', {
+        method: 'POST',
+      });
+
+      if (response.status === 200) {
+        router.push('/');
+      }
     } else {
       router.push('/signup');
     }
@@ -65,19 +79,11 @@ export default function Header() {
 
   const buttons = (
     <>
-      <button
-        onClick={onSignInMainClick}
-        className={styles.btn}
-        disabled={isLoading}
-      >
-        {`${isLoggedIn ? t('main') : t('login')}`}
+      <button onClick={onSignInMainClick} className={styles.btn}>
+        {`${isAuth ? t('main') : t('login')}`}
       </button>
-      <button
-        className={styles.btn}
-        onClick={onSignUpOutClick}
-        disabled={isLoading}
-      >
-        {`${isLoggedIn ? t('logout') : t('register')}`}
+      <button className={styles.btn} onClick={onSignUpOutClick}>
+        {`${isAuth ? t('logout') : t('register')}`}
       </button>
     </>
   );
