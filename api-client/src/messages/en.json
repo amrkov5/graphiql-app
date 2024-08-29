@@ -21,7 +21,20 @@
     "name": "Name",
     "email": "Email",
     "password": "Password",
-    "confirm": "Confirm password"
+    "confirm": "Confirm the password"
+  },
+  "ValidationErrors": {
+    "nameRequired": "Name is required",
+    "emailFormat": "Invalid email format",
+    "emailRequired": "Email is required",
+    "PSWDletterRequired": "At least one letter required",
+    "PSWDdigitRequired": "At least one digit required",
+    "PSWDspecCharRequired": "At least one special character required",
+    "PSWDsupportUnicode": "Password must support Unicode characters",
+    "PSWDlength": "Must be at least 8 characters long",
+    "PSWDrequired": "Password is required",
+    "ConfirmPSWDdoNotMatch": "Passwords do not match",
+    "ConfirmPSWDrequired": "Confirm your password"
   },
   "About": {
     "aboutTeam": "Our team:",
@@ -42,7 +55,7 @@
       "role": "Developer",
       "bio": "I am a third-year student majoring in Software Engineering. My background has primarily been in working with C# and Java, where I have gained a solid understanding of programming principles and practices. Recently, I have decided to venture into the exciting world of web development. I am passionate about expanding my knowledge and skills, and I am eager to see where this path in web development will take me.",
       "github": "https://github.com/veta306"
-    },
+    }
   },
   "NotFound": {
     "404": "Page Not Found",
