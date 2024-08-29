@@ -9,7 +9,7 @@
   background-color: #242424;
   border-bottom: 1px solid var(--text-color);
   transition: height 0.2s ease-in-out;
-  z-index: 999;
+  z-index: 2;
 }
 .sticky {
   height: 60px;

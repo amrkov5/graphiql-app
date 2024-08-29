@@ -58,19 +58,19 @@ const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    await addDoc(collection(db, 'users'), {
-      uid: user.uid,
-      displayName: name,
-      authProvider: 'local',
-      email,
-    });
-  } catch (err) {
-    console.error(err);
-    alert((err as FirebaseError).message);
-  }
+  // try {
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  const user = res.user;
+  await addDoc(collection(db, 'users'), {
+    uid: user.uid,
+    displayName: name,
+    authProvider: 'local',
+    email,
+  });
+  // } catch (err) {
+  //   console.error(err);
+  //   alert((err as FirebaseError).message);
+  // }
 };
 
 const logout = () => {

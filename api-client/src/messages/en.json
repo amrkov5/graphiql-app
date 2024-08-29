@@ -23,6 +23,15 @@
     "password": "Password",
     "confirm": "Confirm the password"
   },
+  "SignUpPage": {
+    "modalMessage": "An account with this email already exists."
+  },
+  "SignInPage": {
+    "modalMessage": "Sign-in failed. Please check your credentials and try again."
+  },
+  "Modal": {
+    "modalClose": "Close"
+  },
   "ValidationErrors": {
     "nameRequired": "Name is required",
     "emailFormat": "Invalid email format",

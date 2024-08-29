@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import styles from './modal.module.css';
 
 interface ModalProps {
@@ -7,6 +8,7 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ message, onClose }) => {
+  const t = useTranslations('Modal');
   return (
     <div
       className={styles.modalOverlay}
@@ -17,7 +19,7 @@ const Modal: React.FC<ModalProps> = ({ message, onClose }) => {
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <p>{message}</p>
         <button className={styles.btn} onClick={onClose}>
-          Close
+          {t('modalClose')}
         </button>
       </div>
     </div>

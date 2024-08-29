@@ -23,6 +23,15 @@
     "password": "Пароль",
     "confirm": "Подтвердите пароль"
   },
+  "SignUpPage": {
+    "modalMessage": "Аккаунт с такой электронной почтой уже существует"
+  },
+  "SignInPage": {
+    "modalMessage": "Ошибка входа. Проверьте свои данные и попробуйте снова."
+  },
+  "Modal": {
+    "modalClose": "Закрыть"
+  },
   "ValidationErrors": {
     "nameRequired": "Введите имя",
     "emailFormat": "Неверный формат электронной почты",
