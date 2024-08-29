@@ -47,6 +47,7 @@ const RestClient: React.FC<RestClientProps> = ({
       const parsedHeaders: Record<string, string> = {};
       searchParams.forEach((value, key) => {
         parsedHeaders[key] = value;
+        console.log(parsedHeaders);
       });
 
       const res = await fetch(decodedUrl, {
@@ -85,7 +86,11 @@ const RestClient: React.FC<RestClientProps> = ({
       <HeadersEditor />
       <BodyEditor body={body} setBody={setBody} />
       <div className={styles.responseSection}>
-        {response && <pre>{response}</pre>}
+        {response && (
+          <pre>
+            <code>{response}</code>
+          </pre>
+        )}
         {error && <div className={styles.errorSection}>{error}</div>}
       </div>
     </div>
