@@ -6,6 +6,7 @@
   align-items: center;
   height: 80px;
   padding: 10px 20px;
+  background-color: #242424;
   border-bottom: 1px solid var(--text-color);
   transition: height 0.2s ease-in-out;
   z-index: 2;

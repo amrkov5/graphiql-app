@@ -1,0 +1,72 @@
+.headersContainer {
+  border-radius: 8px;
+  color: #ffffff;
+}
+
+.headersControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.title {
+  font-size: 18px;
+  margin: 0;
+}
+
+.addButton {
+  background-color: #2a82da;
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: #1f6ab9;
+}
+
+.headersList {
+  list-style: none;
+  padding: 0;
+}
+
+.headerItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input {
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border: 1px solid #444444;
+  padding: 8px;
+  border-radius: 4px;
+  margin-right: 10px;
+  flex: 1;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #888888;
+}
+
+.input:focus {
+  border-color: #007acc;
+}
+
+.deleteButton {
+  background-color: #e53935;
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: #c62828;
+}

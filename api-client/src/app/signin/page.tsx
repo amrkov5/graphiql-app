@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, logInWithEmailAndPassword } from '../../firebase';
-import AuthForm, { AuthFormInputs } from '../../Components/AuthForm/AuthForm';
-import Modal from '../../Components/Modal/Modal';
+import styles from './SignInPage.module.css';
+import Modal from '@/Components/Modal/Modal';
+import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 import { useTranslations } from 'next-intl';
 
 const SignInPage: React.FC = () => {

@@ -6,8 +6,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
 import styles from './welcome.module.css';
+import { useTranslations } from 'next-intl';
 
 export default function Welcome() {
+  const t = useTranslations('Welcome');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState();
   useEffect(() => {
@@ -27,35 +29,35 @@ export default function Welcome() {
   return (
     <div className={styles.welcomeWrapper} data-testid="welcome">
       <h1 className={styles.welcomeHeading}>
-        Welcome{isLoggedIn ? ` back, ${userName}` : ''}!
+        {isLoggedIn ? `${t('return')}, ${userName}` : t('greeting')}!
       </h1>
       <div className={styles.linkWrapper}>
         {!isLoggedIn && (
           <>
-            <Link href={'/login'} className={styles.link}>
-              Sign In
+            <Link href={'/signin'} className={styles.link}>
+              {t('login')}
             </Link>
             <Link href={'/signup'} className={styles.link}>
-              Sign Up
+              {t('register')}
             </Link>
           </>
         )}
         {!!isLoggedIn && (
           <>
-            <Link href={'/rest'} className={styles.link}>
-              REST Client
+            <Link href={'/GET'} className={styles.link}>
+              {t('rest')}
             </Link>
             <Link href={'/graphiql'} className={styles.link}>
-              GraphiQL Client
+              {t('graphiql')}
             </Link>
             <Link href={'/history'} className={styles.link}>
-              History
+              {t('history')}
             </Link>
           </>
         )}
       </div>
       <Link href={'/about'} className={styles.link}>
-        About Us
+        {t('about')}
       </Link>
     </div>
   );

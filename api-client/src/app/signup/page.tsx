@@ -1,23 +1,21 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import AuthForm, { AuthFormInputs } from '../../Components/AuthForm/AuthForm';
 import { auth, registerWithEmailAndPassword } from '../../firebase';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import Modal from '../../Components/Modal/Modal';
 import { useTranslations } from 'next-intl';
+import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
   const [isSignedIn, setIisSignedIn] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
   const [isSignUpFaulty, setIsSignUpFaulty] = useState(false);
   const t = useTranslations('SignUpPage');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsLoading(false);
       if (user) {
         router.push('/');
       } else setIisSignedIn(false);

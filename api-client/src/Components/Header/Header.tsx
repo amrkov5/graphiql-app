@@ -48,7 +48,7 @@ export default function Header() {
 
   const onSignInMainClick = () => {
     if (isLoggedIn) {
-      alert('go to main');
+      router.push('/');
     } else {
       router.push('/signin');
     }
@@ -56,8 +56,8 @@ export default function Header() {
 
   const onSignUpOutClick = () => {
     if (isLoggedIn) {
-      alert('logging out');
       logout();
+      router.push('/');
     } else {
       router.push('/signup');
     }
