@@ -44,7 +44,7 @@ export default function Welcome() {
         )}
         {!!isLoggedIn && (
           <>
-            <Link href={'/rest'} className={styles.link}>
+            <Link href={'/GET'} className={styles.link}>
               {t('rest')}
             </Link>
             <Link href={'/graphiql'} className={styles.link}>
