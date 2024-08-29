@@ -24,6 +24,9 @@ const RestClient: React.FC<RestClientProps> = ({
   const [method, setMethod] = useState(propMethod);
   const [url, setUrl] = useState(propUrl ?? '');
   const [body, setBody] = useState(propBody ?? '');
+  const [response, setResponse] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const updateUrl = debounce(() => {
       let newUrl = '/' + method;
@@ -37,15 +40,54 @@ const RestClient: React.FC<RestClientProps> = ({
 
     return () => updateUrl.cancel();
   }, [method, url, body, searchParams]);
+
+  const handleRequestSend = async () => {
+    try {
+      const decodedUrl = atob(decodeURIComponent(url));
+      const parsedHeaders: Record<string, string> = {};
+      searchParams.forEach((value, key) => {
+        parsedHeaders[key] = value;
+      });
+
+      const res = await fetch(decodedUrl, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          ...parsedHeaders,
+        },
+        body: method !== 'GET' ? JSON.stringify(body) : undefined,
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error sending request: ${res.status}`);
+      }
+      const result = await res.json();
+      setResponse(JSON.stringify(result, null, 2));
+    } catch (error) {
+      setResponse(null);
+      if (error instanceof Error) {
+        setError('Error sending request: ' + error.message);
+      } else {
+        setError('Unknown error');
+      }
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.inputSection}>
         <MethodSelector method={method} setMethod={setMethod} />
         <EndpointInput url={url} setUrl={setUrl} />
-        <button className={styles.send}>Send</button>
+        <button className={styles.send} onClick={handleRequestSend}>
+          Send
+        </button>
       </div>
       <HeadersEditor />
       <BodyEditor body={body} setBody={setBody} />
+      <div className={styles.responseSection}>
+        {response && <pre>{response}</pre>}
+        {error && <div className={styles.errorSection}>{error}</div>}
+      </div>
     </div>
   );
 };
