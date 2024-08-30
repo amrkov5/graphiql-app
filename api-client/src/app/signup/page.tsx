@@ -5,20 +5,23 @@ import { auth, registerWithEmailAndPassword } from '../../firebase/firebase';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
+import { useDispatch } from 'react-redux';
+import { setLogIn } from '@/slices/loginSlice';
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
-  const [isSignedIn, setIisSignedIn] = useState(true);
+  // const [isSignedIn, setIisSignedIn] = useState(true);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        router.push('/');
-      } else setIisSignedIn(false);
-    });
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       router.push('/');
+  //     } else setIisSignedIn(false);
+  //   });
 
-    return () => unsubscribe();
-  }, [router]);
+  //   return () => unsubscribe();
+  // }, [router]);
 
   const handleSignUp = async (data: AuthFormInputs) => {
     if (data.name) {
@@ -28,19 +31,30 @@ const SignUpPage: React.FC = () => {
         password: data.password.trim(),
       };
 
-      await registerWithEmailAndPassword(
+      const userInfo = await registerWithEmailAndPassword(
         trimmedData.name,
         trimmedData.email,
         trimmedData.password
       );
+
+      fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${await userInfo?.getIdToken()}`,
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          dispatch(setLogIn());
+          router.push('/');
+        }
+      });
     }
-    router.push('/');
   };
 
   return (
     <div>
       {' '}
-      {!isSignedIn && <AuthForm isRegistering={true} onSubmit={handleSignUp} />}
+      <AuthForm isRegistering={true} onSubmit={handleSignUp} />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+// import { auth } from '@/firebase/firebase';
 import { customInitApp } from '@/firebase/firebase-admin-config';
 import { auth } from 'firebase-admin';
 import { cookies, headers } from 'next/headers';
