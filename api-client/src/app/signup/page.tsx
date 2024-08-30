@@ -10,18 +10,7 @@ import { setLogIn } from '@/slices/loginSlice';
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
-  // const [isSignedIn, setIisSignedIn] = useState(true);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       router.push('/');
-  //     } else setIisSignedIn(false);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, [router]);
 
   const handleSignUp = async (data: AuthFormInputs) => {
     if (data.name) {

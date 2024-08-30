@@ -14,6 +14,20 @@ const localeMessages = {
   },
 };
 
+const mockCookies = () => {
+  return {
+    get: (name: string) => {
+      return null;
+    },
+  };
+};
+
+vi.mock('next/headers', () => ({
+  cookies: vi.fn(() => ({
+    get: mockCookies,
+  })),
+}));
+
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(() => ({
     push: vi.fn(),
