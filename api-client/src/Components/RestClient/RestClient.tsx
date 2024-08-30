@@ -53,6 +53,8 @@ const RestClient: React.FC<RestClientProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [statusCode, setStatusCode] = useState<number | null>(null);
 
+  console.log(method, url, body, searchParams);
+
   useEffect(() => {
     const updateUrl = debounce(() => {
       let newUrl = '/' + method;
@@ -68,6 +70,7 @@ const RestClient: React.FC<RestClientProps> = ({
   }, [method, url, body, searchParams]);
 
   const handleRequestSend = async () => {
+    console.log(method, url, body, searchParams);
     try {
       const decodedUrl = safeBase64Decode(url);
 
@@ -77,18 +80,11 @@ const RestClient: React.FC<RestClientProps> = ({
         return;
       }
 
-      const bodyFromUrl = getBodyFromUrl();
-      if (method !== 'GET' && !bodyFromUrl) {
-        setError('No valid body found for non-GET requests.');
-        setStatusCode(null);
-        return;
-      }
-
       const queryParams = new URLSearchParams(searchParams as any).toString();
       const fullUrl = queryParams ? `${decodedUrl}?${queryParams}` : decodedUrl;
 
       console.log('Request URL:', fullUrl);
-      console.log('Request Body:', bodyFromUrl);
+      console.log('Request Body:', body);
 
       const parsedHeaders: Record<string, string> = {};
       searchParams.forEach((value, key) => {
@@ -101,7 +97,7 @@ const RestClient: React.FC<RestClientProps> = ({
           'Content-Type': 'application/json',
           ...parsedHeaders,
         },
-        body: method !== 'GET' ? JSON.stringify(bodyFromUrl) : undefined,
+        body: method !== 'GET' ? JSON.stringify(body) : undefined,
       });
 
       setStatusCode(res.status);
@@ -137,21 +133,6 @@ const RestClient: React.FC<RestClientProps> = ({
       return decodeURIComponent(escape(decoded));
     } catch (error) {
       console.error('Failed to decode base64:', error);
-      return null;
-    }
-  };
-
-  const getBodyFromUrl = (): string | null => {
-    try {
-      const pathParts = window.location.pathname.split('/');
-      if (pathParts.length > 2) {
-        const encodedBody = pathParts.slice(2).join('/');
-        console.log('Encoded Body from URL:', encodedBody);
-        return encodedBody;
-      }
-      return null;
-    } catch (error) {
-      console.error('Failed to get body from URL:', error);
       return null;
     }
   };
