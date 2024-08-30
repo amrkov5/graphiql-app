@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import SignInPage from './page';
 import { useRouter } from 'next/navigation';
-import { logInWithEmailAndPassword, auth } from '../../firebase';
+import { logInWithEmailAndPassword } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
