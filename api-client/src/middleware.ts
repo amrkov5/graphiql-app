@@ -13,12 +13,22 @@ export async function middleware(request: NextRequest) {
       Cookie: `session=${session?.value}`,
     },
   });
-
   if (responseAPI.status !== 200) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL('/signin', request.url));
   }
-
-  return NextResponse.next();
+  if (responseAPI.status === 200) {
+    const refreshResponse = await fetch('http://localhost:3000/api/refresh', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${session.value}`,
+      },
+    });
+    if (refreshResponse.status === 200) {
+      return NextResponse.next();
+    } else {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  }
 }
 
 export const config = {

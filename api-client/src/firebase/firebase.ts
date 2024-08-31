@@ -28,14 +28,14 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
-  // try {
-  const res = await signInWithEmailAndPassword(auth, email, password);
-  const user = res.user;
-  return user;
-  //   } catch (err) {
-  //     console.error(err);
-  //     alert((err as FirebaseError).message);
-  //   }
+  try {
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    const user = res.user;
+    return user;
+  } catch (err) {
+    // console.error(err);
+    // alert((err as FirebaseError).message);
+  }
 };
 
 const getUserName = async (id: string) => {

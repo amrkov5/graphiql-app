@@ -1,6 +1,7 @@
-// import { auth } from '@/firebase/firebase';
 import { customInitApp } from '@/firebase/firebase-admin-config';
 import { auth } from 'firebase-admin';
+import { FirebaseAuthError } from 'firebase-admin/auth';
+import { FirebaseError } from 'firebase/app';
 import { cookies, headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
@@ -37,12 +38,14 @@ export async function GET() {
   if (!session) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
+  try {
+    const decodedClaims = await auth().verifySessionCookie(session, true);
 
-  const decodedClaims = await auth().verifySessionCookie(session, true);
-
-  if (!decodedClaims) {
-    return NextResponse.json({ isLogged: false }, { status: 401 });
+    return NextResponse.json({ isLogged: true }, { status: 200 });
+  } catch (err) {
+    if ((err as FirebaseAuthError).code === 'auth/session-cookie-expired') {
+      return NextResponse.json({ isLogged: false }, { status: 401 });
+    }
+    return NextResponse.json({ isLogged: false }, { status: 500 });
   }
-
-  return NextResponse.json({ isLogged: true }, { status: 200 });
 }

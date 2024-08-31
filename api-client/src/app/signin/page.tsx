@@ -23,7 +23,7 @@ const SignInPage: React.FC = () => {
       fetch('/api/login', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${await userInfo.getIdToken()}`,
+          Authorization: `Bearer ${await userInfo?.getIdToken()}`,
         },
       }).then((response) => {
         if (response.status === 200) {
