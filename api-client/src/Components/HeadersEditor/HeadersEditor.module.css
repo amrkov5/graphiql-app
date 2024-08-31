@@ -1,6 +1,9 @@
 .headersContainer {
   border-radius: 8px;
   color: #ffffff;
+  border: 1px solid #3a3a3a;
+  padding: 20px;
+  width: 100%;
 }
 
 .headersControls {

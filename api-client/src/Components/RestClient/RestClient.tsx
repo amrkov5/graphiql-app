@@ -48,8 +48,14 @@ const RestClient: React.FC<RestClientProps> = ({
         <button
           className={styles.send}
           onClick={() => {
-            console.log(variables);
-            console.log(queries);
+            const notEmptyQueries = queries.filter(
+              (query) => query.key && query.value
+            );
+            const notEmptyVariables = variables.filter(
+              (variable) => variable.key && variable.value
+            );
+            console.log(notEmptyQueries);
+            console.log(notEmptyVariables);
           }}
         >
           Send

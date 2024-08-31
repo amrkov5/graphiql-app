@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import styles from './KeyValueEditor.module.css';
-import { debounce } from 'lodash';
 
 export interface KeyValuePair {
   id: number;
