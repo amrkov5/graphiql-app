@@ -59,7 +59,7 @@ const HeadersEditor: React.FC = () => {
   return (
     <div className={styles.headersContainer}>
       <div className={styles.headersControls}>
-        <h3 className={styles.title}>Headers</h3>
+        <h3 className={styles.title}>Headers:</h3>
         <button className={styles.addButton} onClick={addHeader}>
           Add New
         </button>
@@ -68,6 +68,7 @@ const HeadersEditor: React.FC = () => {
         {headers.map((header) => (
           <li key={header.id} className={styles.headerItem}>
             <input
+              name="key"
               type="text"
               placeholder="Key"
               value={header.key}
@@ -77,6 +78,7 @@ const HeadersEditor: React.FC = () => {
               className={styles.input}
             />
             <input
+              name="value"
               type="text"
               placeholder="Value"
               value={header.value}

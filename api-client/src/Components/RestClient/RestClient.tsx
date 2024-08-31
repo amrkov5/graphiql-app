@@ -8,6 +8,7 @@ import styles from './RestClient.module.css';
 import { debounce } from 'lodash';
 import HeadersEditor from '../HeadersEditor/HeadersEditor';
 import BodyEditor from '../BodyEditor/BodyEditor';
+import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 
 interface RestClientProps {
   propMethod: string;
@@ -24,6 +25,8 @@ const RestClient: React.FC<RestClientProps> = ({
   const [method, setMethod] = useState(propMethod);
   const [url, setUrl] = useState(propUrl ?? '');
   const [body, setBody] = useState(propBody ?? '');
+  const [queries, setQueries] = useState<KeyValuePair[]>([]);
+  const [variables, setVariables] = useState<KeyValuePair[]>([]);
   useEffect(() => {
     const updateUrl = debounce(() => {
       let newUrl = '/' + method;
@@ -42,10 +45,30 @@ const RestClient: React.FC<RestClientProps> = ({
       <div className={styles.inputSection}>
         <MethodSelector method={method} setMethod={setMethod} />
         <EndpointInput url={url} setUrl={setUrl} />
-        <button className={styles.send}>Send</button>
+        <button
+          className={styles.send}
+          onClick={() => {
+            console.log(variables);
+            console.log(queries);
+          }}
+        >
+          Send
+        </button>
       </div>
-      <HeadersEditor />
+      <div className={styles.editors}>
+        <KeyValueEditor
+          name="Query parameters:"
+          keyValues={queries}
+          setKeyValues={setQueries}
+        />
+        <HeadersEditor />
+      </div>
       <BodyEditor body={body} setBody={setBody} />
+      <KeyValueEditor
+        name="Body variables:"
+        keyValues={variables}
+        setKeyValues={setVariables}
+      />
     </div>
   );
 };
