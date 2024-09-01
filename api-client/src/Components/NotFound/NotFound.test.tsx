@@ -3,7 +3,6 @@ import { describe, it, expect, vi } from 'vitest';
 import NotFound from './NotFound';
 import { useRouter } from 'next/navigation';
 
-// Mock the useRouter and useTranslations hooks
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
 }));

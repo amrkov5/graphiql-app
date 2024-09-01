@@ -33,6 +33,7 @@ const logInWithEmailAndPassword = async (email: string, password: string) => {
     const user = res.user;
     return user;
   } catch (err) {
+    throw new Error('Login Error');
     // console.error(err);
     // alert((err as FirebaseError).message);
   }
@@ -71,8 +72,7 @@ const registerWithEmailAndPassword = async (
     });
     return user;
   } catch (err) {
-    alert((err as FirebaseError).message);
-    return null;
+    throw new Error('Sign Up Error');
   }
 };
 
