@@ -76,14 +76,16 @@ const RestClient: React.FC<RestClientProps> = ({
         window.location.origin
       );
       const newQueries: KeyValuePair[] = [];
+      const urlQuries = Array.from(parsedUrl.searchParams.entries());
+      urlQuries.forEach(([key, value], index) => {
+        newQueries.push({ id: index, key, value });
+      });
       if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '?') {
-        newQueries.push({ id: 1000, key: '', value: '' });
+        newQueries.push({ id: urlQuries.length + 1, key: '', value: '' });
       }
-      Array.from(parsedUrl.searchParams.entries()).forEach(
-        ([key, value], index) => {
-          newQueries.push({ id: index, key, value });
-        }
-      );
+      if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '&') {
+        newQueries.push({ id: urlQuries.length + 2, key: '', value: '' });
+      }
       setQueries(newQueries);
     } catch (error) {
       console.error('Invalid URL:', error);
