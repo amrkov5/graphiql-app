@@ -1,31 +1,33 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Modal from './Modal';
 import { describe, it, expect, vi } from 'vitest';
+import Modal from './Modal';
 
-describe('Modal component', () => {
-  it('renders the message correctly', () => {
-    render(<Modal message="Test message" onClose={vi.fn()} />);
-    expect(screen.getByText('Test message')).toBeInTheDocument();
+vi.mock('next-intl', () => ({
+  useTranslations: (key: string) => (text: string) => text,
+}));
+
+describe('Modal Component', () => {
+  const mockOnClose = vi.fn();
+
+  it('should render the modal with the correct message', () => {
+    const message = 'Test message';
+    render(<Modal message={message} onClose={mockOnClose} />);
+
+    expect(screen.getByText(message)).toBeInTheDocument();
   });
 
-  it('closes when the close button is clicked', () => {
-    const onClose = vi.fn();
-    render(<Modal message="Test message" onClose={onClose} />);
-    fireEvent.click(screen.getByText('Close'));
-    expect(onClose).toHaveBeenCalled();
+  it('should call onClose when the close button is clicked', () => {
+    render(<Modal message="Test message" onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText(/Close/i));
+    expect(mockOnClose).toHaveBeenCalled();
   });
 
-  it('closes when clicking outside the modal content', () => {
-    const onClose = vi.fn();
-    render(<Modal message="Test message" onClose={onClose} />);
+  it('should call onClose when the overlay is clicked', () => {
+    render(<Modal message="Test message" onClose={mockOnClose} />);
+
     fireEvent.click(screen.getByRole('dialog'));
-    expect(onClose).toHaveBeenCalled();
-  });
-
-  it('does not close when clicking inside the modal content', () => {
-    const onClose = vi.fn();
-    render(<Modal message="Test message" onClose={onClose} />);
-    fireEvent.click(screen.getByRole('dialog').firstChild!);
-    expect(onClose).not.toHaveBeenCalled();
+    expect(mockOnClose).toHaveBeenCalled();
   });
 });

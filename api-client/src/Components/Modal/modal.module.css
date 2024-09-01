@@ -10,9 +10,10 @@
   color: var(--text-color);
   border-radius: 5px;
   border: 1px solid var(--text-color);
-  background-color: transparent;
   transition: 0.2s ease-in-out;
-  z-index: 2;
+  background-color: var(--modal-background);
+  backdrop-filter: blur(8px);
+  z-index: 3;
 }
 
 .modalContent {

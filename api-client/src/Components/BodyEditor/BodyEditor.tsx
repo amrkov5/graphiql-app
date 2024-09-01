@@ -1,5 +1,7 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import styles from './BodyEditor.module.css';
+import { Editor } from '@monaco-editor/react';
+import { editor } from 'monaco-editor';
 
 interface BodyEditorProps {
   body: string;
@@ -8,21 +10,50 @@ interface BodyEditorProps {
 
 const BodyEditor: React.FC<BodyEditorProps> = ({ body, setBody }) => {
   const [localBody, setLocalBody] = useState(atob(decodeURIComponent(body)));
+  const [language, setLanguage] = useState<'json' | 'plaintext'>('json');
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
-  const handleBodyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const encodedBody = btoa(event.target.value);
+  editorRef.current?.onDidBlurEditorWidget(() => {
+    const encodedBody = btoa(localBody);
     setBody(encodedBody);
+  });
+
+  const handleFormat = () => {
+    if (editorRef.current) {
+      editorRef.current.getAction('editor.action.formatDocument')?.run();
+    }
   };
 
   return (
     <div className={styles.container}>
-      <label className={styles.label}>Body</label>
-      <textarea
+      <div className={styles.header}>
+        <label className={styles.label}>Body:</label>
+        <div className={styles.controls}>
+          <select
+            className={styles.languageSelector}
+            value={language}
+            onChange={(event) =>
+              setLanguage(event.target.value as 'json' | 'plaintext')
+            }
+          >
+            <option value="json">JSON</option>
+            <option value="plaintext">Plain Text</option>
+          </select>
+          <button className={styles.formatButton} onClick={handleFormat}>
+            Format
+          </button>
+        </div>
+      </div>
+      <Editor
+        className={styles.editor}
+        height="40vh"
+        language={language}
+        theme="vs-dark"
         value={localBody}
-        onChange={(event) => setLocalBody(event.target.value)}
-        onBlur={handleBodyChange}
-        placeholder="Enter request body"
-        className={styles.textarea}
+        onChange={(value) => setLocalBody(value ?? '')}
+        onMount={(editor) => {
+          editorRef.current = editor;
+        }}
       />
     </div>
   );

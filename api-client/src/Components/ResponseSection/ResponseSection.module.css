@@ -4,7 +4,7 @@
   height: calc(100vh - 191px);
   width: 600px;
   padding: 16px;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   background-color: transparent;
 }

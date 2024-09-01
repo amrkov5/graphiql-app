@@ -6,12 +6,14 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth, logInWithEmailAndPassword } from '../../firebase';
 import Modal from '@/Components/Modal/Modal';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
+import { useTranslations } from 'next-intl';
 
 const SignInPage: React.FC = () => {
   const [isSignInFaulty, setIsSignInFaulty] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSignedIn, setIisSignedIn] = useState(true);
   const router = useRouter();
+  const t = useTranslations('SignInPage');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -49,20 +51,18 @@ const SignInPage: React.FC = () => {
     <>
       {!isSignedIn && (
         <div>
-          <AuthForm
-            isRegistering={false}
-            onSubmit={(data) => {
-              handleSignIn(data, () => {
-                document.querySelector('form')?.reset();
-              });
-            }}
-          />
-
-          {isSignInFaulty && (
-            <Modal
-              message="Sign-in failed. Please check your credentials and try again."
-              onClose={handleCloseModal}
+          <div>
+            <AuthForm
+              isRegistering={false}
+              onSubmit={(data) => {
+                handleSignIn(data, () => {
+                  document.querySelector('form')?.reset();
+                });
+              }}
             />
+          </div>
+          {isSignInFaulty && (
+            <Modal message={t('modalMessage')} onClose={handleCloseModal} />
           )}
         </div>
       )}
