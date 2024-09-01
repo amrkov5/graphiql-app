@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, logInWithEmailAndPassword } from '../../firebase';
-import styles from './SignInPage.module.css';
 import Modal from '@/Components/Modal/Modal';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 
@@ -50,22 +49,15 @@ const SignInPage: React.FC = () => {
     <>
       {!isSignedIn && (
         <div>
-          <div
-            className={
-              isSignInFaulty
-                ? styles.formContainerWithModal
-                : styles.formContainer
-            }
-          >
-            <AuthForm
-              isRegistering={false}
-              onSubmit={(data) => {
-                handleSignIn(data, () => {
-                  document.querySelector('form')?.reset();
-                });
-              }}
-            />
-          </div>
+          <AuthForm
+            isRegistering={false}
+            onSubmit={(data) => {
+              handleSignIn(data, () => {
+                document.querySelector('form')?.reset();
+              });
+            }}
+          />
+
           {isSignInFaulty && (
             <Modal
               message="Sign-in failed. Please check your credentials and try again."
