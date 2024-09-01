@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@monaco-editor/react": "^4.6.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@types/lodash": "^4.17.7",
     "firebase": "^10.13.0",

@@ -21,7 +21,6 @@
 //pageSize
 
 //
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -32,7 +31,8 @@ import styles from './RestClient.module.css';
 import { debounce } from 'lodash';
 import HeadersEditor from '../HeadersEditor/HeadersEditor';
 import BodyEditor from '../BodyEditor/BodyEditor';
-import ResponseSection from '../ResponseSection/ResponseSection'; // Импортируем новый компонент
+import ResponseSection from '../ResponseSection/ResponseSection';
+import { safeBase64Decode } from '@/services/safeBase64Decode';
 
 interface RestClientProps {
   propMethod: string;
@@ -69,182 +69,56 @@ const RestClient: React.FC<RestClientProps> = ({
     return () => updateUrl.cancel();
   }, [method, url, body, searchParams]);
 
-  // const handleRequestSend = async () => {
-  //   console.log(method, url, body, searchParams);
-  //   try {
-  //     const serverApiUrl = '/api/proxy';
-
-  //     const decodedUrl = safeBase64Decode(url);
-  //     const decodedBody = safeBase64Decode(body);
-  //     console.log('Decoded URL:', decodedUrl);
-  //     console.log('Decoded Body:', decodedBody);
-
-  //     if (!decodedUrl) {
-  //       setError('Provided URL is not a valid base64 encoded string.');
-  //       setStatusCode(null);
-  //       return;
-  //     }
-
-  //     const queryParams = new URLSearchParams(searchParams as any).toString();
-  //     const fullUrl = queryParams ? `${decodedUrl}?${queryParams}` : decodedUrl;
-
-  //     console.log('Request URL:', fullUrl);
-  //     console.log('Request Body:', body);
-
-  //     const parsedHeaders: Record<string, string> = {};
-  //     searchParams.forEach((value, key) => {
-  //       parsedHeaders[key] = value;
-  //     });
-
-  //     // const res = await fetch(fullUrl, {
-  //     //   method,
-  //     //   headers: {
-  //     //     'Content-Type': 'application/json',
-  //     //     ...parsedHeaders,
-  //     //   },
-  //     //   body: method !== 'GET' ? JSON.stringify(body) : undefined,
-  //     // });
-
-  //     const res = await fetch(serverApiUrl, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         method,
-  //         fullUrl,
-  //         headers: parsedHeaders,
-  //         body: method !== 'GET' ? JSON.parse(decodedBody!) : undefined,
-  //       }),
-  //     });
-
-  //     setStatusCode(res.status);
-  //     if (!res.ok) {
-  //       throw new Error(`Error sending request: ${res.status}`);
-  //     }
-
-  //     const result = await res.json();
-  //     setResponse(JSON.stringify(result, null, 2));
-  //     setError(null);
-  //   } catch (error) {
-  //     setResponse(null);
-  //     if (error instanceof Error) {
-  //       setError('Error sending request: ' + error.message);
-  //     } else {
-  //       setError('Unknown error');
-  //     }
-  //   }
-  // };
-
-  // const handleRequestSend = async () => {
-  //   console.log(method, url, body, searchParams);
-  //   try {
-  //     const serverApiUrl = '/api/proxy';
-
-  //     const decodedUrl = safeBase64Decode(url);
-  //     const decodedBody = safeBase64Decode(body);
-  //     console.log('Decoded URL:', decodedUrl);
-  //     console.log('Decoded Body:', decodedBody);
-
-  //     if (!decodedUrl) {
-  //       setError('Provided URL is not a valid base64 encoded string.');
-  //       setStatusCode(null);
-  //       return;
-  //     }
-
-  //     const queryParams = new URLSearchParams(searchParams as any).toString();
-  //     const fullUrl = queryParams ? `${decodedUrl}?${queryParams}` : decodedUrl;
-
-  //     console.log('Request URL:', fullUrl);
-  //     console.log('Request Body:', decodedBody);
-
-  //     const parsedHeaders: Record<string, string> = {};
-  //     searchParams.forEach((value, key) => {
-  //       parsedHeaders[key] = value;
-  //     });
-
-  //     const res = await fetch(serverApiUrl, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         method,
-  //         fullUrl,
-  //         headers: parsedHeaders,
-  //         body: method !== 'GET' ? JSON.parse(decodedBody || '{}') : undefined,
-  //       }),
-  //     });
-
-  //     console.log('Response received:', await res.text());
-
-  //     setStatusCode(res.status);
-  //     if (!res.ok) {
-  //       throw new Error(`Error sending request: ${res.status}`);
-  //     }
-
-  //     const result = await res.json();
-  //     setResponse(JSON.stringify(result, null, 2));
-  //     setError(null);
-  //   } catch (error) {
-  //     setResponse(null);
-  //     if (error instanceof Error) {
-  //       setError('Error sending request: ' + error.message);
-  //     } else {
-  //       setError('Unknown error');
-  //     }
-  //   }
-  // };
-
   const handleRequestSend = async () => {
-    const serverApiUrl = '/api/proxy';
-
     try {
-      // Простое тело запроса для проверки
-      const testBody = { message: 'Hello from client!' };
+      const serverApiUrl = '/api/proxy';
+      const decodedUrl = safeBase64Decode(url);
+      const decodedBody = safeBase64Decode(body);
+
+      if (!decodedUrl) {
+        setError('Invalid URL: The URL must be base64 encoded.');
+        setStatusCode(null);
+        return;
+      }
+
+      const queryParams = new URLSearchParams(searchParams as any).toString();
+      const fullUrl = queryParams ? `${decodedUrl}?${queryParams}` : decodedUrl;
+
+      const parsedHeaders: Record<string, string> = {};
+      searchParams.forEach((value, key) => {
+        parsedHeaders[key] = value;
+      });
 
       const res = await fetch(serverApiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(testBody),
+        body: JSON.stringify({
+          method,
+          fullUrl,
+          headers: parsedHeaders,
+          body: method !== 'GET' ? JSON.parse(decodedBody || '{}') : undefined,
+        }),
       });
 
-      const result = await res.json();
-      console.log('Response from /api/proxy:', result);
-
-      setResponse(JSON.stringify(result, null, 2));
       setStatusCode(res.status);
+      if (!res.ok) {
+        throw new Error(`Error sending request: ${res.status}`);
+      }
+
+      const result = await res.json();
+      setResponse(JSON.stringify(result, null, 2));
       setError(null);
     } catch (error) {
       setResponse(null);
       if (error instanceof Error) {
         setError('Error sending request: ' + error.message);
       } else {
-        setError('Unknown error');
+        setError('Unknown error occurred.');
       }
     }
   };
-
-  // const safeBase64Decode = (str: string): string | null => {
-  //   try {
-  //     let cleanStr = str.replace(/[^A-Za-z0-9+/=]/g, '');
-  //     const padding = cleanStr.length % 4;
-  //     if (padding !== 0) {
-  //       cleanStr += '='.repeat(4 - padding);
-  //     }
-  //     if (cleanStr.indexOf('=') !== -1) {
-  //       cleanStr = cleanStr.split('=')[0];
-  //     }
-  //     console.log('Clean Base64 String:', cleanStr);
-  //     const decoded = atob(cleanStr);
-  //     return decodeURIComponent(escape(decoded));
-  //   } catch (error) {
-  //     console.error('Failed to decode base64:', error);
-  //     return null;
-  //   }
-  // };
 
   return (
     <div className={styles.wrapper}>

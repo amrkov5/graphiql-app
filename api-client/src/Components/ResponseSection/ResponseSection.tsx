@@ -1,6 +1,5 @@
 import React from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import MonacoEditor from '@monaco-editor/react';
 import styles from './ResponseSection.module.css';
 
 interface ResponseSectionProps {
@@ -22,10 +21,19 @@ const ResponseSection: React.FC<ResponseSectionProps> = ({
         </div>
       )}
       {response && (
-        <div className={styles.codeBlock}>
-          <SyntaxHighlighter language="json" style={dracula}>
-            {response}
-          </SyntaxHighlighter>
+        <div className={styles.editorContainer}>
+          <MonacoEditor
+            height="100%"
+            language="json"
+            value={response}
+            theme="vs-dark"
+            options={{
+              readOnly: true,
+              minimap: { enabled: false },
+              automaticLayout: true,
+              lineNumbers: 'off',
+            }}
+          />
         </div>
       )}
       {error && <div className={styles.errorSection}>{error}</div>}
