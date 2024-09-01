@@ -21,7 +21,7 @@ const ResponseSection: React.FC<ResponseSectionProps> = ({
         </div>
       )}
       {response && (
-        <div className={styles.editorContainer}>
+        <div data-testid="editor-container" className={styles.editorContainer}>
           <MonacoEditor
             height="100%"
             language="json"

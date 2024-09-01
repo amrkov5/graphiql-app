@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const { method, fullUrl, headers, body } = await req.json();
-
     const response = await fetch(fullUrl, {
       method,
       headers,
