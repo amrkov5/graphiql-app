@@ -6,7 +6,7 @@ import { logInWithEmailAndPassword } from '../../firebase/firebase';
 import Modal from '@/Components/Modal/Modal';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLoginState, setLogIn } from '@/slices/loginSlice';
+import { selectLoginState, setLogIn, setLogOut } from '@/slices/loginSlice';
 import { useTranslations } from 'next-intl';
 
 const SignInPage: React.FC = () => {
@@ -14,11 +14,10 @@ const SignInPage: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const t = useTranslations('SignInPage');
-  const isSignedIn = useSelector(selectLoginState);
 
-  if (isSignedIn) {
-    router.replace('/');
-  }
+  useEffect(() => {
+    dispatch(setLogOut());
+  }, []);
 
   const handleSignIn = async (data: AuthFormInputs, reset: () => void) => {
     try {
@@ -33,7 +32,7 @@ const SignInPage: React.FC = () => {
         },
       }).then((response) => {
         if (response.status === 200) {
-          setIsSignInFaulty(false);
+          // setIsSignInFaulty(false);
           dispatch(setLogIn());
           router.push('/');
         }

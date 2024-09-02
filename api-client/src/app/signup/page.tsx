@@ -1,25 +1,23 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { auth, registerWithEmailAndPassword } from '../../firebase/firebase';
+import { registerWithEmailAndPassword } from '../../firebase/firebase';
 import { useEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
 import Modal from '../../Components/Modal/Modal';
 import { useTranslations } from 'next-intl';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectLoginState, setLogIn } from '@/slices/loginSlice';
+import { useDispatch } from 'react-redux';
+import { setLogIn, setLogOut } from '@/slices/loginSlice';
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isSignUpFaulty, setIsSignUpFaulty] = useState(false);
   const t = useTranslations('SignUpPage');
-  const isSignedIn = useSelector(selectLoginState);
 
-  if (isSignedIn) {
-    router.replace('/');
-  }
+  useEffect(() => {
+    dispatch(setLogOut());
+  }, []);
 
   const handleSignUp = async (data: AuthFormInputs, reset: () => void) => {
     if (data.name) {
@@ -48,7 +46,6 @@ const SignUpPage: React.FC = () => {
         });
         setIsSignUpFaulty(false);
       } catch (error) {
-        // console.error('Error during sign-up:', error);
         setIsSignUpFaulty(true);
         reset();
       }
@@ -60,7 +57,6 @@ const SignUpPage: React.FC = () => {
 
   return (
     <>
-      {/* {!isSignedIn && ( */}
       <div>
         <AuthForm
           isRegistering={true}
@@ -75,7 +71,6 @@ const SignUpPage: React.FC = () => {
           <Modal message={t('modalMessage')} onClose={handleCloseModal} />
         )}
       </div>
-      {/* )} */}
     </>
   );
 };
