@@ -18,6 +18,7 @@ export async function middleware(request: NextRequest) {
     headers: {
       Cookie: `session=${session?.value}`,
     },
+    cache: 'no-store',
   });
   if (responseAPI.status !== 200) {
     if (!avoidedRoutes.includes(pathname)) {
@@ -31,6 +32,7 @@ export async function middleware(request: NextRequest) {
       headers: {
         Authorization: `Bearer ${session?.value}`,
       },
+      cache: 'no-store',
     });
     if (refreshResponse.status === 200) {
       if (avoidedRoutes.includes(pathname)) {

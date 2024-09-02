@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { logInWithEmailAndPassword } from '../../firebase/firebase';
 import Modal from '@/Components/Modal/Modal';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectLoginState, setLogIn, setLogOut } from '@/slices/loginSlice';
+import { useDispatch } from 'react-redux';
+import { setLogIn, setLogOut } from '@/slices/loginSlice';
 import { useTranslations } from 'next-intl';
 
 const SignInPage: React.FC = () => {
@@ -32,9 +32,9 @@ const SignInPage: React.FC = () => {
         },
       }).then((response) => {
         if (response.status === 200) {
-          // setIsSignInFaulty(false);
           dispatch(setLogIn());
           router.push('/');
+          router.refresh();
         }
       });
     } catch (error) {

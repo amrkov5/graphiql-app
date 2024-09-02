@@ -70,6 +70,7 @@ export default function Header({
       });
 
       if (response.status === 200) {
+        router.refresh();
         router.push('/');
       }
     } else {

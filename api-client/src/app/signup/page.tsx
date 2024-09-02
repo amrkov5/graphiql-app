@@ -17,7 +17,7 @@ const SignUpPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(setLogOut());
-  }, []);
+  }, [dispatch]);
 
   const handleSignUp = async (data: AuthFormInputs, reset: () => void) => {
     if (data.name) {
@@ -42,6 +42,7 @@ const SignUpPage: React.FC = () => {
           if (response.status === 200) {
             dispatch(setLogIn());
             router.push('/');
+            router.refresh();
           }
         });
         setIsSignUpFaulty(false);

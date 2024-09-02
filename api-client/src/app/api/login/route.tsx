@@ -1,13 +1,14 @@
 import { customInitApp } from '@/firebase/firebase-admin-config';
 import { auth } from 'firebase-admin';
 import { FirebaseAuthError } from 'firebase-admin/auth';
-import { FirebaseError } from 'firebase/app';
+import { revalidatePath } from 'next/cache';
 import { cookies, headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 customInitApp();
 
 export async function POST() {
+  revalidatePath('/');
   const authorization = headers().get('Authorization');
   if (authorization?.startsWith('Bearer ')) {
     const idToken = authorization.split('Bearer ')[1];

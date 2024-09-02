@@ -7,11 +7,14 @@ import { useEffect, useState } from 'react';
 
 import styles from './welcome.module.css';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 export default function Welcome() {
   const t = useTranslations('Welcome');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState();
+  const router = useRouter();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
