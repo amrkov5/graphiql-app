@@ -76,7 +76,7 @@ const RestClient: React.FC<RestClientProps> = ({
       const decodedBody = safeBase64Decode(body);
 
       if (!decodedUrl) {
-        setError('Invalid URL: The URL must be base64 encoded.');
+        setError('URLbase64');
         setStatusCode(null);
         return;
       }
@@ -104,7 +104,7 @@ const RestClient: React.FC<RestClientProps> = ({
 
       setStatusCode(res.status);
       if (!res.ok) {
-        throw new Error(`Error sending request: ${res.status}`);
+        throw new Error('errorSending');
       }
 
       const result = await res.json();
@@ -113,9 +113,9 @@ const RestClient: React.FC<RestClientProps> = ({
     } catch (error) {
       setResponse(null);
       if (error instanceof Error) {
-        setError('Error sending request: ' + error.message);
+        setError(error.message);
       } else {
-        setError('Unknown error occurred.');
+        setError('unknownError');
       }
     }
   };

@@ -1,6 +1,7 @@
 import React from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import styles from './ResponseSection.module.css';
+import { useTranslations } from 'next-intl';
 
 interface ResponseSectionProps {
   response: string | null;
@@ -13,6 +14,7 @@ const ResponseSection: React.FC<ResponseSectionProps> = ({
   error,
   statusCode,
 }) => {
+  const e = useTranslations('RequestErrors');
   return (
     <div className={styles.responseSection}>
       {statusCode !== null && (
@@ -36,7 +38,7 @@ const ResponseSection: React.FC<ResponseSectionProps> = ({
           />
         </div>
       )}
-      {error && <div className={styles.errorSection}>{error}</div>}
+      {error && <div className={styles.errorSection}>{e(`${error}`)}</div>}
     </div>
   );
 };
