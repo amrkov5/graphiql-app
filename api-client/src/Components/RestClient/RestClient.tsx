@@ -9,6 +9,8 @@ import { debounce } from 'lodash';
 import HeadersEditor from '../HeadersEditor/HeadersEditor';
 import BodyEditor from '../BodyEditor/BodyEditor';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
+import ResponseSection from '../ResponseSection/ResponseSection';
+import { safeBase64Decode } from '@/services/safeBase64Decode';
 
 interface RestClientProps {
   propMethod: string;
@@ -28,7 +30,10 @@ const RestClient: React.FC<RestClientProps> = ({
   const [queries, setQueries] = useState<KeyValuePair[]>([]);
   const [variables, setVariables] = useState<KeyValuePair[]>([]);
 
-  // sync app url
+  const [response, setResponse] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [statusCode, setStatusCode] = useState<number | null>(null);
+
   useEffect(() => {
     const updateUrl = debounce(() => {
       let newUrl = '/' + method;
@@ -66,7 +71,7 @@ const RestClient: React.FC<RestClientProps> = ({
     updateUrlWithQueries();
 
     return () => updateUrlWithQueries.cancel();
-  }, [queries]);
+  }, [queries, url]);
 
   // sync queries when update endpoint url
   useEffect(() => {
@@ -92,26 +97,83 @@ const RestClient: React.FC<RestClientProps> = ({
     }
   }, [url]);
 
+  const handleRequestSend = async () => {
+    try {
+      const serverApiUrl = '/api/proxy';
+      const decodedUrl = safeBase64Decode(url);
+      const decodedBody = safeBase64Decode(body);
+
+      if (!decodedUrl) {
+        setError('URLbase64');
+        setStatusCode(null);
+        return;
+      }
+
+      const parsedHeaders: Record<string, string> = {};
+      searchParams.forEach((value, key) => {
+        parsedHeaders[key] = value;
+      });
+
+      const res = await fetch(serverApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          method,
+          fullUrl: decodedUrl,
+          headers: parsedHeaders,
+          body: method !== 'GET' ? JSON.parse(decodedBody || '{}') : undefined,
+        }),
+      });
+
+      setStatusCode(res.status);
+      if (!res.ok) {
+        throw new Error('errorSending');
+      }
+
+      const result = await res.json();
+      setResponse(JSON.stringify(result, null, 2));
+      setError(null);
+    } catch (error) {
+      setResponse(null);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('unknownError');
+      }
+    }
+  };
+
   return (
-    <div className={styles.container}>
-      <div className={styles.inputSection}>
-        <MethodSelector method={method} setMethod={setMethod} />
-        <EndpointInput url={url} setUrl={setUrl} />
-        <button className={styles.send}>Send</button>
-      </div>
-      <div className={styles.editors}>
+    <div className={styles.wrapper}>
+      <div className={styles.requestSection}>
+        <div className={styles.inputSection}>
+          <MethodSelector method={method} setMethod={setMethod} />
+          <EndpointInput url={url} setUrl={setUrl} />
+          <button className={styles.send} onClick={handleRequestSend}>
+            Send
+          </button>
+        </div>
+        <div className={styles.editors}>
+          <KeyValueEditor
+            name="Query parameters:"
+            keyValues={queries}
+            setKeyValues={setQueries}
+          />
+          <HeadersEditor />
+        </div>
+        <BodyEditor body={body} setBody={setBody} />
         <KeyValueEditor
-          name="Query parameters:"
-          keyValues={queries}
-          setKeyValues={setQueries}
+          name="Body variables:"
+          keyValues={variables}
+          setKeyValues={setVariables}
         />
-        <HeadersEditor />
       </div>
-      <BodyEditor body={body} setBody={setBody} />
-      <KeyValueEditor
-        name="Body variables:"
-        keyValues={variables}
-        setKeyValues={setVariables}
+      <ResponseSection
+        response={response}
+        error={error}
+        statusCode={statusCode}
       />
     </div>
   );

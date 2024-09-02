@@ -1,14 +1,20 @@
-.container {
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.requestSection {
   width: 100%;
   max-width: 1047px;
   align-self: center;
   justify-self: center;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 20px;
   padding: 20px;
-  background-color: #1e1e1e;
+  background-color: transparent;
   border: 1px solid #3a3a3a;
   border-radius: 6px;
   flex-direction: column;
@@ -61,4 +67,10 @@
   display: flex;
   justify-content: space-evenly;
   gap: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+  .wrapper {
+    flex-direction: column;
+  }
 }
