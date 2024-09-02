@@ -70,5 +70,10 @@
     "404": "Page Not Found",
     "message": "The Page you are looking for does not exist",
     "toMain": "Go to Main"
+  },
+  "RequestErrors": {
+    "URLbase64": "Invalid URL: The URL must be base64 encoded.",
+    "errorSending": "Error sending request.",
+    "unknownError": "Unknown error occurred."
   }
 }
