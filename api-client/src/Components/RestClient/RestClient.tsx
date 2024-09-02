@@ -114,6 +114,14 @@ const RestClient: React.FC<RestClientProps> = ({
         parsedHeaders[key] = value;
       });
 
+      let updatedBody = decodedBody;
+      variables.forEach(({ key, value }) => {
+        const placeholder = `{{${key}}}`;
+        if (updatedBody) {
+          updatedBody = updatedBody.split(placeholder).join(value);
+        }
+      });
+
       const res = await fetch(serverApiUrl, {
         method: 'POST',
         headers: {
@@ -123,7 +131,7 @@ const RestClient: React.FC<RestClientProps> = ({
           method,
           fullUrl: decodedUrl,
           headers: parsedHeaders,
-          body: method !== 'GET' ? JSON.parse(decodedBody || '{}') : undefined,
+          body: method !== 'GET' ? JSON.parse(updatedBody || '{}') : undefined,
         }),
       });
 
