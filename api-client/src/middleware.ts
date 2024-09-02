@@ -5,6 +5,7 @@ export async function middleware(request: NextRequest) {
   const session = request.cookies.get('session');
   const pathname: string = request.nextUrl.pathname;
   const avoidedRoutes = ['/signin', '/signup'];
+  // console.log('middleware');
 
   if (!session && !avoidedRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL('/signin', request.url));
@@ -43,29 +44,17 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/history', '/graphiql', '/GET', '/signin', '/signup'],
+  matcher: [
+    '/history',
+    '/graphiql',
+    '/GET',
+    '/POST',
+    '/PUT',
+    '/PATCH',
+    '/DELETE',
+    '/HEAD',
+    '/OPTIONS',
+    '/signin',
+    '/signup',
+  ],
 };
-
-// import { NextRequest, NextResponse } from 'next/server';
-// import { getAuth } from 'firebase/auth';
-// import './firebase/firebase-config';
-
-// const protectedRoutes = ['/rest', '/graphiql', '/history'];
-
-// export async function middleware(request: NextRequest) {
-//   const pathname = request.nextUrl.pathname;
-//   if (protectedRoutes.includes(pathname)) {
-//     const auth = getAuth();
-//     const user = auth.currentUser;
-
-//     if (!user) {
-//       return NextResponse.redirect(new URL('/signin', request.url));
-//     }
-//   }
-
-//   return NextResponse.next();
-// }
-
-// export const config = {
-//   matcher: ['/rest', '/graphiql', '/history'],
-// };

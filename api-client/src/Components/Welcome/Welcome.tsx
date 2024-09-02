@@ -47,7 +47,7 @@ export default function Welcome() {
             <Link href={'/GET'} className={styles.link}>
               {t('rest')}
             </Link>
-            <Link href={'/graphiql'} className={styles.link}>
+            <Link href={'/GRAPHIQL'} className={styles.link}>
               {t('graphiql')}
             </Link>
             <Link href={'/history'} className={styles.link}>
