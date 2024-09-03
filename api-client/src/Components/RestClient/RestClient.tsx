@@ -171,12 +171,12 @@ const RestClient: React.FC<RestClientProps> = ({
           />
           <HeadersEditor />
         </div>
-        <BodyEditor body={body} setBody={setBody} />
         <KeyValueEditor
           name="Body variables:"
           keyValues={variables}
           setKeyValues={setVariables}
         />
+        <BodyEditor body={body} setBody={setBody} />
       </div>
       <ResponseSection
         response={response}
