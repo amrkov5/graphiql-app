@@ -5,7 +5,6 @@ export async function middleware(request: NextRequest) {
   const session = request.cookies.get('session');
   const pathname: string = request.nextUrl.pathname;
   const avoidedRoutes = ['/signin', '/signup'];
-  // console.log('middleware');
 
   if (!session && !avoidedRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL('/signin', request.url));

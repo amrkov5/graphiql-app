@@ -45,7 +45,6 @@ const SignUpPage: React.FC = () => {
             router.refresh();
           }
         });
-        setIsSignUpFaulty(false);
       } catch (error) {
         setIsSignUpFaulty(true);
         reset();

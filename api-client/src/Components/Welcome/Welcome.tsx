@@ -1,38 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { auth, getUserName } from '../../firebase/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
-
 import styles from './welcome.module.css';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { selectLoginState } from '@/slices/loginSlice';
 
-export default function Welcome() {
+export default function Welcome({ userName }: { userName: string | null }) {
   const t = useTranslations('Welcome');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState();
-  const router = useRouter();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const name = await getUserName(user.uid);
-        setUserName(name);
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [isLoggedIn]);
+  const isLoggedIn = useSelector(selectLoginState);
 
   return (
     <div className={styles.welcomeWrapper} data-testid="welcome">
       <h1 className={styles.welcomeHeading}>
-        {isLoggedIn ? `${t('return')}, ${userName}` : t('greeting')}!
+        {isLoggedIn && userName ? `${t('return')}, ${userName}` : t('greeting')}
+        !
       </h1>
       <div className={styles.linkWrapper}>
         {!isLoggedIn && (
@@ -45,7 +27,7 @@ export default function Welcome() {
             </Link>
           </>
         )}
-        {!!isLoggedIn && (
+        {isLoggedIn && (
           <>
             <Link href={'/GET'} className={styles.link}>
               {t('rest')}

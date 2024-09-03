@@ -41,8 +41,9 @@ export async function GET() {
   }
   try {
     const decodedClaims = await auth().verifySessionCookie(session, true);
-
-    return NextResponse.json({ isLogged: true }, { status: 200 });
+    if (decodedClaims) {
+      return NextResponse.json({ isLogged: true }, { status: 200 });
+    }
   } catch (err) {
     if ((err as FirebaseAuthError).code === 'auth/session-cookie-expired') {
       return NextResponse.json({ isLogged: false }, { status: 401 });

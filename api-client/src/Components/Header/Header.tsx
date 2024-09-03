@@ -63,13 +63,13 @@ export default function Header({
 
   const onSignUpOutClick = async () => {
     if (loginStatus) {
-      dispatch(setLogOut());
       logout();
       const response = await fetch('http://localhost:3000/api/logout', {
         method: 'POST',
       });
 
       if (response.status === 200) {
+        dispatch(setLogOut());
         router.refresh();
         router.push('/');
       }
