@@ -1,7 +1,7 @@
 .headersContainer {
   border-radius: 8px;
-  color: #ffffff;
-  border: 1px solid #3a3a3a;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   padding: 20px;
   width: 100%;
 }
@@ -19,8 +19,8 @@
 }
 
 .addButton {
-  background-color: #2a82da;
-  color: #ffffff;
+  background-color: var(--button-background);
+  color: var(--text-color);
   border: none;
   padding: 8px 12px;
   border-radius: 4px;
@@ -28,7 +28,7 @@
 }
 
 .addButton:hover {
-  background-color: #1f6ab9;
+  background-color: var(--button-background-hover);
 }
 
 .headersList {
@@ -43,9 +43,9 @@
 }
 
 .input {
-  background-color: #2b2b2b;
-  color: #ffffff;
-  border: 1px solid #444444;
+  background-color: var(--background-color-intense);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   padding: 8px;
   border-radius: 4px;
   margin-right: 10px;
@@ -54,16 +54,16 @@
 }
 
 .input::placeholder {
-  color: #888888;
+  color: var(--place-holder-color);
 }
 
 .input:focus {
-  border-color: #007acc;
+  border-color: var(--input-border-focus);
 }
 
 .deleteButton {
-  background-color: #e53935;
-  color: #ffffff;
+  background-color: var(--button-background-red);
+  color: var(--text-color);
   border: none;
   padding: 8px 12px;
   border-radius: 4px;
@@ -71,5 +71,5 @@
 }
 
 .deleteButton:hover {
-  background-color: #c62828;
+  background-color: var(--button-background-red-hover);
 }

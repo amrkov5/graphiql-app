@@ -56,9 +56,9 @@
 }
 
 .btn:disabled {
-  background-color: #363d428f;
-  color: #746767;
-  border: 1px solid #746767;
+  background-color: var(--disabled-background);
+  color: var(--disabled-text);
+  border: 1px solid var(--disabled-text);
 }
 
 .errorMessage {
