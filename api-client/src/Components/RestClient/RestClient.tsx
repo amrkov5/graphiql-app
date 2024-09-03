@@ -11,6 +11,7 @@ import BodyEditor from '../BodyEditor/BodyEditor';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
+import { useTranslations } from 'next-intl';
 
 interface RestClientProps {
   propMethod: string;
@@ -23,6 +24,7 @@ const RestClient: React.FC<RestClientProps> = ({
   propUrl,
   propBody,
 }) => {
+  const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const [method, setMethod] = useState(propMethod);
   const [url, setUrl] = useState(propUrl ?? ''); // in base 64
@@ -160,7 +162,7 @@ const RestClient: React.FC<RestClientProps> = ({
           <MethodSelector method={method} setMethod={setMethod} />
           <EndpointInput url={url} setUrl={setUrl} />
           <button className={styles.send} onClick={handleRequestSend}>
-            Send
+            {t('sendButton')}
           </button>
         </div>
         <div className={styles.editors}>

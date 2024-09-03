@@ -75,5 +75,18 @@
     "URLbase64": "Неверный URL: URL должен быть закодирован в base64.",
     "errorSending": "Ошибка отправки запроса.",
     "unknownError": "Произошла неизвестная ошибка."
+  },
+  "RestClient": {
+    "sendButton": "Отправить",
+    "addButton": "Добавить",
+    "headers": "Заголовки:",
+    "body": "Тело запроса:",
+    "query": "Параметры запроса:",
+    "format": "Форматировать",
+    "bodyVariables": "Переменные тела запроса:",
+    "endpointPlaceholder": "Введите URL",
+    "deleteButton": "Удалить",
+    "keyPlaceholder": "Ключ",
+    "valuePlaceholder": "Значение"
   }
 }
