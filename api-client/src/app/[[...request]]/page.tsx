@@ -2,10 +2,29 @@ import { notFound } from 'next/navigation';
 import Welcome from '../../Components/Welcome/Welcome';
 import RestClient from '../../Components/RestClient/RestClient';
 import { METHODS } from '../../constants';
+import { cookies } from 'next/headers';
+import { customInitApp } from '@/firebase/firebase-admin-config';
+import { auth } from 'firebase-admin';
+import '../../firebase/firebase';
+import { getUserName } from '../../firebase/firebase';
 
-const ClientPage = ({ params }: { params: { request?: string[] } }) => {
+customInitApp();
+
+const ClientPage = async ({ params }: { params: { request?: string[] } }) => {
   if (!params.request) {
-    return <Welcome />;
+    let userName;
+    const session = cookies().get('session')?.value || '';
+    if (session) {
+      try {
+        const decodedToken = await auth().verifySessionCookie(session, true);
+        if (decodedToken.uid) {
+          userName = await getUserName(decodedToken.uid);
+        }
+      } catch {
+        userName = null;
+      }
+    }
+    return <Welcome userName={userName} />;
   } else if (params.request.length <= 3) {
     if (METHODS.includes(params.request[0])) {
       return (

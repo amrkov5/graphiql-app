@@ -2,6 +2,9 @@ import { render } from '@testing-library/react';
 import Welcome from './Welcome';
 import { getLocale, getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
+import { configureStore } from '@reduxjs/toolkit';
+import loginStateReducer from '../../slices/loginSlice';
+import { Provider } from 'react-redux';
 
 const localeMessages = {
   Welcome: {
@@ -21,13 +24,35 @@ vi.mock('next-intl/server', () => ({
   getMessages: vi.fn(() => localeMessages),
 }));
 
+const store = configureStore({
+  reducer: {
+    loginState: loginStateReducer,
+  },
+  preloadedState: {
+    loginState: {
+      loggedIn: false,
+    },
+  },
+});
+
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn(() => ({
+    push: vi.fn(),
+    prefetch: vi.fn(),
+    query: {},
+    asPath: '',
+  })),
+}));
+
 describe('Welcome test', () => {
   it('Should render Welcome page', async () => {
     const locale = await getLocale();
     const messages = await getMessages();
     const { getByTestId, getByText } = render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <Welcome />
+        <Provider store={store}>
+          <Welcome userName={null} />
+        </Provider>
       </NextIntlClientProvider>
     );
 

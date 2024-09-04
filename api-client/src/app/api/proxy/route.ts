@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     const result = await response.json();
     return NextResponse.json(result, { status: response.status });
   } catch (error) {
-    console.error('Error in proxy:', error);
+    // console.error('Error in proxy:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }

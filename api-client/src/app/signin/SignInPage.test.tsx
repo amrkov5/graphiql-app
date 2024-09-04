@@ -2,15 +2,38 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import SignInPage from './page';
 import { useRouter } from 'next/navigation';
-import { logInWithEmailAndPassword } from '../../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { logInWithEmailAndPassword } from '../../firebase/firebase';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import loginStateReducer from '../../slices/loginSlice';
 
 const localeMessages = {
   AuthForm: {
+    login: 'Sign In',
+    register: 'Sign Up',
+    name: 'Name',
     email: 'Email',
     password: 'Password',
+    confirm: 'Confirm password',
+  },
+  SignInPage: {
+    modalMessage:
+      'Sign-in failed. Please check your credentials and try again.',
+  },
+  ValidationErrors: {
+    nameRequired: 'Name is required',
+    emailFormat: 'Invalid email format',
+    emailRequired: 'Email is required',
+    PSWDletterRequired: 'At least one letter required',
+    PSWDdigitRequired: 'At least one digit required',
+    PSWDspecCharRequired: 'At least one special character required',
+    PSWDsupportUnicode: 'Password must support Unicode characters',
+    PSWDlength: 'Must be at least 8 characters long',
+    PSWDrequired: 'Password is required',
+    ConfirmPSWDdoNotMatch: 'Passwords do not match',
+    ConfirmPSWDrequired: 'Confirm your password',
   },
 };
 
@@ -25,14 +48,21 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-vi.mock('../../firebase', () => ({
+vi.mock('../../firebase/firebase', () => ({
   logInWithEmailAndPassword: vi.fn(),
   auth: {},
 }));
 
-vi.mock('firebase/auth', () => ({
-  onAuthStateChanged: vi.fn(),
-}));
+const store = configureStore({
+  reducer: {
+    loginState: loginStateReducer,
+  },
+  preloadedState: {
+    loginState: {
+      loggedIn: false,
+    },
+  },
+});
 
 describe('SignInPage', () => {
   const pushMock = vi.fn();
@@ -42,13 +72,6 @@ describe('SignInPage', () => {
     router.push = pushMock;
     pushMock.mockClear();
     (logInWithEmailAndPassword as ReturnType<typeof vi.fn>).mockClear();
-
-    (onAuthStateChanged as ReturnType<typeof vi.fn>).mockImplementation(
-      (auth, callback) => {
-        callback(null);
-        return () => {};
-      }
-    );
   });
 
   it('renders the AuthForm component', async () => {
@@ -56,7 +79,9 @@ describe('SignInPage', () => {
     const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <SignInPage />
+        <Provider store={store}>
+          <SignInPage />
+        </Provider>
       </NextIntlClientProvider>
     );
     expect(screen.getByLabelText('Email')).toBeInTheDocument();

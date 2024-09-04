@@ -17,7 +17,8 @@
   justify-content: center;
   width: 500px;
 }
-.link {
+.link,
+.btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,8 +30,12 @@
   text-decoration: none;
   transition: 0.2s ease-in-out;
 }
-.link:hover {
+.link:hover,
+.btn:hover {
   box-shadow: 0 0 5px var(--text-color);
   transform: scale(1.05);
   cursor: pointer;
+}
+.btn {
+  background-color: transparent;
 }
