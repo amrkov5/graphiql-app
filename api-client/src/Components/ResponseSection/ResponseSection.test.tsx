@@ -8,6 +8,7 @@ describe('ResponseSection', () => {
     const messages = {
       RequestErrors: {
         'Something went wrong': 'Что-то пошло не так',
+        status: 'Status Code:',
       },
     };
 

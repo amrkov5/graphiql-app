@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import styles from './KeyValueEditor.module.css';
+import { useTranslations } from 'next-intl';
 
 export interface KeyValuePair {
   id: number;
@@ -18,6 +19,7 @@ const KeyValueEditor: React.FC<KeyValueEditorProps> = ({
   keyValues,
   setKeyValues,
 }) => {
+  const t = useTranslations('RestClient');
   const [nextId, setNextId] = useState<number>(keyValues.length + 1);
   const addPair = () => {
     setKeyValues([...keyValues, { id: nextId, key: '', value: '' }]);
@@ -39,7 +41,7 @@ const KeyValueEditor: React.FC<KeyValueEditorProps> = ({
       <div className={styles.controls}>
         <h3 className={styles.title}>{name}</h3>
         <button className={styles.addButton} onClick={addPair}>
-          Add New
+          {t('addButton')}
         </button>
       </div>
       <ul className={styles.list}>
@@ -48,7 +50,7 @@ const KeyValueEditor: React.FC<KeyValueEditorProps> = ({
             <input
               name="key"
               type="text"
-              placeholder="Key"
+              placeholder={t('keyPlaceholder')}
               value={pair.key}
               onChange={(e) => updatePair(pair.id, e.target.value, pair.value)}
               className={styles.input}
@@ -56,7 +58,7 @@ const KeyValueEditor: React.FC<KeyValueEditorProps> = ({
             <input
               name="value"
               type="text"
-              placeholder="Value"
+              placeholder={t('valuePlaceholder')}
               value={pair.value}
               onChange={(e) => updatePair(pair.id, pair.key, e.target.value)}
               className={styles.input}
@@ -65,7 +67,7 @@ const KeyValueEditor: React.FC<KeyValueEditorProps> = ({
               className={styles.deleteButton}
               onClick={() => deletePair(pair.id)}
             >
-              Delete
+              {t('deleteButton')}
             </button>
           </li>
         ))}

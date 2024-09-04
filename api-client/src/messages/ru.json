@@ -74,7 +74,8 @@
   "RequestErrors": {
     "URLbase64": "Неверный URL: URL должен быть закодирован в base64.",
     "errorSending": "Ошибка отправки запроса.",
-    "unknownError": "Произошла неизвестная ошибка."
+    "unknownError": "Произошла неизвестная ошибка.",
+    "status": "Код ответа:"
   },
   "RestClient": {
     "sendButton": "Отправить",

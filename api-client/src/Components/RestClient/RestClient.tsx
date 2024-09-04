@@ -167,14 +167,14 @@ const RestClient: React.FC<RestClientProps> = ({
         </div>
         <div className={styles.editors}>
           <KeyValueEditor
-            name="Query parameters:"
+            name={t('query')}
             keyValues={queries}
             setKeyValues={setQueries}
           />
           <HeadersEditor />
         </div>
         <KeyValueEditor
-          name="Body variables:"
+          name={t('bodyVariables')}
           keyValues={variables}
           setKeyValues={setVariables}
         />

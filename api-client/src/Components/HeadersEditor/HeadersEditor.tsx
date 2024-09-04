@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './HeadersEditor.module.css';
 import { useSearchParams } from 'next/navigation';
 import { debounce } from 'lodash';
+import { useTranslations } from 'next-intl';
 
 interface Header {
   id: number;
@@ -10,6 +11,7 @@ interface Header {
 }
 
 const HeadersEditor: React.FC = () => {
+  const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const params = Array.from(searchParams.entries());
   const headersArray = params.map(([key, value], index) => ({
@@ -59,9 +61,9 @@ const HeadersEditor: React.FC = () => {
   return (
     <div className={styles.headersContainer}>
       <div className={styles.headersControls}>
-        <h3 className={styles.title}>Headers:</h3>
+        <h3 className={styles.title}>{t('headers')}</h3>
         <button className={styles.addButton} onClick={addHeader}>
-          Add New
+          {t('addButton')}
         </button>
       </div>
       <ul className={styles.headersList}>
@@ -70,7 +72,7 @@ const HeadersEditor: React.FC = () => {
             <input
               name="key"
               type="text"
-              placeholder="Key"
+              placeholder={t('keyPlaceholder')}
               value={header.key}
               onChange={(e) =>
                 updateHeader(header.id, e.target.value, header.value)
@@ -80,7 +82,7 @@ const HeadersEditor: React.FC = () => {
             <input
               name="value"
               type="text"
-              placeholder="Value"
+              placeholder={t('valuePlaceholder')}
               value={header.value}
               onChange={(e) =>
                 updateHeader(header.id, header.key, e.target.value)
@@ -91,7 +93,7 @@ const HeadersEditor: React.FC = () => {
               className={styles.deleteButton}
               onClick={() => deleteHeader(header.id)}
             >
-              Delete
+              {t('deleteButton')}
             </button>
           </li>
         ))}

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import styles from './EndpointInput.module.css';
+import { useTranslations } from 'next-intl';
 
 interface EndpointInputProps {
   url: string;
@@ -7,6 +8,7 @@ interface EndpointInputProps {
 }
 
 const EndpointInput: React.FC<EndpointInputProps> = ({ url, setUrl }) => {
+  const t = useTranslations('RestClient');
   const handleEndpointChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const encodedUrl = btoa(event.target.value);
     setUrl(encodedUrl);
@@ -16,7 +18,7 @@ const EndpointInput: React.FC<EndpointInputProps> = ({ url, setUrl }) => {
       type="text"
       value={atob(decodeURIComponent(url))}
       onChange={handleEndpointChange}
-      placeholder="Enter endpoint URL"
+      placeholder={t('endpointPlaceholder')}
       className={styles.input}
       name="url"
     />

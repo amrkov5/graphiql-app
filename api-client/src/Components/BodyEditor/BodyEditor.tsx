@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import styles from './BodyEditor.module.css';
 import { Editor } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
+import { useTranslations } from 'next-intl';
 
 interface BodyEditorProps {
   body: string;
@@ -9,6 +10,7 @@ interface BodyEditorProps {
 }
 
 const BodyEditor: React.FC<BodyEditorProps> = ({ body, setBody }) => {
+  const t = useTranslations('RestClient');
   const [localBody, setLocalBody] = useState(atob(decodeURIComponent(body)));
   const [language, setLanguage] = useState<'json' | 'plaintext'>('json');
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -28,7 +30,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({ body, setBody }) => {
     <div className={styles.container}>
       <div className={styles.header}>
         <label className={styles.label} htmlFor="editorLanguage">
-          Body:
+          {t('body')}
         </label>
         <div className={styles.controls}>
           <select
@@ -43,7 +45,7 @@ const BodyEditor: React.FC<BodyEditorProps> = ({ body, setBody }) => {
             <option value="plaintext">Plain Text</option>
           </select>
           <button className={styles.formatButton} onClick={handleFormat}>
-            Format
+            {t('format')}
           </button>
         </div>
       </div>
