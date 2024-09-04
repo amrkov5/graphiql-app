@@ -1,35 +1,26 @@
 'use client';
 
 import Link from 'next/link';
-import { auth, getUserName } from '../../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
-
 import styles from './welcome.module.css';
 import { useTranslations } from 'next-intl';
+import { useSelector } from 'react-redux';
+import { selectLoginState } from '@/slices/loginSlice';
+import { useRouter } from 'next/navigation';
 
-export default function Welcome() {
+export default function Welcome({ userName }: { userName: string | null }) {
   const t = useTranslations('Welcome');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState();
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const name = await getUserName(user.uid);
-        setUserName(name);
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [isLoggedIn]);
+  const isLoggedIn = useSelector(selectLoginState);
+  const router = useRouter();
+  const handleClick = (href: string) => {
+    router.push(`${href}`);
+    router.refresh();
+  };
 
   return (
     <div className={styles.welcomeWrapper} data-testid="welcome">
       <h1 className={styles.welcomeHeading}>
-        {isLoggedIn ? `${t('return')}, ${userName}` : t('greeting')}!
+        {isLoggedIn && userName ? `${t('return')}, ${userName}` : t('greeting')}
+        !
       </h1>
       <div className={styles.linkWrapper}>
         {!isLoggedIn && (
@@ -42,17 +33,23 @@ export default function Welcome() {
             </Link>
           </>
         )}
-        {!!isLoggedIn && (
+        {isLoggedIn && (
           <>
-            <Link href={'/GET'} className={styles.link}>
+            <button className={styles.btn} onClick={() => handleClick('/GET')}>
               {t('rest')}
-            </Link>
-            <Link href={'/graphiql'} className={styles.link}>
+            </button>
+            <button
+              className={styles.btn}
+              onClick={() => handleClick('/GRAPHIQL')}
+            >
               {t('graphiql')}
-            </Link>
-            <Link href={'/history'} className={styles.link}>
+            </button>
+            <button
+              className={styles.btn}
+              onClick={() => handleClick('/history')}
+            >
               {t('history')}
-            </Link>
+            </button>
           </>
         )}
       </div>

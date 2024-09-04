@@ -14,6 +14,29 @@ const localeMessages = {
     password: 'Password',
     confirm: 'Confirm password',
   },
+  ValidationErrors: {
+    nameRequired: 'Name is required',
+    emailFormat: 'Invalid email format',
+    emailRequired: 'Email is required',
+    PSWDletterRequired: 'At least one letter required',
+    PSWDdigitRequired: 'At least one digit required',
+    PSWDspecCharRequired: 'At least one special character required',
+    PSWDsupportUnicode: 'Password must support Unicode characters',
+    PSWDlength: 'Must be at least 8 characters long',
+    PSWDrequired: 'Password is required',
+    ConfirmPSWDdoNotMatch: 'Passwords do not match',
+    ConfirmPSWDrequired: 'Confirm your password',
+  },
+  SignUpPage: {
+    modalMessage: 'An account with this email already exists.',
+  },
+  SignInPage: {
+    modalMessage:
+      'Sign-in failed. Please check your credentials and try again.',
+  },
+  Modal: {
+    modalClose: 'Close',
+  },
 };
 
 vi.mock('next-intl/server', () => ({
