@@ -10,6 +10,7 @@ import Logo from './Logo';
 import styles from './header.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoginState, setLogIn, setLogOut } from '@/slices/loginSlice';
+import { cookies } from 'next/headers';
 
 export default function Header({
   initialLoggedIn,
@@ -23,6 +24,26 @@ export default function Header({
   const loginStatus = useSelector(selectLoginState);
   const [isAuth, setIsAuth] = useState(initialLoggedIn);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+
+  useEffect(() => {
+    const checkCookies = async () => {
+      if (loginStatus) {
+        const checkResult = await fetch('http://localhost:3000/api/login', {
+          headers: {
+            Cookie: '',
+          },
+          cache: 'no-store',
+        });
+        if (checkResult.status !== 200) {
+          dispatch(setLogOut());
+          onSignUpOutClick();
+        }
+      }
+    };
+
+    const cookiesTimer = setInterval(checkCookies, 30000);
+    return () => clearInterval(cookiesTimer);
+  }, [loginStatus]);
 
   useEffect(() => {
     const handleScroll = () => {
