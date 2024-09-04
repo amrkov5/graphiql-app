@@ -12,6 +12,7 @@ import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
 import { saveRequestToHistory } from '@/services/historyUtils';
+import { useTranslations } from 'next-intl';
 
 interface RestClientProps {
   propMethod: string;
@@ -24,6 +25,7 @@ const RestClient: React.FC<RestClientProps> = ({
   propUrl,
   propBody,
 }) => {
+  const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const [method, setMethod] = useState(propMethod);
   const [url, setUrl] = useState(propUrl ?? ''); // in base 64
@@ -49,7 +51,6 @@ const RestClient: React.FC<RestClientProps> = ({
     return () => updateUrl.cancel();
   }, [method, url, body, searchParams]);
 
-  // sync endpoint url when updating queries
   useEffect(() => {
     const updateUrlWithQueries = debounce(() => {
       try {
@@ -65,7 +66,7 @@ const RestClient: React.FC<RestClientProps> = ({
           btoa(parsedUrl.toString().replace(window.location.origin + '/', ''))
         );
       } catch (error) {
-        console.error('Error updating URL with queries:', error);
+        // console.error('Error updating URL with queries:', error);
       }
     }, 300);
 
@@ -74,7 +75,6 @@ const RestClient: React.FC<RestClientProps> = ({
     return () => updateUrlWithQueries.cancel();
   }, [queries, url]);
 
-  // sync queries when update endpoint url
   useEffect(() => {
     try {
       const parsedUrl = new URL(
@@ -94,7 +94,7 @@ const RestClient: React.FC<RestClientProps> = ({
       }
       setQueries(newQueries);
     } catch (error) {
-      console.error('Invalid URL:', error);
+      // console.error('Invalid URL:', error);
     }
   }, [url]);
 
@@ -168,7 +168,7 @@ const RestClient: React.FC<RestClientProps> = ({
           <MethodSelector method={method} setMethod={setMethod} />
           <EndpointInput url={url} setUrl={setUrl} />
           <button className={styles.send} onClick={handleRequestSend}>
-            Send
+            {t('sendButton')}
           </button>
         </div>
         <div className={styles.editors}>
@@ -179,6 +179,11 @@ const RestClient: React.FC<RestClientProps> = ({
           />
           <HeadersEditor />
         </div>
+        <KeyValueEditor
+          name="Body variables:"
+          keyValues={variables}
+          setKeyValues={setVariables}
+        />
         <BodyEditor body={body} setBody={setBody} />
         <KeyValueEditor
           name="Body variables:"

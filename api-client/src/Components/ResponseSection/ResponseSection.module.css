@@ -1,5 +1,5 @@
 .responseSection {
-  margin: 20px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   width: 600px;
@@ -25,6 +25,15 @@
 .errorSection {
   color: red;
   margin-top: 16px;
+}
+
+@media screen and (max-width: 1200px) {
+  .responseSection {
+    margin: 20px;
+    height: calc(100vh - 191px);
+    width: 100%;
+    max-width: 1047px;
+  }
 }
 
 @media screen and (max-width: 1200px) {

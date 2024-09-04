@@ -1,3 +1,9 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 1156px;
+  margin: 0 auto;
+}
 .aboutHeading {
   text-align: center;
   margin-top: 0;
@@ -9,6 +15,9 @@
   gap: 20px;
 }
 .personCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 33%;
   max-width: 372px;
   min-width: 300px;
@@ -40,6 +49,7 @@
 }
 .personGitHub {
   display: block;
+  justify-self: baseline;
   margin-top: 10px;
   color: var(--text-color);
   text-decoration: none;
@@ -48,4 +58,12 @@
 .personGitHub:hover {
   text-shadow: 0 0 5px var(--text-color);
   transform: scale(1.01);
+}
+.projectInfoWrapper,
+.courseWrapper {
+  margin-top: 20px;
+  padding: 0 20px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  box-shadow: 0 0 5px var(--text-color);
 }
