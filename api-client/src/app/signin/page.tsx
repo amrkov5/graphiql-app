@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { logInWithEmailAndPassword } from '../../firebase/firebase';
 import Modal from '@/Components/Modal/Modal';
@@ -8,6 +8,7 @@ import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 import { useDispatch } from 'react-redux';
 import { setLogIn, setLogOut } from '@/slices/loginSlice';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'nextjs-toploader/app';
 
 const SignInPage: React.FC = () => {
   const [isSignInFaulty, setIsSignInFaulty] = useState(false);

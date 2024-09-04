@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import './globals.css';
 import { cookies } from 'next/headers';
 import Layout from '@/Components/Layout';
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
   title: 'API Client',
@@ -31,6 +32,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <NextTopLoader showSpinner={false} />
           <Layout initialLoggedIn={isLoggedIn}>{children}</Layout>
         </NextIntlClientProvider>
       </body>

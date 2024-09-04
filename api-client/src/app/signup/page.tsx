@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { registerWithEmailAndPassword } from '../../firebase/firebase';
 import { useEffect, useState } from 'react';
 import Modal from '../../Components/Modal/Modal';
@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 import { useDispatch } from 'react-redux';
 import { setLogIn, setLogOut } from '@/slices/loginSlice';
+import { useRouter } from 'nextjs-toploader/app';
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();

@@ -25,6 +25,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
   const e = useTranslations('ValidationErrors');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLogging, setIsLogging] = useState(false);
 
   const {
     register,
@@ -127,8 +128,21 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
             </p>
           )}
         </div>
-        <button className={styles.btn} type="submit" disabled={!isValid}>
-          {isRegistering ? t('register') : t('login')}
+        <button
+          className={styles.btn}
+          type="submit"
+          disabled={!isValid}
+          onClick={() => setIsLogging(true)}
+        >
+          {!isLogging ? (
+            isRegistering ? (
+              t('register')
+            ) : (
+              t('login')
+            )
+          ) : (
+            <span className={styles.loader}></span>
+          )}
         </button>
       </div>
     </form>
