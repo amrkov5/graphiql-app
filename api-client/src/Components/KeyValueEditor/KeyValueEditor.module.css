@@ -1,4 +1,4 @@
-.headersContainer {
+.container {
   border-radius: 8px;
   color: var(--text-color);
   border: 1px solid var(--border-color);
@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-.headersControls {
+.controls {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,12 +31,12 @@
   background-color: var(--button-background-hover);
 }
 
-.headersList {
+.list {
   list-style: none;
   padding: 0;
 }
 
-.headerItem {
+.item {
   display: flex;
   align-items: center;
   margin-bottom: 10px;

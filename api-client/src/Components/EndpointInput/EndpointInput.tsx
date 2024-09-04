@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styles from './EndpointInput.module.css';
 
 interface EndpointInputProps {
@@ -7,18 +7,14 @@ interface EndpointInputProps {
 }
 
 const EndpointInput: React.FC<EndpointInputProps> = ({ url, setUrl }) => {
-  const [localUrl, setLocalUrl] = useState(atob(decodeURIComponent(url)));
-
   const handleEndpointChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const encodedUrl = btoa(event.target.value);
-    setLocalUrl(event.target.value);
     setUrl(encodedUrl);
   };
-
   return (
     <input
       type="text"
-      value={localUrl}
+      value={atob(decodeURIComponent(url))}
       onChange={handleEndpointChange}
       placeholder="Enter endpoint URL"
       className={styles.input}

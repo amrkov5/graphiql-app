@@ -27,9 +27,12 @@ const BodyEditor: React.FC<BodyEditorProps> = ({ body, setBody }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <label className={styles.label}>Body:</label>
+        <label className={styles.label} htmlFor="editorLanguage">
+          Body:
+        </label>
         <div className={styles.controls}>
           <select
+            id="editorLanguage"
             className={styles.languageSelector}
             value={language}
             onChange={(event) =>

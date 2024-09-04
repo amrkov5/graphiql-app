@@ -1,26 +1,3 @@
-//TO CHECK FUNCTIONALITY USE
-
-// https://httpbin.org/post
-
-//POST
-
-//BODY
-
-// {
-//   "name": "John Doe",
-//   "age": 30
-// }
-
-//https://stapi.co/api/v1/rest/food/search
-
-//GET
-
-//PARAMS/HEADERS
-
-//pageNumber
-//pageSize
-
-//
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -31,8 +8,10 @@ import styles from './RestClient.module.css';
 import { debounce } from 'lodash';
 import HeadersEditor from '../HeadersEditor/HeadersEditor';
 import BodyEditor from '../BodyEditor/BodyEditor';
+import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
+import { useTranslations } from 'next-intl';
 
 interface RestClientProps {
   propMethod: string;
@@ -45,15 +24,17 @@ const RestClient: React.FC<RestClientProps> = ({
   propUrl,
   propBody,
 }) => {
+  const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const [method, setMethod] = useState(propMethod);
-  const [url, setUrl] = useState(propUrl ?? '');
-  const [body, setBody] = useState(propBody ?? '');
+  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
+  const [body, setBody] = useState(propBody ?? ''); // in base 64
+  const [queries, setQueries] = useState<KeyValuePair[]>([]);
+  const [variables, setVariables] = useState<KeyValuePair[]>([]);
+
   const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [statusCode, setStatusCode] = useState<number | null>(null);
-
-  // console.log(method, url, body, searchParams);
 
   useEffect(() => {
     const updateUrl = debounce(() => {
@@ -69,6 +50,55 @@ const RestClient: React.FC<RestClientProps> = ({
     return () => updateUrl.cancel();
   }, [method, url, body, searchParams]);
 
+  // sync endpoint url when updating queries
+  useEffect(() => {
+    const updateUrlWithQueries = debounce(() => {
+      try {
+        const parsedUrl = new URL(
+          atob(decodeURIComponent(url)),
+          window.location.origin
+        );
+        parsedUrl.search = '';
+        queries.forEach(({ key, value }) => {
+          parsedUrl.searchParams.append(key, value);
+        });
+        setUrl(
+          btoa(parsedUrl.toString().replace(window.location.origin + '/', ''))
+        );
+      } catch (error) {
+        console.error('Error updating URL with queries:', error);
+      }
+    }, 300);
+
+    updateUrlWithQueries();
+
+    return () => updateUrlWithQueries.cancel();
+  }, [queries, url]);
+
+  // sync queries when update endpoint url
+  useEffect(() => {
+    try {
+      const parsedUrl = new URL(
+        atob(decodeURIComponent(url)),
+        window.location.origin
+      );
+      const newQueries: KeyValuePair[] = [];
+      const urlQuries = Array.from(parsedUrl.searchParams.entries());
+      urlQuries.forEach(([key, value], index) => {
+        newQueries.push({ id: index, key, value });
+      });
+      if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '?') {
+        newQueries.push({ id: urlQuries.length + 1, key: '', value: '' });
+      }
+      if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '&') {
+        newQueries.push({ id: urlQuries.length + 2, key: '', value: '' });
+      }
+      setQueries(newQueries);
+    } catch (error) {
+      console.error('Invalid URL:', error);
+    }
+  }, [url]);
+
   const handleRequestSend = async () => {
     try {
       const serverApiUrl = '/api/proxy';
@@ -81,12 +111,17 @@ const RestClient: React.FC<RestClientProps> = ({
         return;
       }
 
-      const queryParams = new URLSearchParams(searchParams as any).toString();
-      const fullUrl = queryParams ? `${decodedUrl}?${queryParams}` : decodedUrl;
-
       const parsedHeaders: Record<string, string> = {};
       searchParams.forEach((value, key) => {
         parsedHeaders[key] = value;
+      });
+
+      let updatedBody = decodedBody;
+      variables.forEach(({ key, value }) => {
+        const placeholder = `{{${key}}}`;
+        if (updatedBody) {
+          updatedBody = updatedBody.split(placeholder).join(value);
+        }
       });
 
       const res = await fetch(serverApiUrl, {
@@ -96,9 +131,9 @@ const RestClient: React.FC<RestClientProps> = ({
         },
         body: JSON.stringify({
           method,
-          fullUrl,
+          fullUrl: decodedUrl,
           headers: parsedHeaders,
-          body: method !== 'GET' ? JSON.parse(decodedBody || '{}') : undefined,
+          body: method !== 'GET' ? JSON.parse(updatedBody || '{}') : undefined,
         }),
       });
 
@@ -127,10 +162,22 @@ const RestClient: React.FC<RestClientProps> = ({
           <MethodSelector method={method} setMethod={setMethod} />
           <EndpointInput url={url} setUrl={setUrl} />
           <button className={styles.send} onClick={handleRequestSend}>
-            Send
+            {t('sendButton')}
           </button>
         </div>
-        <HeadersEditor />
+        <div className={styles.editors}>
+          <KeyValueEditor
+            name="Query parameters:"
+            keyValues={queries}
+            setKeyValues={setQueries}
+          />
+          <HeadersEditor />
+        </div>
+        <KeyValueEditor
+          name="Body variables:"
+          keyValues={variables}
+          setKeyValues={setVariables}
+        />
         <BodyEditor body={body} setBody={setBody} />
       </div>
       <ResponseSection

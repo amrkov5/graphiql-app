@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
       headers,
       body: method !== 'GET' ? JSON.stringify(body) : undefined,
     });
-
     const result = await response.json();
     return NextResponse.json(result, { status: response.status });
   } catch (error) {

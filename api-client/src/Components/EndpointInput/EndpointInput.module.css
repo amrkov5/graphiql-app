@@ -1,7 +1,7 @@
 .input {
-  background-color: #2d2d2d;
-  color: #ffffff;
-  border: 1px solid #3a3a3a;
+  background-color: var(--background-color-intense);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   padding: 10px;
   border-radius: 4px;
   font-size: 14px;
@@ -11,5 +11,5 @@
 }
 
 .input:focus {
-  border-color: #007acc;
+  border-color: var(--input-border-focus);
 }

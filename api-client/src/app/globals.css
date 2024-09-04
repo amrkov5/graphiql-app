@@ -2,9 +2,16 @@
   --text-color: #f0eaea;
   --background-color: #242424;
   --background-color-intense: #1e1e1e;
-  --border-color: #333;
+  --border-color: #3a3a3a;
   --place-holder-color: #888;
   --modal-background: rgb(0, 0, 0, 0.1);
+  --disabled-background: #363d428f;
+  --disabled-text: #746767;
+  --button-background: #007acc;
+  --button-background-hover: #005f9e;
+  --input-border-focus: #007acc;
+  --button-background-red: #e53935;
+  --button-background-red-hover: #c62828;
 }
 
 * {
@@ -15,7 +22,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   color: var(--text-color);
   background-color: var(--background-color);
