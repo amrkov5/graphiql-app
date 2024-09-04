@@ -11,6 +11,7 @@ import BodyEditor from '../BodyEditor/BodyEditor';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
+import { saveRequestToHistory } from '@/services/historyUtils';
 
 interface RestClientProps {
   propMethod: string;
@@ -143,6 +144,13 @@ const RestClient: React.FC<RestClientProps> = ({
       const result = await res.json();
       setResponse(JSON.stringify(result, null, 2));
       setError(null);
+
+      saveRequestToHistory({
+        method,
+        fullUrl: decodedUrl,
+        headers: {},
+        body: decodedBody,
+      });
     } catch (error) {
       setResponse(null);
       if (error instanceof Error) {
