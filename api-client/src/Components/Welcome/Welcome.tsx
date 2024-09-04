@@ -11,8 +11,8 @@ export default function Welcome({ userName }: { userName: string | null }) {
   const t = useTranslations('Welcome');
   const isLoggedIn = useSelector(selectLoginState);
   const router = useRouter();
-  const handleClick = () => {
-    router.push('/GET');
+  const handleClick = (href: string) => {
+    router.push(`${href}`);
     router.refresh();
   };
 
@@ -35,17 +35,21 @@ export default function Welcome({ userName }: { userName: string | null }) {
         )}
         {isLoggedIn && (
           <>
-            <button onClick={handleClick}></button>
-
-            <Link href={'/GET'} className={styles.link}>
+            <button className={styles.btn} onClick={() => handleClick('/GET')}>
               {t('rest')}
-            </Link>
-            <Link href={'/GRAPHIQL'} className={styles.link}>
+            </button>
+            <button
+              className={styles.btn}
+              onClick={() => handleClick('/GRAPHIQL')}
+            >
               {t('graphiql')}
-            </Link>
-            <Link href={'/history'} className={styles.link}>
+            </button>
+            <button
+              className={styles.btn}
+              onClick={() => handleClick('/history')}
+            >
               {t('history')}
-            </Link>
+            </button>
           </>
         )}
       </div>
