@@ -35,6 +35,15 @@ const store = configureStore({
   },
 });
 
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn(() => ({
+    push: vi.fn(),
+    prefetch: vi.fn(),
+    query: {},
+    asPath: '',
+  })),
+}));
+
 describe('Welcome test', () => {
   it('Should render Welcome page', async () => {
     const locale = await getLocale();

@@ -47,7 +47,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/history',
-    '/graphiql',
     '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)',
     '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)/([^/]+)?',
     '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)/([^/]+)/([^/]+)',

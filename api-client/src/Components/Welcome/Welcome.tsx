@@ -5,10 +5,16 @@ import styles from './welcome.module.css';
 import { useTranslations } from 'next-intl';
 import { useSelector } from 'react-redux';
 import { selectLoginState } from '@/slices/loginSlice';
+import { useRouter } from 'next/navigation';
 
 export default function Welcome({ userName }: { userName: string | null }) {
   const t = useTranslations('Welcome');
   const isLoggedIn = useSelector(selectLoginState);
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/GET');
+    router.refresh();
+  };
 
   return (
     <div className={styles.welcomeWrapper} data-testid="welcome">
@@ -29,6 +35,8 @@ export default function Welcome({ userName }: { userName: string | null }) {
         )}
         {isLoggedIn && (
           <>
+            <button onClick={handleClick}></button>
+
             <Link href={'/GET'} className={styles.link}>
               {t('rest')}
             </Link>
