@@ -22,5 +22,7 @@ export function saveRequestToHistory(requestData: {
 }
 
 export function getHistory() {
-  return JSON.parse(localStorage.getItem('requestHistory') || '{}');
+  return typeof window !== 'undefined'
+    ? JSON.parse(localStorage.getItem('requestHistory') || '{}')
+    : {};
 }
