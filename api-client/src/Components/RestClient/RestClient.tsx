@@ -53,7 +53,7 @@ const RestClient: React.FC<RestClientProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [statusCode, setStatusCode] = useState<number | null>(null);
 
-  console.log(method, url, body, searchParams);
+  // console.log(method, url, body, searchParams);
 
   useEffect(() => {
     const updateUrl = debounce(() => {

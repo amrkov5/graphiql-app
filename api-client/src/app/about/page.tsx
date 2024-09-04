@@ -12,7 +12,7 @@ export default function AboutUs() {
   const t = useTranslations('About');
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <h1 className={styles.aboutHeading}>{t('aboutTeam')}</h1>
       <div className={styles.aboutWrapper}>
         <div className={styles.personCard} data-testid="card">
@@ -82,6 +82,14 @@ export default function AboutUs() {
           </Link>
         </div>
       </div>
-    </>
+      <div className={styles.projectInfoWrapper}>
+        <p className={styles.personName}>{t('projectHeading')}</p>
+        <p>{t('projectDesc')}</p>
+      </div>
+      <div className={styles.courseWrapper}>
+        <p className={styles.personName}>{t('courseHeading')}</p>
+        <p>{t('courseDesc')}</p>
+      </div>
+    </div>
   );
 }
