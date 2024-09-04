@@ -28,7 +28,8 @@ vi.mock('next/headers', () => ({
   })),
 }));
 
-vi.mock('next/navigation', () => ({
+// import { useRouter } from 'nextjs-toploader/app';
+vi.mock('nextjs-toploader/app', () => ({
   useRouter: vi.fn(() => ({
     push: vi.fn(),
     prefetch: vi.fn(),

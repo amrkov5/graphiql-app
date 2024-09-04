@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import NotFound from './NotFound';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
-vi.mock('next/navigation', () => ({
+vi.mock('nextjs-toploader/app', () => ({
   useRouter: vi.fn(),
 }));
 

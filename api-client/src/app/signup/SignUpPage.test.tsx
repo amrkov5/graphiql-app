@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import SignUpPage from './page';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { registerWithEmailAndPassword } from '../../firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { NextIntlClientProvider } from 'next-intl';
@@ -42,7 +42,7 @@ vi.mock('next-intl/server', () => ({
   getMessages: vi.fn(() => localeMessages),
 }));
 
-vi.mock('next/navigation', () => ({
+vi.mock('nextjs-toploader/app', () => ({
   useRouter: () => ({
     push: vi.fn(),
   }),

@@ -35,7 +35,7 @@ const store = configureStore({
   },
 });
 
-vi.mock('next/navigation', () => ({
+vi.mock('nextjs-toploader/app', () => ({
   useRouter: vi.fn(() => ({
     push: vi.fn(),
     prefetch: vi.fn(),
