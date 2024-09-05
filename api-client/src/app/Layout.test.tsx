@@ -22,6 +22,16 @@ const mockCookies = () => {
   };
 };
 
+vi.stubGlobal(
+  'fetch',
+  vi.fn(() =>
+    Promise.resolve({
+      status: 200,
+      json: () => Promise.resolve({}), // Mock the response body if needed
+    })
+  )
+);
+
 vi.mock('next/headers', () => ({
   cookies: vi.fn(() => ({
     get: mockCookies,
