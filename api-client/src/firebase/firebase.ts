@@ -34,8 +34,6 @@ const logInWithEmailAndPassword = async (email: string, password: string) => {
     return user;
   } catch (err) {
     throw new Error('Login Error');
-    // console.error(err);
-    // alert((err as FirebaseError).message);
   }
 };
 

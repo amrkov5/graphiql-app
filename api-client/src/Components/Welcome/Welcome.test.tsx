@@ -29,9 +29,7 @@ const store = configureStore({
     loginState: loginStateReducer,
   },
   preloadedState: {
-    loginState: {
-      loggedIn: false,
-    },
+    loginState: { loggedIn: false, error: false },
   },
 });
 

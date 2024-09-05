@@ -1,12 +1,11 @@
 'use client';
 
-// import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { logInWithEmailAndPassword } from '../../firebase/firebase';
 import Modal from '@/Components/Modal/Modal';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 import { useDispatch } from 'react-redux';
-import { setLogIn, setLogOut } from '@/slices/loginSlice';
+import { setError, setLogIn, setLogOut } from '@/slices/loginSlice';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
 
@@ -18,7 +17,7 @@ const SignInPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(setLogOut());
-  }, []);
+  }, [dispatch]);
 
   const handleSignIn = async (data: AuthFormInputs, reset: () => void) => {
     try {
@@ -31,26 +30,31 @@ const SignInPage: React.FC = () => {
         headers: {
           Authorization: `Bearer ${await userInfo?.getIdToken()}`,
         },
-      }).then((response) => {
-        if (response.status === 200) {
-          dispatch(setLogIn());
-          router.push('/');
-          router.refresh();
-        }
-      });
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            dispatch(setLogIn());
+            router.push('/');
+            router.refresh();
+          }
+        })
+        .catch(() => {
+          throw new Error('API Error');
+        });
     } catch (error) {
       setIsSignInFaulty(true);
       reset();
+      dispatch(setError(true));
     }
   };
 
   const handleCloseModal = () => {
     setIsSignInFaulty(false);
+    dispatch(setError(false));
   };
 
   return (
     <>
-      {/* {!isSignedIn && ( */}
       <div>
         <div>
           <AuthForm
@@ -66,7 +70,6 @@ const SignInPage: React.FC = () => {
           <Modal message={t('modalMessage')} onClose={handleCloseModal} />
         )}
       </div>
-      {/* )} */}
     </>
   );
 };
