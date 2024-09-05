@@ -19,7 +19,7 @@ const ResponseSection: React.FC<ResponseSectionProps> = ({
     <div className={styles.responseSection}>
       {statusCode !== null && (
         <div className={styles.statusCode}>
-          <strong>Status Code:</strong> {statusCode}
+          <strong>{e('status')}</strong> {statusCode}
         </div>
       )}
       {response && (

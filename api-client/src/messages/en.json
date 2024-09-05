@@ -78,9 +78,9 @@
   "RequestErrors": {
     "URLbase64": "Invalid URL: The URL must be base64 encoded.",
     "errorSending": "Error sending request.",
-    "unknownError": "Unknown error occurred."
+    "unknownError": "Unknown error occurred.",
+    "status": "Status code:"
   },
-
   "History": {
     "h1": "History of Requests",
     "noRequests": "You haven't executed any requests yet. It's empty here. Try:"
