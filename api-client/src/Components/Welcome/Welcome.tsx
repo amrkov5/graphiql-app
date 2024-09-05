@@ -41,7 +41,7 @@ export default function Welcome({ userName }: { userName: string | null }) {
             </button>
             <button
               className={styles.btn}
-              onClick={() => handleClick('/GRAPHIQL')}
+              onClick={() => handleClick('/GRAPHQL')}
             >
               {t('graphiql')}
             </button>

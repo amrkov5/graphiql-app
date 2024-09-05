@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Welcome from '../../Components/Welcome/Welcome';
 import RestClient from '../../Components/RestClient/RestClient';
+import GraphiQLClient from '@/Components/GraphiQLClient/GraphiQLClient';
 import { METHODS } from '../../constants';
 import { cookies } from 'next/headers';
 import { customInitApp } from '@/firebase/firebase-admin-config';
@@ -34,8 +35,13 @@ const ClientPage = async ({ params }: { params: { request?: string[] } }) => {
           propBody={params.request[2]}
         />
       );
-    } else if (params.request[0] === 'GRAPHIQL') {
-      return <div>GRAPHIQL client</div>;
+    } else if (params.request[0] === 'GRAPHQL') {
+      return (
+        <GraphiQLClient
+          propUrl={params.request[1]}
+          propBody={params.request[2]}
+        />
+      );
     } else notFound();
   } else notFound();
 };

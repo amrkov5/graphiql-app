@@ -47,9 +47,9 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/history',
-    '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)',
-    '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)/([^/]+)?',
-    '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)/([^/]+)/([^/]+)',
+    '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS|GRAPHQL)',
+    '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS|GRAPHQL)/([^/]+)?',
+    '/(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS|GRAPHQL)/([^/]+)/([^/]+)',
     '/signin',
     '/signup',
   ],
