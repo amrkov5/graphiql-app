@@ -1,18 +1,20 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { registerWithEmailAndPassword } from '../../firebase/firebase';
 import { useEffect, useState } from 'react';
 import Modal from '../../Components/Modal/Modal';
 import { useTranslations } from 'next-intl';
 import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 import { useDispatch } from 'react-redux';
-import { setLogIn, setLogOut } from '@/slices/loginSlice';
+import { setError, setLogIn, setLogOut } from '@/slices/loginSlice';
+import { useRouter } from 'nextjs-toploader/app';
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isSignUpFaulty, setIsSignUpFaulty] = useState(false);
+  // const [isLoading, setIfLoading] = useState(false);
   const t = useTranslations('SignUpPage');
 
   useEffect(() => {
@@ -48,11 +50,13 @@ const SignUpPage: React.FC = () => {
       } catch (error) {
         setIsSignUpFaulty(true);
         reset();
+        dispatch(setError(true));
       }
     }
   };
   const handleCloseModal = () => {
     setIsSignUpFaulty(false);
+    dispatch(setError(false));
   };
 
   return (

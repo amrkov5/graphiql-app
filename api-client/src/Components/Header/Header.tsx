@@ -4,13 +4,13 @@ import { logout } from '../../firebase/firebase';
 import Link from 'next/link';
 import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import styles from './header.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoginState, setLogIn, setLogOut } from '@/slices/loginSlice';
-import { cookies } from 'next/headers';
+import { useRouter } from 'nextjs-toploader/app';
 
 export default function Header({
   initialLoggedIn,

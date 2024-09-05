@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import SignInPage from './page';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { logInWithEmailAndPassword } from '../../firebase/firebase';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
@@ -42,7 +42,7 @@ vi.mock('next-intl/server', () => ({
   getMessages: vi.fn(() => localeMessages),
 }));
 
-vi.mock('next/navigation', () => ({
+vi.mock('nextjs-toploader/app', () => ({
   useRouter: () => ({
     push: vi.fn(),
   }),
@@ -58,9 +58,7 @@ const store = configureStore({
     loginState: loginStateReducer,
   },
   preloadedState: {
-    loginState: {
-      loggedIn: false,
-    },
+    loginState: { loggedIn: false, error: false },
   },
 });
 

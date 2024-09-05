@@ -4,6 +4,9 @@ import { describe, it, expect, vi } from 'vitest';
 import AuthForm from './AuthForm';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import loginStateReducer from '../../slices/loginSlice';
 
 const localeMessages = {
   AuthForm: {
@@ -49,13 +52,24 @@ vi.mock('react-icons/ai', () => ({
   AiFillEyeInvisible: () => <span>eye-invisible</span>,
 }));
 
+const store = configureStore({
+  reducer: {
+    loginState: loginStateReducer,
+  },
+  preloadedState: {
+    loginState: { loggedIn: false, error: false },
+  },
+});
+
 describe('AuthForm', () => {
   it('renders form fields correctly based on isRegistering prop', async () => {
     const locale = await getLocale();
     const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <AuthForm isRegistering={true} onSubmit={vi.fn()} />
+        <Provider store={store}>
+          <AuthForm isRegistering={true} onSubmit={vi.fn()} />
+        </Provider>
       </NextIntlClientProvider>
     );
 
@@ -70,7 +84,9 @@ describe('AuthForm', () => {
     const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <AuthForm isRegistering={false} onSubmit={vi.fn()} />
+        <Provider store={store}>
+          <AuthForm isRegistering={false} onSubmit={vi.fn()} />
+        </Provider>
       </NextIntlClientProvider>
     );
 
@@ -85,7 +101,9 @@ describe('AuthForm', () => {
     const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <AuthForm isRegistering={true} onSubmit={vi.fn()} />
+        <Provider store={store}>
+          <AuthForm isRegistering={true} onSubmit={vi.fn()} />
+        </Provider>
       </NextIntlClientProvider>
     );
     const passwordInput = screen.getByLabelText('Password') as HTMLInputElement;
@@ -105,7 +123,9 @@ describe('AuthForm', () => {
     const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <AuthForm isRegistering={true} onSubmit={vi.fn()} />
+        <Provider store={store}>
+          <AuthForm isRegistering={true} onSubmit={vi.fn()} />
+        </Provider>
       </NextIntlClientProvider>
     );
 
@@ -129,7 +149,9 @@ describe('AuthForm', () => {
     const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <AuthForm isRegistering={true} onSubmit={onSubmit} />
+        <Provider store={store}>
+          <AuthForm isRegistering={true} onSubmit={onSubmit} />
+        </Provider>
       </NextIntlClientProvider>
     );
 
