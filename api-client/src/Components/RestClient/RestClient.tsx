@@ -185,11 +185,6 @@ const RestClient: React.FC<RestClientProps> = ({
           setKeyValues={setVariables}
         />
         <BodyEditor body={body} setBody={setBody} />
-        <KeyValueEditor
-          name="Body variables:"
-          keyValues={variables}
-          setKeyValues={setVariables}
-        />
       </div>
       <ResponseSection
         response={response}
