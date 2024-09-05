@@ -81,6 +81,10 @@
     "unknownError": "Unknown error occurred.",
     "status": "Status code:"
   },
+  "History": {
+    "h1": "History of Requests",
+    "noRequests": "You haven't executed any requests yet. It's empty here. Try:"
+  },
   "RestClient": {
     "sendButton": "Send",
     "addButton": "Add New",

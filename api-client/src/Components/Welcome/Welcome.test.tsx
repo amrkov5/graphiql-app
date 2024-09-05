@@ -29,13 +29,11 @@ const store = configureStore({
     loginState: loginStateReducer,
   },
   preloadedState: {
-    loginState: {
-      loggedIn: false,
-    },
+    loginState: { loggedIn: false, error: false },
   },
 });
 
-vi.mock('next/navigation', () => ({
+vi.mock('nextjs-toploader/app', () => ({
   useRouter: vi.fn(() => ({
     push: vi.fn(),
     prefetch: vi.fn(),

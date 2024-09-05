@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthFormSchema } from '../../validation/authSchema';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import styles from './authForm.module.css';
 import { useTranslations } from 'next-intl';
+import { useSelector } from 'react-redux';
+import { selectLoginError } from '@/slices/loginSlice';
 
 interface AuthFormProps {
   isRegistering: boolean;
@@ -25,6 +27,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
   const e = useTranslations('ValidationErrors');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLogging, setIsLogging] = useState(false);
+  const loginError = useSelector(selectLoginError);
 
   const {
     register,
@@ -40,6 +44,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    if (loginError) {
+      setIsLogging(false);
+    }
+  }, [loginError]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -127,8 +137,21 @@ const AuthForm: React.FC<AuthFormProps> = ({ isRegistering, onSubmit }) => {
             </p>
           )}
         </div>
-        <button className={styles.btn} type="submit" disabled={!isValid}>
-          {isRegistering ? t('register') : t('login')}
+        <button
+          className={styles.btn}
+          type="submit"
+          disabled={!isValid}
+          onClick={() => setIsLogging(true)}
+        >
+          {!isLogging ? (
+            isRegistering ? (
+              t('register')
+            ) : (
+              t('login')
+            )
+          ) : (
+            <span className={styles.loader}></span>
+          )}
         </button>
       </div>
     </form>

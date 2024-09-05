@@ -11,6 +11,7 @@ import BodyEditor from '../BodyEditor/BodyEditor';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
+import { saveRequestToHistory } from '@/services/historyUtils';
 import { useTranslations } from 'next-intl';
 
 interface RestClientProps {
@@ -50,7 +51,6 @@ const RestClient: React.FC<RestClientProps> = ({
     return () => updateUrl.cancel();
   }, [method, url, body, searchParams]);
 
-  // sync endpoint url when updating queries
   useEffect(() => {
     const updateUrlWithQueries = debounce(() => {
       try {
@@ -66,7 +66,7 @@ const RestClient: React.FC<RestClientProps> = ({
           btoa(parsedUrl.toString().replace(window.location.origin + '/', ''))
         );
       } catch (error) {
-        console.error('Error updating URL with queries:', error);
+        // console.error('Error updating URL with queries:', error);
       }
     }, 300);
 
@@ -75,7 +75,6 @@ const RestClient: React.FC<RestClientProps> = ({
     return () => updateUrlWithQueries.cancel();
   }, [queries, url]);
 
-  // sync queries when update endpoint url
   useEffect(() => {
     try {
       const parsedUrl = new URL(
@@ -95,7 +94,7 @@ const RestClient: React.FC<RestClientProps> = ({
       }
       setQueries(newQueries);
     } catch (error) {
-      console.error('Invalid URL:', error);
+      // console.error('Invalid URL:', error);
     }
   }, [url]);
 
@@ -145,6 +144,13 @@ const RestClient: React.FC<RestClientProps> = ({
       const result = await res.json();
       setResponse(JSON.stringify(result, null, 2));
       setError(null);
+
+      saveRequestToHistory({
+        method,
+        fullUrl: decodedUrl,
+        headers: {},
+        body: decodedBody,
+      });
     } catch (error) {
       setResponse(null);
       if (error instanceof Error) {
