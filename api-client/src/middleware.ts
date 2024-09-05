@@ -25,23 +25,10 @@ export async function middleware(request: NextRequest) {
     }
     return NextResponse.next();
   }
-  if (responseAPI.status === 200) {
-    const refreshResponse = await fetch('http://localhost:3000/api/refresh', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${session?.value}`,
-      },
-      cache: 'no-store',
-    });
-    if (refreshResponse.status === 200) {
-      if (avoidedRoutes.includes(pathname)) {
-        return NextResponse.redirect(new URL('/', request.url));
-      }
-      return NextResponse.next();
-    } else {
-      return NextResponse.redirect(new URL('/signin', request.url));
-    }
+  if (avoidedRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL('/', request.url));
   }
+  return NextResponse.next();
 }
 
 export const config = {
