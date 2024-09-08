@@ -16,6 +16,9 @@ const nextConfig = {
       ],
     },
   ],
+  experimental: {
+    urlImports: ['https://unpkg.com/'],
+  },
 };
 
 export default withNextIntl(nextConfig);

@@ -5,11 +5,11 @@ import { useSearchParams } from 'next/navigation';
 import EndpointInput from '../EndpointInput/EndpointInput';
 import { debounce } from 'lodash';
 import HeadersEditor from '../HeadersEditor/HeadersEditor';
-import BodyEditor from '../BodyEditor/BodyEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { useTranslations } from 'next-intl';
 import styles from './GraphiQLClient.module.css';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
+import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
 
 interface GraphiQLClientProps {
   propUrl: string;
@@ -66,6 +66,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
             placeholder="Enter SDL URL"
             type="text"
           />
+          <button className={styles.getSdl}>GET</button>
         </div>
         <div className={styles.editors}>
           <KeyValueEditor
@@ -75,6 +76,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
           />
           <HeadersEditor />
         </div>
+        <GraphQLEditor body={body} setBody={setBody} />
       </div>
       <ResponseSection
         response={response}

@@ -1,21 +1,19 @@
 import { customInitApp } from '@/firebase/firebase-admin-config';
 import { auth } from 'firebase-admin';
 import { FirebaseAuthError } from 'firebase-admin/auth';
-import { revalidatePath } from 'next/cache';
 import { cookies, headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 customInitApp();
 
 export async function POST() {
-  revalidatePath('/');
   const authorization = headers().get('Authorization');
   if (authorization?.startsWith('Bearer ')) {
     const idToken = authorization.split('Bearer ')[1];
     const decodedToken = await auth().verifyIdToken(idToken);
 
     if (decodedToken) {
-      const expiresIn = 60 * 5 * 1000;
+      const expiresIn = 60 * 30 * 1000;
       const sessionCookie = await auth().createSessionCookie(idToken, {
         expiresIn,
       });
