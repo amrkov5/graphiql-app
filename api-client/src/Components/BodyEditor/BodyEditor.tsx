@@ -49,20 +49,17 @@ const BodyEditor: React.FC<BodyEditorProps> = ({ body, setBody }) => {
           </button>
         </div>
       </div>
-      <div>
-        {/* <div data-testId="body"> */}
-        <Editor
-          className={styles.editor}
-          height="40vh"
-          language={language}
-          theme="vs-dark"
-          value={localBody}
-          onChange={(value) => setLocalBody(value ?? '')}
-          onMount={(editor) => {
-            editorRef.current = editor;
-          }}
-        />
-      </div>
+      <Editor
+        className={styles.editor}
+        height="40vh"
+        language={language}
+        theme="vs-dark"
+        value={localBody}
+        onChange={(value) => setLocalBody(value ?? '')}
+        onMount={(editor) => {
+          editorRef.current = editor;
+        }}
+      />
     </div>
   );
 };
