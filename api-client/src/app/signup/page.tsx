@@ -1,6 +1,5 @@
 'use client';
 
-// import { useRouter } from 'next/navigation';
 import { registerWithEmailAndPassword } from '../../firebase/firebase';
 import { useEffect, useState } from 'react';
 import Modal from '../../Components/Modal/Modal';
@@ -14,7 +13,6 @@ const SignUpPage: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isSignUpFaulty, setIsSignUpFaulty] = useState(false);
-  // const [isLoading, setIfLoading] = useState(false);
   const t = useTranslations('SignUpPage');
 
   useEffect(() => {
