@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { getLocale, getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
-
-import './globals.css';
+import NextTopLoader from 'nextjs-toploader';
 import { cookies } from 'next/headers';
 import Layout from '@/Components/Layout';
-import NextTopLoader from 'nextjs-toploader';
+
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'API Client',

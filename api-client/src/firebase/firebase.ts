@@ -1,3 +1,4 @@
+import { FirebaseAppError } from 'firebase-admin/app';
 import { FirebaseError, initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -32,8 +33,9 @@ const logInWithEmailAndPassword = async (email: string, password: string) => {
     const res = await signInWithEmailAndPassword(auth, email, password);
     const user = res.user;
     return user;
-  } catch (err) {
-    throw new Error('Login Error');
+  } catch (err: unknown) {
+    const msg: string = (err as FirebaseError).message;
+    throw new Error(msg);
   }
 };
 
@@ -69,13 +71,19 @@ const registerWithEmailAndPassword = async (
       email,
     });
     return user;
-  } catch (err) {
-    throw new Error('Sign Up Error');
+  } catch (err: unknown) {
+    const msg: string = (err as FirebaseError).message;
+    throw new Error(msg);
   }
 };
 
-const logout = () => {
-  signOut(auth);
+const logout = async () => {
+  try {
+    const res = await signOut(auth);
+  } catch (err: unknown) {
+    const msg: string = (err as FirebaseError).message;
+    throw new Error(msg);
+  }
 };
 
 export {
