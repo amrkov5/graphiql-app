@@ -33,7 +33,7 @@ const GraphQLEditor: React.FC<GraphQLEditorProps> = ({ body, setBody }) => {
       setError('');
     } catch (e) {
       if (e instanceof SyntaxError) {
-        setError(e.message.split(/\. \(\d+\:\d+\)/)[0]);
+        setError(e.message.split('\n')[0]);
       }
     }
   };
