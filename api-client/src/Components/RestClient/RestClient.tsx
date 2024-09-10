@@ -168,7 +168,11 @@ const RestClient: React.FC<RestClientProps> = ({
         <div className={styles.inputSection}>
           <MethodSelector method={method} setMethod={setMethod} />
           <EndpointInput url={url} setUrl={setUrl} />
-          <button className={styles.send} onClick={handleRequestSend}>
+          <button
+            className={styles.send}
+            onClick={handleRequestSend}
+            data-testId="send-button"
+          >
             {t('sendButton')}
           </button>
         </div>
