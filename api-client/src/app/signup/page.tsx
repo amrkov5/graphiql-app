@@ -36,7 +36,12 @@ const SignUpPage: React.FC = () => {
           trimmedData.password
         );
 
-        fetch('/api/login', {
+        const apiUrl =
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3000/api/login'
+            : 'https://ai-team-api-app.vercel.app/api/login';
+
+        fetch(apiUrl, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${await userInfo?.getIdToken()}`,
