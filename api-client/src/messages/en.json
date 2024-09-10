@@ -24,7 +24,7 @@
     "confirm": "Confirm the password"
   },
   "SignUpPage": {
-    "noInternet": "No Internet connection. Please check connectiont.",
+    "noInternet": "No Internet connection. Please check connection.",
     "inUse": "E-Mail is already in use."
   },
   "SignInPage": {

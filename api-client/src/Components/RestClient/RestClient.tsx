@@ -137,7 +137,8 @@ const RestClient: React.FC<RestClientProps> = ({
       });
 
       setStatusCode(res.status);
-      if (statusCode === 500) {
+
+      if (!res.ok) {
         throw new Error('errorSending');
       }
 
