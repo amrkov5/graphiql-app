@@ -10,6 +10,8 @@ import { useTranslations } from 'next-intl';
 import styles from './GraphiQLClient.module.css';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
+import { safeBase64Decode } from '@/services/safeBase64Decode';
+import { saveRequestToHistory } from '@/services/historyUtils';
 
 interface GraphiQLClientProps {
   propUrl: string;
@@ -44,7 +46,67 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
     return () => updateUrl.cancel();
   }, [url, body, searchParams]);
 
-  const handleRequestSend = async () => {};
+  const handleRequestSend = async () => {
+    try {
+      const serverApiUrl = '/api/proxy';
+      const decodedUrl = safeBase64Decode(url);
+      const decodedBody = safeBase64Decode(body);
+
+      if (!decodedUrl) {
+        setError('URLbase64');
+        setStatusCode(null);
+        return;
+      }
+
+      const parsedHeaders: Record<string, string> = {};
+      searchParams.forEach((value, key) => {
+        parsedHeaders[key] = value;
+      });
+
+      let updatedBody = decodedBody;
+      variables.forEach(({ key, value }) => {
+        const placeholder = `{{${key}}}`;
+        if (updatedBody) {
+          updatedBody = updatedBody.split(placeholder).join(value);
+        }
+      });
+
+      const res = await fetch(serverApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullUrl: decodedUrl,
+          headers: parsedHeaders,
+          body: updatedBody,
+        }),
+      });
+
+      setStatusCode(res.status);
+      if (!res.ok) {
+        throw new Error('errorSending');
+      }
+
+      const result = await res.json();
+      setResponse(JSON.stringify(result, null, 2));
+      setError(null);
+
+      saveRequestToHistory({
+        method: 'GRAPHIQL',
+        fullUrl: decodedUrl,
+        headers: {},
+        body: decodedBody,
+      });
+    } catch (error) {
+      setResponse(null);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('unknownError');
+      }
+    }
+  };
 
   return (
     <div className={styles.wrapper}>

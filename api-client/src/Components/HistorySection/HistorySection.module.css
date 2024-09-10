@@ -59,7 +59,8 @@
 }
 
 .method {
-  width: 70px;
+  width: 100px;
   color: rgba(235, 186, 26, 0.74);
   font-weight: 700;
+  text-align: center;
 }
