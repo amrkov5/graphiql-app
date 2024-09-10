@@ -171,7 +171,7 @@ const RestClient: React.FC<RestClientProps> = ({
           <button
             className={styles.send}
             onClick={handleRequestSend}
-            data-testId="send-button"
+            data-testid="send-button"
           >
             {t('sendButton')}
           </button>
