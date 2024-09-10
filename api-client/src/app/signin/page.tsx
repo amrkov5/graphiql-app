@@ -28,8 +28,6 @@ const SignInPage: React.FC = () => {
           ? 'http://localhost:3000/api/login'
           : 'https://ai-team-api-app.vercel.app/api/login';
 
-      console.log(apiUrl);
-
       const userInfo = await logInWithEmailAndPassword(
         data.email,
         data.password
