@@ -24,10 +24,12 @@
     "confirm": "Confirm the password"
   },
   "SignUpPage": {
-    "modalMessage": "An account with this email already exists."
+    "noInternet": "No Internet connection. Please check connectiont.",
+    "inUse": "E-Mail is already in use."
   },
   "SignInPage": {
-    "modalMessage": "Sign-in failed. Please check your credentials and try again."
+    "invalidCredentials": "Sign-in failed. Please check your credentials and try again.",
+    "noInternet": "No Internet connection. Please check connection."
   },
   "Modal": {
     "modalClose": "Close"
@@ -79,7 +81,8 @@
     "URLbase64": "Invalid URL: The URL must be base64 encoded.",
     "errorSending": "Error sending request.",
     "unknownError": "Unknown error occurred.",
-    "status": "Status code:"
+    "status": "Status code:",
+    "Failed to fetch": "Failed to fetch data. Please check Internet connection"
   },
   "History": {
     "h1": "History of Requests",

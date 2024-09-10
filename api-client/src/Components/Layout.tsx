@@ -2,9 +2,9 @@
 
 import store from '@/store';
 import { Provider } from 'react-redux';
+import { ReactNode } from 'react';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-import { ReactNode } from 'react';
 
 export default function Layout({
   children,

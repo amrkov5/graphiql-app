@@ -8,12 +8,14 @@ import AuthForm, { AuthFormInputs } from '@/Components/AuthForm/AuthForm';
 import { useDispatch } from 'react-redux';
 import { setError, setLogIn, setLogOut } from '@/slices/loginSlice';
 import { useRouter } from 'nextjs-toploader/app';
+import { FirebaseError } from 'firebase-admin';
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isSignUpFaulty, setIsSignUpFaulty] = useState(false);
   const t = useTranslations('SignUpPage');
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     dispatch(setLogOut());
@@ -33,22 +35,38 @@ const SignUpPage: React.FC = () => {
           trimmedData.password
         );
 
-        fetch('/api/login', {
+        const apiUrl =
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3000/api/login'
+            : 'https://ai-team-api-app.vercel.app/api/login';
+
+        fetch(apiUrl, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${await userInfo?.getIdToken()}`,
           },
-        }).then((response) => {
-          if (response.status === 200) {
-            dispatch(setLogIn());
-            router.push('/');
-            router.refresh();
-          }
-        });
+        })
+          .then((response) => {
+            if (response.status === 200) {
+              dispatch(setLogIn());
+              router.push('/');
+              router.refresh();
+            }
+          })
+          .catch(() => {
+            setErrorMsg('API Error. Please check your internet connection');
+          });
       } catch (error) {
+        const msg = (error as FirebaseError).message;
         setIsSignUpFaulty(true);
         reset();
         dispatch(setError(true));
+        if (msg.includes('auth/network-request-failed')) {
+          setErrorMsg(t('noInternet'));
+        }
+        if (msg.includes('auth/email-already-in-use')) {
+          setErrorMsg(t('inUse'));
+        }
       }
     }
   };
@@ -70,7 +88,7 @@ const SignUpPage: React.FC = () => {
         />
 
         {isSignUpFaulty && (
-          <Modal message={t('modalMessage')} onClose={handleCloseModal} />
+          <Modal message={errorMsg} onClose={handleCloseModal} />
         )}
       </div>
     </>

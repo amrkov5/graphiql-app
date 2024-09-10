@@ -27,7 +27,7 @@ vi.stubGlobal(
   vi.fn(() =>
     Promise.resolve({
       status: 200,
-      json: () => Promise.resolve({}), // Mock the response body if needed
+      json: () => Promise.resolve({}),
     })
   )
 );
@@ -38,7 +38,6 @@ vi.mock('next/headers', () => ({
   })),
 }));
 
-// import { useRouter } from 'nextjs-toploader/app';
 vi.mock('nextjs-toploader/app', () => ({
   useRouter: vi.fn(() => ({
     push: vi.fn(),

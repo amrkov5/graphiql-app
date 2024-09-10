@@ -12,8 +12,12 @@ export async function middleware(request: NextRequest) {
   if (!session && avoidedRoutes.includes(pathname)) {
     return NextResponse.next();
   }
+  const apiUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000/api/login'
+      : 'https://ai-team-api-app.vercel.app/api/login';
 
-  const responseAPI = await fetch('http://localhost:3000/api/login', {
+  const responseAPI = await fetch(apiUrl, {
     headers: {
       Cookie: `session=${session?.value}`,
     },
