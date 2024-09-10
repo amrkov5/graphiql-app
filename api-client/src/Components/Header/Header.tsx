@@ -95,7 +95,7 @@ export default function Header({
 
       try {
         logout();
-        const response = await fetch('/api/logout', {
+        const response = await fetch(apiUrl, {
           method: 'POST',
         });
 
