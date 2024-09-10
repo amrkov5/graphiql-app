@@ -1,6 +1,5 @@
 'use client';
 
-// import { useRouter } from 'next/navigation';
 import { registerWithEmailAndPassword } from '../../firebase/firebase';
 import { useEffect, useState } from 'react';
 import Modal from '../../Components/Modal/Modal';

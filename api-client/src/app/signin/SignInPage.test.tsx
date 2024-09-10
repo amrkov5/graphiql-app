@@ -1,13 +1,12 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 import SignInPage from './page';
-import { useRouter } from 'nextjs-toploader/app';
-import { logInWithEmailAndPassword } from '../../firebase/firebase';
 import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import loginStateReducer from '../../slices/loginSlice';
+import { logInWithEmailAndPassword } from '../../firebase/firebase';
+import { getLocale, getMessages } from 'next-intl/server';
 
 const localeMessages = {
   AuthForm: {
@@ -62,16 +61,52 @@ const store = configureStore({
   },
 });
 
+const locale = 'en';
+const messages = {
+  SignInPage: {
+    modalMessage:
+      'Sign-in failed. Please check your credentials and try again.',
+  },
+  AuthForm: {
+    email: 'Email',
+    password: 'Password',
+    login: 'Sign In',
+  },
+};
+
 describe('SignInPage', () => {
-  const pushMock = vi.fn();
+  it('logs in successfully and redirects', async () => {
+    render(
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <Provider store={store}>
+          <SignInPage />
+        </Provider>
+      </NextIntlClientProvider>
+    );
 
-  beforeEach(() => {
-    const router = useRouter();
-    router.push = pushMock;
-    pushMock.mockClear();
-    (logInWithEmailAndPassword as ReturnType<typeof vi.fn>).mockClear();
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: 'Password123!' },
+    });
+
+    const submitButton = screen.getByRole('button', {
+      name: /sign in/i,
+    });
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled();
+    });
+
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(logInWithEmailAndPassword).toHaveBeenCalledWith(
+        'test@example.com',
+        'Password123!'
+      );
+    });
   });
-
   it('renders the AuthForm component', async () => {
     const locale = await getLocale();
     const messages = await getMessages();
@@ -86,3 +121,5 @@ describe('SignInPage', () => {
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
   });
 });
+
+process.on('unhandledRejection', (error) => {});
