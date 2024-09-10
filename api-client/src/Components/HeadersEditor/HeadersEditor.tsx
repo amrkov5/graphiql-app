@@ -14,6 +14,7 @@ const HeadersEditor: React.FC = () => {
   const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const params = Array.from(searchParams.entries());
+  const [isShown, setIsShown] = useState<boolean>(true);
   const headersArray = params.map(([key, value], index) => ({
     id: index + 1,
     key,
@@ -59,45 +60,66 @@ const HeadersEditor: React.FC = () => {
   }, [headers]);
 
   return (
-    <div className={styles.headersContainer}>
-      <div className={styles.headersControls}>
-        <h3 className={styles.title}>{t('headers')}</h3>
-        <button className={styles.addButton} onClick={addHeader}>
-          {t('addButton')}
+    <div className={styles.wrapper}>
+      <div
+        className={styles.headersContainer}
+        style={{ padding: isShown ? '20px' : '5px' }}
+      >
+        <button
+          className={styles.showButton}
+          onClick={() => setIsShown((state) => !state)}
+        >
+          {isShown ? '–' : '+'}
         </button>
+        {isShown ? (
+          <>
+            <div className={styles.headersControls}>
+              <h3 className={styles.title}>{t('headers')}</h3>
+              <button className={styles.addButton} onClick={addHeader}>
+                {t('addButton')}
+              </button>
+            </div>
+            {headers.length > 0 && (
+              <ul className={styles.headersList}>
+                {headers.map((header) => (
+                  <li key={header.id} className={styles.headerItem}>
+                    <input
+                      name="key"
+                      type="text"
+                      placeholder={t('keyPlaceholder')}
+                      value={header.key}
+                      onChange={(e) =>
+                        updateHeader(header.id, e.target.value, header.value)
+                      }
+                      className={styles.input}
+                    />
+                    <input
+                      name="value"
+                      type="text"
+                      placeholder={t('valuePlaceholder')}
+                      value={header.value}
+                      onChange={(e) =>
+                        updateHeader(header.id, header.key, e.target.value)
+                      }
+                      className={styles.input}
+                    />
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => deleteHeader(header.id)}
+                    >
+                      {t('deleteButton')}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
+        ) : (
+          <div className={styles.collapsed}>
+            {t('headers')} ({headers.length})
+          </div>
+        )}
       </div>
-      <ul className={styles.headersList}>
-        {headers.map((header) => (
-          <li key={header.id} className={styles.headerItem}>
-            <input
-              name="key"
-              type="text"
-              placeholder={t('keyPlaceholder')}
-              value={header.key}
-              onChange={(e) =>
-                updateHeader(header.id, e.target.value, header.value)
-              }
-              className={styles.input}
-            />
-            <input
-              name="value"
-              type="text"
-              placeholder={t('valuePlaceholder')}
-              value={header.value}
-              onChange={(e) =>
-                updateHeader(header.id, header.key, e.target.value)
-              }
-              className={styles.input}
-            />
-            <button
-              className={styles.deleteButton}
-              onClick={() => deleteHeader(header.id)}
-            >
-              {t('deleteButton')}
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
