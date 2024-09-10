@@ -31,7 +31,11 @@ export default function Header({
     const checkCookies = async () => {
       if (loginStatus) {
         try {
-          const checkResult = await fetch('/api/login', {
+          const apiUrl =
+            process.env.NODE_ENV === 'development'
+              ? 'http://localhost:3000/api/login'
+              : 'https://ai-team-api-app.vercel.app/api/login';
+          const checkResult = await fetch(apiUrl, {
             headers: {
               Cookie: '',
             },
