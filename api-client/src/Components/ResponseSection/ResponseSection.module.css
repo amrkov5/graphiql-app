@@ -29,16 +29,7 @@
 
 @media screen and (max-width: 1200px) {
   .responseSection {
-    margin: 20px;
-    height: calc(100vh - 191px);
-    width: 100%;
-    max-width: 1047px;
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .responseSection {
-    margin: 20px;
+    margin: 10px;
     height: calc(100vh - 191px);
     width: 100%;
     max-width: 1047px;

@@ -1,0 +1,5 @@
+{
+  "https://unpkg.com/prettier@3.3.3/plugins/graphql.mjs": { "integrity": "sha512-BIqIk/qR5l8V38NZwDsrjp3B7WhAqS+4WuqC/mhEiQnzfgVCqv97FMGbGvPCZD/xSwIMbxeKHnlr0ExHBk1LPw==", "contentType": "application/javascript; charset=utf-8" },
+  "https://unpkg.com/prettier@3.3.3/standalone.mjs": { "integrity": "sha512-B90CQg4YcAMeWjisMdlGVhWc/woqd1LH65XO/Qj6cyeuKa4x8N5qwgHcYU4Z89Sd4ahxNn48hXjqKRTMFkQlHg==", "contentType": "application/javascript; charset=utf-8" },
+  "version": 1
+}
