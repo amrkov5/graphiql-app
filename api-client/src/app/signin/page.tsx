@@ -8,12 +8,14 @@ import { useDispatch } from 'react-redux';
 import { setError, setLogIn, setLogOut } from '@/slices/loginSlice';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'nextjs-toploader/app';
+import { FirebaseError } from 'firebase-admin';
 
 const SignInPage: React.FC = () => {
   const [isSignInFaulty, setIsSignInFaulty] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const t = useTranslations('SignInPage');
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     dispatch(setLogOut());
@@ -21,11 +23,17 @@ const SignInPage: React.FC = () => {
 
   const handleSignIn = async (data: AuthFormInputs, reset: () => void) => {
     try {
+      const apiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/login'
+          : 'https://ai-team-api-app.vercel.app/api/login';
+
       const userInfo = await logInWithEmailAndPassword(
         data.email,
         data.password
       );
-      fetch('/api/login', {
+
+      fetch(apiUrl, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${await userInfo?.getIdToken()}`,
@@ -39,18 +47,26 @@ const SignInPage: React.FC = () => {
           }
         })
         .catch(() => {
-          throw new Error('API Error');
+          setErrorMsg('API Error. Please check your internet connection');
         });
     } catch (error) {
+      const msg = (error as FirebaseError).message;
       setIsSignInFaulty(true);
       reset();
       dispatch(setError(true));
+      if (msg.includes('auth/invalid-credential')) {
+        setErrorMsg(t('invalidCredentials'));
+      }
+      if (msg.includes('auth/network-request-failed')) {
+        setErrorMsg(t('noInternet'));
+      }
     }
   };
 
   const handleCloseModal = () => {
     setIsSignInFaulty(false);
     dispatch(setError(false));
+    setErrorMsg('');
   };
 
   return (
@@ -67,7 +83,7 @@ const SignInPage: React.FC = () => {
           />
         </div>
         {isSignInFaulty && (
-          <Modal message={t('modalMessage')} onClose={handleCloseModal} />
+          <Modal message={errorMsg} onClose={handleCloseModal} />
         )}
       </div>
     </>

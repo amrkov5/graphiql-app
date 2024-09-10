@@ -11,6 +11,7 @@ import styles from './header.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoginState, setLogIn, setLogOut } from '@/slices/loginSlice';
 import { useRouter } from 'nextjs-toploader/app';
+import Modal from '../Modal/Modal';
 
 export default function Header({
   initialLoggedIn,
@@ -24,26 +25,33 @@ export default function Header({
   const loginStatus = useSelector(selectLoginState);
   const [isAuth, setIsAuth] = useState(initialLoggedIn);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [headerError, setHeaderError] = useState('');
 
   useEffect(() => {
     const checkCookies = async () => {
       if (loginStatus) {
-        const checkResult = await fetch('http://localhost:3000/api/login', {
-          headers: {
-            Cookie: '',
-          },
-          cache: 'no-store',
-        });
-        if (checkResult.status !== 200) {
-          dispatch(setLogOut());
-          onSignUpOutClick();
-        }
+        try {
+          const apiUrl =
+            process.env.NODE_ENV === 'development'
+              ? 'http://localhost:3000/api/login'
+              : 'https://ai-team-api-app.vercel.app/api/login';
+          const checkResult = await fetch(apiUrl, {
+            headers: {
+              Cookie: '',
+            },
+            cache: 'no-store',
+          });
+          if (checkResult.status !== 200) {
+            dispatch(setLogOut());
+            onSignUpOutClick();
+          }
+        } catch {}
       }
     };
 
     const cookiesTimer = setInterval(checkCookies, 30000);
     return () => clearInterval(cookiesTimer);
-  }, [loginStatus]);
+  }, [loginStatus, dispatch]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,15 +92,26 @@ export default function Header({
 
   const onSignUpOutClick = async () => {
     if (loginStatus) {
-      logout();
-      const response = await fetch('http://localhost:3000/api/logout', {
-        method: 'POST',
-      });
+      const apiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/logout'
+          : 'https://ai-team-api-app.vercel.app/api/logout';
 
-      if (response.status === 200) {
-        dispatch(setLogOut());
-        router.refresh();
-        router.push('/');
+      try {
+        logout();
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+        });
+
+        if (response.status === 200) {
+          dispatch(setLogOut());
+          router.refresh();
+          router.push('/');
+        }
+      } catch (err) {
+        setHeaderError(
+          'Failed to connect to the server... \nCheck Internet connection'
+        );
       }
     } else {
       router.push('/signup');
@@ -122,6 +141,9 @@ export default function Header({
         <LocaleSwitcher />
         {buttons}
       </div>
+      {headerError && (
+        <Modal message={headerError} onClose={() => router.refresh()} />
+      )}
     </header>
   );
 }
