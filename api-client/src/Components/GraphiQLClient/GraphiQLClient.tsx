@@ -93,7 +93,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
       setError(null);
 
       saveRequestToHistory({
-        method: 'GRAPHIQL',
+        method: 'GRAPHQL',
         fullUrl: decodedUrl,
         headers: {},
         body: decodedBody,
