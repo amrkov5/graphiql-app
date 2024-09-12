@@ -4,7 +4,7 @@ import { describe, it, expect, vi } from 'vitest';
 import Modal from './Modal';
 
 vi.mock('next-intl', () => ({
-  useTranslations: (key: string) => (text: string) => text,
+  useTranslations: () => (key: string) => key,
 }));
 
 describe('Modal Component', () => {

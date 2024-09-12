@@ -37,7 +37,7 @@ const messages = {
   },
 };
 
-const renderComponent = (props = {}) => {
+const renderComponent = () => {
   return render(
     <NextIntlClientProvider locale="en" messages={messages}>
       <RestClient

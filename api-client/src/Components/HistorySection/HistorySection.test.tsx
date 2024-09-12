@@ -1,9 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import HistorySection from './HistorySection';
-import { useRouter } from 'next/navigation';
 import { getHistory } from '@/services/historyUtils';
-import { useTranslations } from 'next-intl';
 
 const mockRouterPush = vi.fn();
 const mockRouterRefresh = vi.fn();

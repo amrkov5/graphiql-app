@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import EndpointInput from '../EndpointInput/EndpointInput';
-import { debounce, method } from 'lodash';
+import { debounce } from 'lodash';
 import HeadersEditor from '../HeadersEditor/HeadersEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { useTranslations } from 'next-intl';

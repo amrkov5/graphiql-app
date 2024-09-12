@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation';
 import Welcome from '../../Components/Welcome/Welcome';
 import RestClient from '../../Components/RestClient/RestClient';
 import GraphiQLClient from '@/Components/GraphiQLClient/GraphiQLClient';
