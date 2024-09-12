@@ -28,15 +28,27 @@ const ClientPage = async ({ params }: { params: { request?: string[] } }) => {
     return <Welcome userName={userName} />;
   } else if (params.request.length <= 3) {
     if (METHODS.includes(params.request[0])) {
-      return (
-        <RestClient
-          propMethod={params.request[0]}
-          propUrl={params.request[1]}
-          propBody={params.request[2]}
-        />
-      );
+      const urlToCheck = params.request.slice(1).join('/');
+      try {
+        atob(decodeURIComponent(urlToCheck));
+        return (
+          <RestClient
+            propMethod={params.request[0]}
+            propUrl={params.request[1]}
+            propBody={params.request[2]}
+          />
+        );
+      } catch {
+        return <NotFound />;
+      }
     } else if (params.request[0] === 'GRAPHIQL') {
-      return <div>GRAPHIQL client</div>;
+      const urlToCheck = params.request.slice(1).join('/');
+      try {
+        atob(decodeURIComponent(urlToCheck));
+        return <div>GRAPHIQL client</div>;
+      } catch {
+        return <NotFound />;
+      }
     } else return <NotFound />;
   } else return <NotFound />;
 };
