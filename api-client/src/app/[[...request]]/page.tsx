@@ -7,6 +7,7 @@ import { customInitApp } from '@/firebase/firebase-admin-config';
 import { auth } from 'firebase-admin';
 import '../../firebase/firebase';
 import { getUserName } from '../../firebase/firebase';
+import NotFound from '@/Components/NotFound/NotFound';
 
 customInitApp();
 
@@ -36,8 +37,8 @@ const ClientPage = async ({ params }: { params: { request?: string[] } }) => {
       );
     } else if (params.request[0] === 'GRAPHIQL') {
       return <div>GRAPHIQL client</div>;
-    } else notFound();
-  } else notFound();
+    } else return <NotFound />;
+  } else return <NotFound />;
 };
 
 export default ClientPage;
