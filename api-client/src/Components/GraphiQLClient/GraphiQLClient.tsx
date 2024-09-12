@@ -68,6 +68,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
       }
 
       handleLoadDocs();
+      setActiveTab('response');
 
       const parsedHeaders: Record<string, string> = {};
       searchParams.forEach((value, key) => {
@@ -190,12 +191,14 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
           >
             Response
           </button>
-          <button
-            className={`${styles.tab} ${activeTab === 'documentation' ? styles.active : ''}`}
-            onClick={() => setActiveTab('documentation')}
-          >
-            Documentation
-          </button>
+          {sdl && (
+            <button
+              className={`${styles.tab} ${activeTab === 'documentation' ? styles.active : ''}`}
+              onClick={() => setActiveTab('documentation')}
+            >
+              Documentation
+            </button>
+          )}
         </div>
         {activeTab === 'response' && (
           <ResponseSection

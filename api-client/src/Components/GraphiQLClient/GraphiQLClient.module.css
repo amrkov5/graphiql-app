@@ -172,19 +172,17 @@
 }
 
 .active {
-  border-bottom: 2px solid #007bff;
-}
-
-.tabContent {
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  width: 600px;
-  padding: 16px;
+  border-bottom: 2px solid var(--input-border-focus);
 }
 
 @media screen and (max-width: 1200px) {
   .wrapper {
     flex-direction: column;
+  }
+  .tabContainer {
+    margin: 10px;
+    height: calc(100vh - 191px);
+    width: 100%;
+    max-width: 1047px;
   }
 }

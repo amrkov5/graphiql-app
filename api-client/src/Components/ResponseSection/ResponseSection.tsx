@@ -1,5 +1,5 @@
 import React from 'react';
-import Editor, { useMonaco } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 import styles from './ResponseSection.module.css';
 import { useTranslations } from 'next-intl';
 

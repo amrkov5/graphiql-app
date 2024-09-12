@@ -23,12 +23,3 @@
   color: red;
   margin-top: 16px;
 }
-
-@media screen and (max-width: 1200px) {
-  .responseSection {
-    margin: 10px;
-    height: calc(100vh - 191px);
-    width: 100%;
-    max-width: 1047px;
-  }
-}
