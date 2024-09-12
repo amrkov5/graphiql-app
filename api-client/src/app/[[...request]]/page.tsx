@@ -28,10 +28,10 @@ const ClientPage = async ({ params }: { params: { request?: string[] } }) => {
     }
     return <Welcome userName={userName} />;
   } else if (params.request.length <= 3) {
-    if (METHODS.includes(params.request[0])) {
-      const urlToCheck = params.request.slice(1).join('/');
-      try {
-        atob(decodeURIComponent(urlToCheck));
+    try {
+      atob(decodeURIComponent(params.request[1] ?? ''));
+      atob(decodeURIComponent(params.request[2] ?? ''));
+      if (METHODS.includes(params.request[0])) {
         return (
           <RestClient
             propMethod={params.request[0]}
@@ -39,23 +39,17 @@ const ClientPage = async ({ params }: { params: { request?: string[] } }) => {
             propBody={params.request[2]}
           />
         );
-      } catch {
-        return <NotFound />;
-      }
-    } else if (params.request[0] === 'GRAPHQL') {
-      const urlToCheck = params.request.slice(1).join('/');
-      try {
-        atob(decodeURIComponent(urlToCheck));
+      } else if (params.request[0] === 'GRAPHQL') {
         return (
           <GraphiQLClient
             propUrl={params.request[1]}
             propBody={params.request[2]}
           />
         );
-      } catch {
-        return <NotFound />;
-      }
-    } else return <NotFound />;
+      } else return <NotFound />;
+    } catch {
+      return <NotFound />;
+    }
   } else return <NotFound />;
 };
 

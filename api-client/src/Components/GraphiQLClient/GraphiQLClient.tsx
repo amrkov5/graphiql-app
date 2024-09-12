@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import EndpointInput from '../EndpointInput/EndpointInput';
-import { debounce } from 'lodash';
+import { debounce, method } from 'lodash';
 import HeadersEditor from '../HeadersEditor/HeadersEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { useTranslations } from 'next-intl';
@@ -12,6 +12,7 @@ import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
 import { saveRequestToHistory } from '@/services/historyUtils';
+import { buildClientSchema, printSchema } from 'graphql';
 
 interface GraphiQLClientProps {
   propUrl: string;
@@ -31,6 +32,9 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [statusCode, setStatusCode] = useState<number | null>(null);
+
+  const [sdlUrl, setSdlUrl] = useState<string>('');
+  const [documentation, setDocumentation] = useState<string>('');
 
   useEffect(() => {
     const updateUrl = debounce(() => {
@@ -108,6 +112,25 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
     }
   };
 
+  const handleLoadDocs = async () => {
+    const decodedUrl = sdlUrl ?? safeBase64Decode(url);
+    setSdlUrl(decodedUrl);
+
+    const res = await fetch('/api/proxy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fullUrl: decodedUrl,
+        method: 'DOCS',
+      }),
+    });
+
+    const graphqlSchemaObj = buildClientSchema((await res.json()).data);
+    setDocumentation(printSchema(graphqlSchemaObj));
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.requestSection}>
@@ -123,12 +146,20 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
             SDL endpoint:
           </label>
           <input
+            value={sdlUrl}
+            onChange={(e) => setSdlUrl(e.target.value)}
             id="sdl"
             className={styles.input}
             placeholder="Enter SDL URL"
             type="text"
           />
-          <button className={styles.getSdl}>GET</button>
+          <button
+            className={styles.getSdl}
+            disabled={!Boolean(sdlUrl)}
+            onClick={handleLoadDocs}
+          >
+            GET
+          </button>
         </div>
         <div className={styles.editors}>
           <KeyValueEditor
@@ -145,6 +176,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         error={error}
         statusCode={statusCode}
       />
+      <div>{documentation}</div>
     </div>
   );
 };

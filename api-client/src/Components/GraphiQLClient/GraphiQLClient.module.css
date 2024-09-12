@@ -137,6 +137,12 @@
   box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.5);
 }
 
+.getSdl:disabled {
+  background-color: var(--disabled-background);
+  color: var(--disabled-text);
+  cursor: not-allowed;
+}
+
 @media screen and (max-width: 1200px) {
   .wrapper {
     flex-direction: column;
