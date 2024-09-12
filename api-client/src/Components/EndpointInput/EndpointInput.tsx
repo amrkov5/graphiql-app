@@ -13,6 +13,7 @@ const EndpointInput: React.FC<EndpointInputProps> = ({ url, setUrl }) => {
     const encodedUrl = btoa(event.target.value);
     setUrl(encodedUrl);
   };
+
   return (
     <input
       type="text"

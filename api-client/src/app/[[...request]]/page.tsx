@@ -8,6 +8,7 @@ import { customInitApp } from '@/firebase/firebase-admin-config';
 import { auth } from 'firebase-admin';
 import '../../firebase/firebase';
 import { getUserName } from '../../firebase/firebase';
+import NotFound from '@/Components/NotFound/NotFound';
 
 customInitApp();
 
@@ -28,22 +29,34 @@ const ClientPage = async ({ params }: { params: { request?: string[] } }) => {
     return <Welcome userName={userName} />;
   } else if (params.request.length <= 3) {
     if (METHODS.includes(params.request[0])) {
-      return (
-        <RestClient
-          propMethod={params.request[0]}
-          propUrl={params.request[1]}
-          propBody={params.request[2]}
-        />
-      );
+      const urlToCheck = params.request.slice(1).join('/');
+      try {
+        atob(decodeURIComponent(urlToCheck));
+        return (
+          <RestClient
+            propMethod={params.request[0]}
+            propUrl={params.request[1]}
+            propBody={params.request[2]}
+          />
+        );
+      } catch {
+        return <NotFound />;
+      }
     } else if (params.request[0] === 'GRAPHQL') {
-      return (
-        <GraphiQLClient
-          propUrl={params.request[1]}
-          propBody={params.request[2]}
-        />
-      );
-    } else notFound();
-  } else notFound();
+      const urlToCheck = params.request.slice(1).join('/');
+      try {
+        atob(decodeURIComponent(urlToCheck));
+        return (
+          <GraphiQLClient
+            propUrl={params.request[1]}
+            propBody={params.request[2]}
+          />
+        );
+      } catch {
+        return <NotFound />;
+      }
+    } else return <NotFound />;
+  } else return <NotFound />;
 };
 
 export default ClientPage;

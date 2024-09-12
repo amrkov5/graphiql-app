@@ -140,7 +140,8 @@ const RestClient: React.FC<RestClientProps> = ({
       });
 
       setStatusCode(res.status);
-      if (statusCode === 500) {
+
+      if (!res.ok) {
         throw new Error('errorSending');
       }
 
@@ -173,7 +174,7 @@ const RestClient: React.FC<RestClientProps> = ({
           <button
             className={styles.send}
             onClick={handleRequestSend}
-            data-testId="send-button"
+            data-testid="send-button"
           >
             {t('sendButton')}
           </button>

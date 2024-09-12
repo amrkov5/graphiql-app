@@ -1,3 +1,4 @@
+import { FirebaseAppError } from 'firebase-admin/app';
 import { FirebaseError, initializeApp } from 'firebase/app';
 import {
   signInWithEmailAndPassword,
