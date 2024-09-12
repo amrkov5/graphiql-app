@@ -198,6 +198,7 @@ const RestClient: React.FC<RestClientProps> = ({
         response={response}
         error={error}
         statusCode={statusCode}
+        language="json"
       />
     </div>
   );

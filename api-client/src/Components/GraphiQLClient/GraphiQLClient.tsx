@@ -34,7 +34,12 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   const [statusCode, setStatusCode] = useState<number | null>(null);
 
   const [sdlUrl, setSdlUrl] = useState<string>('');
-  const [documentation, setDocumentation] = useState<string>('');
+  const [sdlError, setSdlError] = useState<string>('');
+  const [sdl, setSdl] = useState<string>('');
+
+  const [activeTab, setActiveTab] = useState<'response' | 'documentation'>(
+    'response'
+  );
 
   useEffect(() => {
     const updateUrl = debounce(() => {
@@ -61,6 +66,8 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         setStatusCode(null);
         return;
       }
+
+      handleLoadDocs();
 
       const parsedHeaders: Record<string, string> = {};
       searchParams.forEach((value, key) => {
@@ -113,22 +120,26 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   };
 
   const handleLoadDocs = async () => {
-    const decodedUrl = sdlUrl ?? safeBase64Decode(url);
+    const decodedUrl = sdlUrl ? sdlUrl : safeBase64Decode(url) + '?sdl';
     setSdlUrl(decodedUrl);
-
-    const res = await fetch('/api/proxy', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        fullUrl: decodedUrl,
-        method: 'DOCS',
-      }),
-    });
-
-    const graphqlSchemaObj = buildClientSchema((await res.json()).data);
-    setDocumentation(printSchema(graphqlSchemaObj));
+    try {
+      const res = await fetch('/api/proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullUrl: decodedUrl,
+          method: 'DOCS',
+        }),
+      });
+      const graphqlSchemaObj = buildClientSchema((await res.json()).data);
+      setSdl(printSchema(graphqlSchemaObj));
+      setSdlError('');
+    } catch {
+      setSdl('');
+      setSdlError('Documentation not found');
+    }
   };
 
   return (
@@ -171,12 +182,38 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         </div>
         <GraphQLEditor body={body} setBody={setBody} />
       </div>
-      <ResponseSection
-        response={response}
-        error={error}
-        statusCode={statusCode}
-      />
-      <div>{documentation}</div>
+      <div className={styles.tabContainer}>
+        <div className={styles.tabs}>
+          <button
+            className={`${styles.tab} ${activeTab === 'response' ? styles.active : ''}`}
+            onClick={() => setActiveTab('response')}
+          >
+            Response
+          </button>
+          <button
+            className={`${styles.tab} ${activeTab === 'documentation' ? styles.active : ''}`}
+            onClick={() => setActiveTab('documentation')}
+          >
+            Documentation
+          </button>
+        </div>
+        {activeTab === 'response' && (
+          <ResponseSection
+            response={response}
+            error={error}
+            statusCode={statusCode}
+            language="json"
+          />
+        )}
+        {activeTab === 'documentation' && (
+          <ResponseSection
+            response={sdl}
+            error={sdlError}
+            statusCode={null}
+            language="graphql"
+          />
+        )}
+      </div>
     </div>
   );
 };
