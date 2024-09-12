@@ -23,11 +23,17 @@ const SignInPage: React.FC = () => {
 
   const handleSignIn = async (data: AuthFormInputs, reset: () => void) => {
     try {
+      const apiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/login'
+          : 'https://ai-team-api-app.vercel.app/api/login';
+
       const userInfo = await logInWithEmailAndPassword(
         data.email,
         data.password
       );
-      fetch('/api/login', {
+
+      fetch(apiUrl, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${await userInfo?.getIdToken()}`,

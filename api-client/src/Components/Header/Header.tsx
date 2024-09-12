@@ -31,7 +31,11 @@ export default function Header({
     const checkCookies = async () => {
       if (loginStatus) {
         try {
-          const checkResult = await fetch('http://localhost:3000/api/login', {
+          const apiUrl =
+            process.env.NODE_ENV === 'development'
+              ? 'http://localhost:3000/api/login'
+              : 'https://ai-team-api-app.vercel.app/api/login';
+          const checkResult = await fetch(apiUrl, {
             headers: {
               Cookie: '',
             },
@@ -88,9 +92,14 @@ export default function Header({
 
   const onSignUpOutClick = async () => {
     if (loginStatus) {
+      const apiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/logout'
+          : 'https://ai-team-api-app.vercel.app/api/logout';
+
       try {
         logout();
-        const response = await fetch('http://localhost:3000/api/logout', {
+        const response = await fetch(apiUrl, {
           method: 'POST',
         });
 

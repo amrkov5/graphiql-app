@@ -88,7 +88,7 @@ describe('RestClient', () => {
     fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledWith(
-        '/api/proxy',
+        'https://ai-team-api-app.vercel.app/api/proxy',
         expect.objectContaining({
           method: 'POST',
         })

@@ -100,7 +100,10 @@ const RestClient: React.FC<RestClientProps> = ({
 
   const handleRequestSend = async () => {
     try {
-      const serverApiUrl = '/api/proxy';
+      const serverApiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/proxy'
+          : 'https://ai-team-api-app.vercel.app/api/proxy';
       const decodedUrl = safeBase64Decode(url);
       const decodedBody = safeBase64Decode(body);
 

@@ -19,9 +19,14 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const apiUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000/api/login'
+      : 'https://ai-team-api-app.vercel.app/api/login';
+
   const session = cookies().get('session');
   const responseAPI = session
-    ? await fetch('http://localhost:3000/api/login', {
+    ? await fetch(apiUrl, {
         headers: {
           Cookie: `session=${session?.value}`,
         },

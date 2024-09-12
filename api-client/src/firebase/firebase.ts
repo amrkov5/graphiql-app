@@ -1,10 +1,10 @@
 import { FirebaseAppError } from 'firebase-admin/app';
 import { FirebaseError, initializeApp } from 'firebase/app';
 import {
-  getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  getAuth,
 } from 'firebase/auth';
 import {
   getFirestore,
@@ -16,12 +16,16 @@ import {
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAAIbETc6OqC7IIaTTszwxTzv7s38fHE_M',
-  authDomain: 'api-client-17877.firebaseapp.com',
-  projectId: 'api-client-17877',
-  storageBucket: 'api-client-17877.appspot.com',
-  messagingSenderId: '732007876387',
-  appId: '1:732007876387:web:6baa334cd75664deff2e96',
+  apiKey: process.env.NEXT_PUBLIC_API_KEY || process.env.VITE_API_KEY,
+  authDomain:
+    process.env.NEXT_PUBLIC_AUTH_DOMAIN || process.env.VITE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID || process.env.VITE_PROJECT_ID,
+  storageBucket:
+    process.env.NEXT_PUBLIC_STORAGE_BUCKET || process.env.VITE_STORAGE_BUCKET,
+  messagingSenderId:
+    process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID ||
+    process.env.VITE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID || process.env.VITE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
