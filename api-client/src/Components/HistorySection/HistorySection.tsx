@@ -23,6 +23,7 @@ interface Request {
 
 const HistorySection: React.FC = () => {
   const dispatch = useDispatch();
+
   const router = useRouter();
   const history = getHistory();
   const t = useTranslations('History');

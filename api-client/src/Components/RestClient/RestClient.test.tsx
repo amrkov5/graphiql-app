@@ -1,7 +1,10 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import RestClient from './RestClient';
 import { NextIntlClientProvider } from 'next-intl';
+import chosenHistoryVariablesReducer from '@/slices/chosenHistoryVariablesSlice';
 
 vi.mock('next/navigation', () => ({
   useSearchParams: () =>
@@ -37,15 +40,24 @@ const messages = {
   },
 };
 
+// Создаем моковый стор
+const store = configureStore({
+  reducer: {
+    chosenHistoryVariables: chosenHistoryVariablesReducer,
+  },
+});
+
 const renderComponent = () => {
   return render(
-    <NextIntlClientProvider locale="en" messages={messages}>
-      <RestClient
-        propMethod="GET"
-        propUrl="aHR0cHM6Ly9leGFtcGxlLmNvbQ=="
-        propBody=""
-      />
-    </NextIntlClientProvider>
+    <Provider store={store}>
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <RestClient
+          propMethod="GET"
+          propUrl="aHR0cHM6Ly9leGFtcGxlLmNvbQ=="
+          propBody=""
+        />
+      </NextIntlClientProvider>
+    </Provider>
   );
 };
 

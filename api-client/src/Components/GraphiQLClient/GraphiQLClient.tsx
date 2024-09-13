@@ -33,20 +33,16 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   const [url, setUrl] = useState(propUrl ?? '');
   const [body, setBody] = useState(propBody ?? '');
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (!body) {
-  //     dispatch(clearChosenHistoryVariables());
-  //   }
-  // }, [body, dispatch]);
+
   const initialVariables = useSelector((state: RootState) =>
     selectChosenHistoryVariables(state)
   );
   const [isCleared, setIsCleared] = useState(false);
 
   useEffect(() => {
-    if (initialVariables && !isCleared) {
+    if (initialVariables.length > 0 && !isCleared) {
       dispatch(clearChosenHistoryVariables());
-      setIsCleared(true); // Устанавливаем флаг, чтобы очистка произошла только один раз
+      setIsCleared(true);
     }
   }, [dispatch, initialVariables, isCleared]);
 

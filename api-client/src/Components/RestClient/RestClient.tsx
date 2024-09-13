@@ -42,7 +42,7 @@ const RestClient: React.FC<RestClientProps> = ({
   const [isCleared, setIsCleared] = useState(false);
 
   useEffect(() => {
-    if (initialVariables && !isCleared) {
+    if (initialVariables.length > 0 && !isCleared) {
       dispatch(clearChosenHistoryVariables());
       setIsCleared(true);
     }
