@@ -98,10 +98,12 @@
 }
 
 .sdl {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding-bottom: 10px;
   gap: 10px;
 }
 
@@ -137,8 +139,50 @@
   box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.5);
 }
 
+.getSdl:disabled {
+  background-color: var(--disabled-background);
+  color: var(--disabled-text);
+  cursor: not-allowed;
+}
+
+.tabContainer {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--background-color);
+}
+
+.tabs {
+  display: flex;
+  background-color: var(--background-color);
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: background-color 0.3s;
+  background-color: var(--background-color-intense);
+  color: var(--text-color);
+}
+
+.active {
+  border-bottom: 2px solid var(--input-border-focus);
+}
+
 @media screen and (max-width: 1200px) {
   .wrapper {
     flex-direction: column;
+  }
+  .tabContainer {
+    margin: 10px;
+    height: calc(100vh - 191px);
+    width: 100%;
+    max-width: 1047px;
   }
 }

@@ -25,7 +25,12 @@ describe('ResponseSection', () => {
     const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <ResponseSection response={null} error={null} statusCode={200} />
+        <ResponseSection
+          response={null}
+          error={null}
+          statusCode={200}
+          language="json"
+        />
       </NextIntlClientProvider>
     );
 
@@ -39,7 +44,12 @@ describe('ResponseSection', () => {
     const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
-        <ResponseSection response={response} error={null} statusCode={200} />
+        <ResponseSection
+          response={response}
+          error={null}
+          statusCode={200}
+          language="json"
+        />
       </NextIntlClientProvider>
     );
 
@@ -59,6 +69,7 @@ describe('ResponseSection', () => {
           response={null}
           error="unknownError"
           statusCode={200}
+          language="json"
         />
       </NextIntlClientProvider>
     );

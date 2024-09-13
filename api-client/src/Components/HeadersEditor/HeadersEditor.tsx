@@ -61,63 +61,60 @@ const HeadersEditor: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div
-        className={styles.headersContainer}
-        style={{ padding: isShown ? '20px' : '5px' }}
-      >
+      <div className={styles.headersContainer}>
         <button
           className={styles.showButton}
           onClick={() => setIsShown((state) => !state)}
         >
           {isShown ? '–' : '+'}
         </button>
-        {isShown ? (
-          <>
-            <div className={styles.headersControls}>
-              <h3 className={styles.title}>{t('headers')}</h3>
-              <button className={styles.addButton} onClick={addHeader}>
-                {t('addButton')}
-              </button>
-            </div>
-            {headers.length > 0 && (
-              <ul className={styles.headersList}>
-                {headers.map((header) => (
-                  <li key={header.id} className={styles.headerItem}>
-                    <input
-                      name="key"
-                      type="text"
-                      placeholder={t('keyPlaceholder')}
-                      value={header.key}
-                      onChange={(e) =>
-                        updateHeader(header.id, e.target.value, header.value)
-                      }
-                      className={styles.input}
-                    />
-                    <input
-                      name="value"
-                      type="text"
-                      placeholder={t('valuePlaceholder')}
-                      value={header.value}
-                      onChange={(e) =>
-                        updateHeader(header.id, header.key, e.target.value)
-                      }
-                      className={styles.input}
-                    />
-                    <button
-                      className={styles.deleteButton}
-                      onClick={() => deleteHeader(header.id)}
-                    >
-                      {t('deleteButton')}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </>
-        ) : (
-          <div className={styles.collapsed}>
+        <div className={styles.headersControls}>
+          <h3 className={styles.title}>
             {t('headers')} ({headers.length})
-          </div>
+          </h3>
+          <button
+            className={styles.addButton}
+            onClick={() => {
+              addHeader();
+              setIsShown(true);
+            }}
+          >
+            {t('addButton')}
+          </button>
+        </div>
+        {isShown && headers.length > 0 && (
+          <ul className={styles.headersList}>
+            {headers.map((header) => (
+              <li key={header.id} className={styles.headerItem}>
+                <input
+                  name="key"
+                  type="text"
+                  placeholder={t('keyPlaceholder')}
+                  value={header.key}
+                  onChange={(e) =>
+                    updateHeader(header.id, e.target.value, header.value)
+                  }
+                  className={styles.input}
+                />
+                <input
+                  name="value"
+                  type="text"
+                  placeholder={t('valuePlaceholder')}
+                  value={header.value}
+                  onChange={(e) =>
+                    updateHeader(header.id, header.key, e.target.value)
+                  }
+                  className={styles.input}
+                />
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => deleteHeader(header.id)}
+                >
+                  {t('deleteButton')}
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>

@@ -12,6 +12,7 @@ import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
 import { saveRequestToHistory } from '@/services/historyUtils';
+import { buildClientSchema, printSchema } from 'graphql';
 
 interface GraphiQLClientProps {
   propUrl: string;
@@ -31,6 +32,14 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [statusCode, setStatusCode] = useState<number | null>(null);
+
+  const [sdlUrl, setSdlUrl] = useState<string>('');
+  const [sdlError, setSdlError] = useState<string>('');
+  const [sdl, setSdl] = useState<string>('');
+
+  const [activeTab, setActiveTab] = useState<'response' | 'documentation'>(
+    'response'
+  );
 
   useEffect(() => {
     const updateUrl = debounce(() => {
@@ -57,6 +66,9 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         setStatusCode(null);
         return;
       }
+
+      handleLoadDocs();
+      setActiveTab('response');
 
       const parsedHeaders: Record<string, string> = {};
       searchParams.forEach((value, key) => {
@@ -108,6 +120,29 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
     }
   };
 
+  const handleLoadDocs = async () => {
+    const decodedUrl = sdlUrl ? sdlUrl : safeBase64Decode(url) + '?sdl';
+    setSdlUrl(decodedUrl);
+    try {
+      const res = await fetch('/api/proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullUrl: decodedUrl,
+          method: 'DOCS',
+        }),
+      });
+      const graphqlSchemaObj = buildClientSchema((await res.json()).data);
+      setSdl(printSchema(graphqlSchemaObj));
+      setSdlError('');
+    } catch {
+      setSdl('');
+      setSdlError('Documentation not found');
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.requestSection}>
@@ -123,12 +158,20 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
             SDL endpoint:
           </label>
           <input
+            value={sdlUrl}
+            onChange={(e) => setSdlUrl(e.target.value)}
             id="sdl"
             className={styles.input}
             placeholder="Enter SDL URL"
             type="text"
           />
-          <button className={styles.getSdl}>GET</button>
+          <button
+            className={styles.getSdl}
+            disabled={!Boolean(sdlUrl)}
+            onClick={handleLoadDocs}
+          >
+            GET
+          </button>
         </div>
         <div className={styles.editors}>
           <KeyValueEditor
@@ -140,11 +183,40 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         </div>
         <GraphQLEditor body={body} setBody={setBody} />
       </div>
-      <ResponseSection
-        response={response}
-        error={error}
-        statusCode={statusCode}
-      />
+      <div className={styles.tabContainer}>
+        <div className={styles.tabs}>
+          <button
+            className={`${styles.tab} ${activeTab === 'response' ? styles.active : ''}`}
+            onClick={() => setActiveTab('response')}
+          >
+            Response
+          </button>
+          {sdl && (
+            <button
+              className={`${styles.tab} ${activeTab === 'documentation' ? styles.active : ''}`}
+              onClick={() => setActiveTab('documentation')}
+            >
+              Documentation
+            </button>
+          )}
+        </div>
+        {activeTab === 'response' && (
+          <ResponseSection
+            response={response}
+            error={error}
+            statusCode={statusCode}
+            language="json"
+          />
+        )}
+        {activeTab === 'documentation' && (
+          <ResponseSection
+            response={sdl}
+            error={sdlError}
+            statusCode={null}
+            language="graphql"
+          />
+        )}
+      </div>
     </div>
   );
 };

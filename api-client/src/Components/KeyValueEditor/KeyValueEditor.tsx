@@ -39,63 +39,60 @@ const KeyValueEditor: React.FC<KeyValueEditorProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div
-        className={styles.container}
-        style={{ padding: isShown ? '20px' : '5px' }}
-      >
+      <div className={styles.container}>
         <button
           className={styles.showButton}
           onClick={() => setIsShown((state) => !state)}
         >
           {isShown ? '–' : '+'}
         </button>
-        {isShown ? (
-          <>
-            <div className={styles.controls}>
-              <h3 className={styles.title}>{name}:</h3>
-              <button className={styles.addButton} onClick={addPair}>
-                {t('addButton')}
-              </button>
-            </div>
-            {keyValues.length > 0 && (
-              <ul className={styles.list}>
-                {keyValues.map((pair) => (
-                  <li key={pair.id} className={styles.item}>
-                    <input
-                      name="key"
-                      type="text"
-                      placeholder={t('keyPlaceholder')}
-                      value={pair.key}
-                      onChange={(e) =>
-                        updatePair(pair.id, e.target.value, pair.value)
-                      }
-                      className={styles.input}
-                    />
-                    <input
-                      name="value"
-                      type="text"
-                      placeholder={t('valuePlaceholder')}
-                      value={pair.value}
-                      onChange={(e) =>
-                        updatePair(pair.id, pair.key, e.target.value)
-                      }
-                      className={styles.input}
-                    />
-                    <button
-                      className={styles.deleteButton}
-                      onClick={() => deletePair(pair.id)}
-                    >
-                      {t('deleteButton')}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </>
-        ) : (
-          <div className={styles.collapsed}>
+        <div className={styles.controls}>
+          <h3 className={styles.title}>
             {name} ({keyValues.length})
-          </div>
+          </h3>
+          <button
+            className={styles.addButton}
+            onClick={() => {
+              addPair();
+              setIsShown(true);
+            }}
+          >
+            {t('addButton')}
+          </button>
+        </div>
+        {isShown && keyValues.length > 0 && (
+          <ul className={styles.list}>
+            {keyValues.map((pair) => (
+              <li key={pair.id} className={styles.item}>
+                <input
+                  name="key"
+                  type="text"
+                  placeholder={t('keyPlaceholder')}
+                  value={pair.key}
+                  onChange={(e) =>
+                    updatePair(pair.id, e.target.value, pair.value)
+                  }
+                  className={styles.input}
+                />
+                <input
+                  name="value"
+                  type="text"
+                  placeholder={t('valuePlaceholder')}
+                  value={pair.value}
+                  onChange={(e) =>
+                    updatePair(pair.id, pair.key, e.target.value)
+                  }
+                  className={styles.input}
+                />
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => deletePair(pair.id)}
+                >
+                  {t('deleteButton')}
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>

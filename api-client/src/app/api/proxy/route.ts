@@ -1,10 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getIntrospectionQuery } from 'graphql';
 
 export async function POST(req: NextRequest) {
   try {
     const { method, fullUrl, headers, body } = await req.json();
     let response;
-    if (method) {
+    if (method === 'DOCS') {
+      response = await fetch(fullUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: getIntrospectionQuery() }),
+      });
+    } else if (method) {
       response = await fetch(fullUrl, {
         method,
         headers,

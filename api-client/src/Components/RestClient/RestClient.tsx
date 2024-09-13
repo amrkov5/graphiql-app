@@ -194,11 +194,14 @@ const RestClient: React.FC<RestClientProps> = ({
         />
         <BodyEditor body={body} setBody={setBody} />
       </div>
-      <ResponseSection
-        response={response}
-        error={error}
-        statusCode={statusCode}
-      />
+      <div className={styles.response}>
+        <ResponseSection
+          response={response}
+          error={error}
+          statusCode={statusCode}
+          language="json"
+        />
+      </div>
     </div>
   );
 };

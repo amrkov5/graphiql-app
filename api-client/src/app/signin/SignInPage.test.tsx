@@ -99,4 +99,4 @@ describe('SignInPage', () => {
   });
 });
 
-process.on('unhandledRejection', (error) => {});
+process.on('unhandledRejection', () => {});

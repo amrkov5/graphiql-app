@@ -44,7 +44,7 @@ const HistorySection: React.FC = () => {
             </a>
             <a
               className={styles.clientLink}
-              href="/graphiql-client"
+              href="/GRAPHQL"
               data-testid="graphiql-link"
             >
               {w('graphiql')}
