@@ -1,5 +1,6 @@
 'use client';
 
+import { RootState } from '@/store';
 import { useEffect, useState } from 'react';
 import MethodSelector from '../MethodSelector/MethodSelector';
 import { useSearchParams } from 'next/navigation';
@@ -13,6 +14,9 @@ import ResponseSection from '../ResponseSection/ResponseSection';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
 import { saveRequestToHistory } from '@/services/historyUtils';
 import { useTranslations } from 'next-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearChosenHistoryVariables } from '@/slices/chosenHistoryVariablesSlice';
+import { selectChosenHistoryVariables } from '@/slices/chosenHistoryVariablesSlice';
 
 interface RestClientProps {
   propMethod: string;
@@ -28,10 +32,23 @@ const RestClient: React.FC<RestClientProps> = ({
   const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const [method, setMethod] = useState(propMethod);
-  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
-  const [body, setBody] = useState(propBody ?? ''); // in base 64
+  const [url, setUrl] = useState(propUrl ?? '');
+  const [body, setBody] = useState(propBody ?? '');
   const [queries, setQueries] = useState<KeyValuePair[]>([]);
-  const [variables, setVariables] = useState<KeyValuePair[]>([]);
+  const dispatch = useDispatch();
+  const initialVariables = useSelector((state: RootState) =>
+    selectChosenHistoryVariables(state)
+  );
+  const [isCleared, setIsCleared] = useState(false);
+
+  useEffect(() => {
+    if (initialVariables && !isCleared) {
+      dispatch(clearChosenHistoryVariables());
+      setIsCleared(true);
+    }
+  }, [dispatch, initialVariables, isCleared]);
+
+  const [variables, setVariables] = useState(initialVariables);
 
   const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -154,6 +171,7 @@ const RestClient: React.FC<RestClientProps> = ({
         fullUrl: decodedUrl,
         headers: {},
         body: decodedBody,
+        variables: variables,
       });
     } catch (error) {
       setResponse(null);

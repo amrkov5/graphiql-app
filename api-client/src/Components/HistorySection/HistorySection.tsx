@@ -5,6 +5,12 @@ import { useRouter } from 'next/navigation';
 import { getHistory } from '@/services/historyUtils';
 import { useTranslations } from 'next-intl';
 import styles from './HistorySection.module.css';
+import { useDispatch } from 'react-redux';
+import {
+  setChosenHistoryVariables,
+  clearChosenHistoryVariables,
+} from '@/slices/chosenHistoryVariablesSlice';
+import { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 
 interface Request {
   method: string;
@@ -12,15 +18,22 @@ interface Request {
   headers: Record<string, string>;
   body: string | null;
   savedUrl: string;
+  variables?: KeyValuePair[];
 }
 
 const HistorySection: React.FC = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const history = getHistory();
   const t = useTranslations('History');
   const w = useTranslations('Welcome');
 
   const handleClick = (request: Request) => {
+    if (request.variables) {
+      dispatch(setChosenHistoryVariables(request.variables));
+    } else {
+      dispatch(clearChosenHistoryVariables());
+    }
     router.push(request.savedUrl);
   };
 

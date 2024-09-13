@@ -1,10 +1,13 @@
 'use client';
 
+import { KeyValuePair } from '@/Components/KeyValueEditor/KeyValueEditor';
+
 export function saveRequestToHistory(requestData: {
   method: string;
   fullUrl: string;
   headers: Record<string, string>;
   body: string | null;
+  variables?: KeyValuePair[];
 }) {
   const currentUrl = window.location.href;
   const requestKey = currentUrl;

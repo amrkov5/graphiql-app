@@ -8,11 +8,16 @@ import HeadersEditor from '../HeadersEditor/HeadersEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
 import { useTranslations } from 'next-intl';
 import styles from './GraphiQLClient.module.css';
-import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
+import KeyValueEditor from '../KeyValueEditor/KeyValueEditor';
 import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
 import { saveRequestToHistory } from '@/services/historyUtils';
 import { buildClientSchema, printSchema } from 'graphql';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { selectChosenHistoryVariables } from '@/slices/chosenHistoryVariablesSlice';
+import { useDispatch } from 'react-redux';
+import { clearChosenHistoryVariables } from '@/slices/chosenHistoryVariablesSlice';
 
 interface GraphiQLClientProps {
   propUrl: string;
@@ -25,9 +30,27 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
 }) => {
   const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
-  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
-  const [body, setBody] = useState(propBody ?? ''); // in base 64
-  const [variables, setVariables] = useState<KeyValuePair[]>([]);
+  const [url, setUrl] = useState(propUrl ?? '');
+  const [body, setBody] = useState(propBody ?? '');
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   if (!body) {
+  //     dispatch(clearChosenHistoryVariables());
+  //   }
+  // }, [body, dispatch]);
+  const initialVariables = useSelector((state: RootState) =>
+    selectChosenHistoryVariables(state)
+  );
+  const [isCleared, setIsCleared] = useState(false);
+
+  useEffect(() => {
+    if (initialVariables && !isCleared) {
+      dispatch(clearChosenHistoryVariables());
+      setIsCleared(true); // Устанавливаем флаг, чтобы очистка произошла только один раз
+    }
+  }, [dispatch, initialVariables, isCleared]);
+
+  const [variables, setVariables] = useState(initialVariables);
 
   const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -109,6 +132,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         fullUrl: decodedUrl,
         headers: {},
         body: decodedBody,
+        variables: variables,
       });
     } catch (error) {
       setResponse(null);
