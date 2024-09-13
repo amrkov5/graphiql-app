@@ -13,6 +13,7 @@ import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
 import { saveRequestToHistory } from '@/services/historyUtils';
 import { buildClientSchema, printSchema } from 'graphql';
+// import { buildClientSchema, printSchema } from 'graphql';
 
 interface GraphiQLClientProps {
   propUrl: string;
@@ -57,7 +58,10 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
 
   const handleRequestSend = async () => {
     try {
-      const serverApiUrl = '/api/proxy';
+      const serverApiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/proxy'
+          : 'https://ai-team-api-app.vercel.app/api/proxy';
       const decodedUrl = safeBase64Decode(url);
       const decodedBody = safeBase64Decode(body);
 
@@ -75,14 +79,27 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         parsedHeaders[key] = value;
       });
 
+      const vars: Record<string, string> = {};
+
       let updatedBody = decodedBody;
       variables.forEach(({ key, value }) => {
-        const placeholder = `{{${key}}}`;
-        if (updatedBody) {
-          updatedBody = updatedBody.split(placeholder).join(value);
-        }
-      });
+        vars[key] = value;
+        // const placeholder = `$${key}`;
 
+        // if (updatedBody) {
+        //   const splittedBody = updatedBody.split(placeholder);
+        //   const firstPart = splittedBody.shift();
+        //   const secondPart = splittedBody.shift();
+        //   if (secondPart) {
+        //     splittedBody.unshift(`${firstPart}$${key}${secondPart}`);
+        //     updatedBody = splittedBody.join(value);
+        //   } else {
+        //     splittedBody.unshift(firstPart!);
+        //     updatedBody = splittedBody.join(value);
+        //   }
+        // }
+      });
+      // console.log(updatedBody);
       const res = await fetch(serverApiUrl, {
         method: 'POST',
         headers: {
@@ -92,6 +109,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
           fullUrl: decodedUrl,
           headers: parsedHeaders,
           body: updatedBody,
+          variables: vars,
         }),
       });
 
@@ -122,9 +140,13 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
 
   const handleLoadDocs = async () => {
     const decodedUrl = sdlUrl ? sdlUrl : safeBase64Decode(url) + '?sdl';
+    const serverApiUrl =
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:3000/api/proxy'
+        : 'https://ai-team-api-app.vercel.app/api/proxy';
     setSdlUrl(decodedUrl);
     try {
-      const res = await fetch('/api/proxy', {
+      const res = await fetch(serverApiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
