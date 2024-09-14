@@ -139,7 +139,7 @@ const RestClient: React.FC<RestClientProps> = ({
         method,
         fullUrl: decodedUrl,
         headers: {},
-        body: decodedBody,
+        body: updatedBody,
       });
     } catch (error) {
       setResponse(null);

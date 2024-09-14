@@ -57,7 +57,10 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
 
   const handleRequestSend = async () => {
     try {
-      const serverApiUrl = '/api/proxy';
+      const serverApiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/proxy'
+          : 'https://ai-team-api-app.vercel.app/api/proxy';
       const decodedUrl = fromBase64(url);
       const decodedBody = fromBase64(body);
 
@@ -75,13 +78,18 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         parsedHeaders[key] = value;
       });
 
+      const vars: Record<string, string> = {};
       let updatedBody = decodedBody;
-      variables.forEach(({ key, value }) => {
-        const placeholder = `{{${key}}}`;
-        if (updatedBody) {
-          updatedBody = updatedBody.split(placeholder).join(value);
-        }
-      });
+      if (variables.length > 0) {
+        updatedBody = updatedBody.replace(/\(.*\)/, '');
+        variables.forEach(({ key, value }) => {
+          vars[key] = value;
+          const replacementValue =
+            typeof value === 'string' ? `"${value}"` : value;
+          const regex = new RegExp(`\\$${key}\\b`, 'g');
+          updatedBody = updatedBody.replace(regex, replacementValue);
+        });
+      }
 
       const res = await fetch(serverApiUrl, {
         method: 'POST',
@@ -91,7 +99,8 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         body: JSON.stringify({
           fullUrl: decodedUrl,
           headers: parsedHeaders,
-          body: updatedBody,
+          body: decodedBody,
+          variables: vars,
         }),
       });
 
@@ -103,12 +112,11 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
       const result = await res.json();
       setResponse(JSON.stringify(result, null, 2));
       setError(null);
-
       saveRequestToHistory({
         method: 'GRAPHQL',
         fullUrl: decodedUrl,
         headers: {},
-        body: decodedBody,
+        body: updatedBody,
       });
     } catch (error) {
       setResponse(null);
@@ -122,9 +130,13 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
 
   const handleLoadDocs = async () => {
     const decodedUrl = sdlUrl ? sdlUrl : fromBase64(url) + '?sdl';
+    const serverApiUrl =
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:3000/api/proxy'
+        : 'https://ai-team-api-app.vercel.app/api/proxy';
     setSdlUrl(decodedUrl);
     try {
-      const res = await fetch('/api/proxy', {
+      const res = await fetch(serverApiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
