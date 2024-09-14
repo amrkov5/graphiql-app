@@ -5,6 +5,7 @@ import { editor } from 'monaco-editor';
 import { useTranslations } from 'next-intl';
 import * as prettier from 'https://unpkg.com/prettier@3.3.3/standalone.mjs';
 import prettierPluginGraphql from 'https://unpkg.com/prettier@3.3.3/plugins/graphql.mjs';
+import { fromBase64, toBase64 } from '@/services/safeBase64';
 
 interface GraphQLEditorProps {
   body: string;
@@ -13,12 +14,12 @@ interface GraphQLEditorProps {
 
 const GraphQLEditor: React.FC<GraphQLEditorProps> = ({ body, setBody }) => {
   const t = useTranslations('RestClient');
-  const [localBody, setLocalBody] = useState(atob(decodeURIComponent(body)));
+  const [localBody, setLocalBody] = useState(fromBase64(body));
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const [error, setError] = useState<string>('');
 
   editorRef.current?.onDidBlurEditorWidget(() => {
-    const encodedBody = btoa(localBody);
+    const encodedBody = toBase64(localBody);
     setBody(encodedBody);
   });
 
@@ -29,7 +30,7 @@ const GraphQLEditor: React.FC<GraphQLEditorProps> = ({ body, setBody }) => {
         plugins: [prettierPluginGraphql],
       });
       setLocalBody(formatted);
-      setBody(btoa(formatted));
+      setBody(toBase64(formatted));
       setError('');
     } catch (e) {
       if (e instanceof SyntaxError) {

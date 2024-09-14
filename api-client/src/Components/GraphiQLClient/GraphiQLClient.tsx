@@ -10,7 +10,7 @@ import { useTranslations } from 'next-intl';
 import styles from './GraphiQLClient.module.css';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
-import { safeBase64Decode } from '@/services/safeBase64Decode';
+import { fromBase64 } from '@/services/safeBase64';
 import { saveRequestToHistory } from '@/services/historyUtils';
 import { buildClientSchema, printSchema } from 'graphql';
 
@@ -58,8 +58,8 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   const handleRequestSend = async () => {
     try {
       const serverApiUrl = '/api/proxy';
-      const decodedUrl = safeBase64Decode(url);
-      const decodedBody = safeBase64Decode(body);
+      const decodedUrl = fromBase64(url);
+      const decodedBody = fromBase64(body);
 
       if (!decodedUrl) {
         setError('URLbase64');
@@ -121,7 +121,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   };
 
   const handleLoadDocs = async () => {
-    const decodedUrl = sdlUrl ? sdlUrl : safeBase64Decode(url) + '?sdl';
+    const decodedUrl = sdlUrl ? sdlUrl : fromBase64(url) + '?sdl';
     setSdlUrl(decodedUrl);
     try {
       const res = await fetch('/api/proxy', {
