@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getHistory } from '@/services/historyUtils';
 import { useTranslations } from 'next-intl';
@@ -25,7 +25,11 @@ const HistorySection: React.FC = () => {
   const dispatch = useDispatch();
 
   const router = useRouter();
-  const history = getHistory();
+  const [history, setHistory] = useState<Record<string, Request>>({});
+
+  useEffect(() => {
+    setHistory(getHistory());
+  }, []);
   const t = useTranslations('History');
   const w = useTranslations('Welcome');
 
