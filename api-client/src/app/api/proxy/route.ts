@@ -3,7 +3,7 @@ import { getIntrospectionQuery } from 'graphql';
 
 export async function POST(req: NextRequest) {
   try {
-    const { method, fullUrl, headers, body } = await req.json();
+    const { method, fullUrl, headers, body, variables } = await req.json();
     let response;
     if (method === 'DOCS') {
       response = await fetch(fullUrl, {
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, variables }),
       });
     }
     const result = await response.json();
