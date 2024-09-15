@@ -28,8 +28,8 @@ const RestClient: React.FC<RestClientProps> = ({
   const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const [method, setMethod] = useState(propMethod);
-  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
-  const [body, setBody] = useState(propBody ?? ''); // in base 64
+  const [url, setUrl] = useState(propUrl ?? '');
+  const [body, setBody] = useState(propBody ?? '');
   const [queries, setQueries] = useState<KeyValuePair[]>([]);
   const [variables, setVariables] = useState<KeyValuePair[]>([]);
 
@@ -55,10 +55,8 @@ const RestClient: React.FC<RestClientProps> = ({
     const updateUrlWithQueries = debounce(() => {
       let baseDecodedUrl = fromBase64(url);
 
-      // Remove query parameters if any exist
       const urlWithoutQuery = baseDecodedUrl.split('?')[0];
 
-      // Build the query string from the array
       const queryString = queries
         .map(
           ({ key, value }) =>
@@ -66,12 +64,10 @@ const RestClient: React.FC<RestClientProps> = ({
         )
         .join('&');
 
-      // If queryString is empty, check for a `?` at the end of the original URL
       const finalUrl = queryString
         ? `${urlWithoutQuery}?${queryString}`
         : urlWithoutQuery;
 
-      // Update the Base64-encoded URL
       setUrl(toBase64(finalUrl));
     }, 300);
 
@@ -83,26 +79,22 @@ const RestClient: React.FC<RestClientProps> = ({
   useEffect(() => {
     const baseDecodedUrl = fromBase64(url);
 
-    // Extract the query string from the decoded URL
     const queryParamsString = baseDecodedUrl.split('?')[1] || '';
     const queryParams = queryParamsString.split('&').filter(Boolean);
 
-    // Convert query parameters to KeyValuePair objects
     const newQueries: KeyValuePair[] = queryParams.map((param, index) => {
       const [key, value] = param.split('=');
       return {
         id: index,
-        key: decodeURIComponent(key || ''), // Handle empty keys
-        value: decodeURIComponent(value || ''), // Handle empty values
+        key: decodeURIComponent(key || ''),
+        value: decodeURIComponent(value || ''),
       };
     });
 
-    // Ensure a new empty field is added if URL ends with `?` or `&`
     if (baseDecodedUrl.endsWith('?') || baseDecodedUrl.endsWith('&')) {
       newQueries.push({ id: newQueries.length, key: '', value: '' });
     }
 
-    // Set the updated queries array
     setQueries(newQueries);
   }, [url]);
 

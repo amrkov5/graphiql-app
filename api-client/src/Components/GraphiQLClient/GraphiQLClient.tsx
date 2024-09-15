@@ -25,8 +25,8 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
 }) => {
   const t = useTranslations('GraphqlClient');
   const searchParams = useSearchParams();
-  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
-  const [body, setBody] = useState(propBody ?? ''); // in base 64
+  const [url, setUrl] = useState(propUrl ?? '');
+  const [body, setBody] = useState(propBody ?? '');
   const [variables, setVariables] = useState<KeyValuePair[]>([]);
 
   const [response, setResponse] = useState<string | null>(null);
