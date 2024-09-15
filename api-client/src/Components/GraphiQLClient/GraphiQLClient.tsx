@@ -23,10 +23,10 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   propUrl,
   propBody,
 }) => {
-  const t = useTranslations('RestClient');
+  const t = useTranslations('GraphqlClient');
   const searchParams = useSearchParams();
-  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
-  const [body, setBody] = useState(propBody ?? ''); // in base 64
+  const [url, setUrl] = useState(propUrl ?? '');
+  const [body, setBody] = useState(propBody ?? '');
   const [variables, setVariables] = useState<KeyValuePair[]>([]);
 
   const [response, setResponse] = useState<string | null>(null);
@@ -115,7 +115,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
       saveRequestToHistory({
         method: 'GRAPHQL',
         fullUrl: decodedUrl,
-        headers: {},
+        headers: searchParams.toString(),
         body: updatedBody,
       });
     } catch (error) {
@@ -161,28 +161,34 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         <div className={styles.inputSection}>
           <div className={styles.select}>GRAPHQL</div>
           <EndpointInput url={url} setUrl={setUrl} />
-          <button className={styles.send} onClick={handleRequestSend}>
+          <button
+            data-testid="send-button"
+            className={styles.send}
+            onClick={handleRequestSend}
+          >
             {t('sendButton')}
           </button>
         </div>
         <div className={styles.sdl}>
           <label htmlFor="sdl" className={styles.sdlLabel}>
-            SDL endpoint:
+            {t('sdlLabel')}
           </label>
           <input
             value={sdlUrl}
             onChange={(e) => setSdlUrl(e.target.value)}
             id="sdl"
             className={styles.input}
-            placeholder="Enter SDL URL"
+            placeholder={t('sdlPlaceholder')}
             type="text"
+            data-testid="sdl-input"
           />
           <button
+            data-testid="get-button"
             className={styles.getSdl}
             disabled={!Boolean(sdlUrl)}
             onClick={handleLoadDocs}
           >
-            GET
+            {t('getDocs')}
           </button>
         </div>
         <div className={styles.editors}>
@@ -201,19 +207,20 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
             className={`${styles.tab} ${activeTab === 'response' ? styles.active : ''}`}
             onClick={() => setActiveTab('response')}
           >
-            Response
+            {t('response')}
           </button>
-          {sdl && (
+          {(sdlError || sdl) && (
             <button
               className={`${styles.tab} ${activeTab === 'documentation' ? styles.active : ''}`}
               onClick={() => setActiveTab('documentation')}
             >
-              Documentation
+              {t('docs')}
             </button>
           )}
         </div>
         {activeTab === 'response' && (
           <ResponseSection
+            data-testid="response-section"
             response={response}
             error={error}
             statusCode={statusCode}

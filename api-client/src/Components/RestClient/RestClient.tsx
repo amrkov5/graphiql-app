@@ -28,11 +28,10 @@ const RestClient: React.FC<RestClientProps> = ({
   const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const [method, setMethod] = useState(propMethod);
-  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
-  const [body, setBody] = useState(propBody ?? ''); // in base 64
+  const [url, setUrl] = useState(propUrl ?? '');
+  const [body, setBody] = useState(propBody ?? '');
   const [queries, setQueries] = useState<KeyValuePair[]>([]);
   const [variables, setVariables] = useState<KeyValuePair[]>([]);
-
   const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [statusCode, setStatusCode] = useState<number | null>(null);
@@ -53,14 +52,22 @@ const RestClient: React.FC<RestClientProps> = ({
 
   useEffect(() => {
     const updateUrlWithQueries = debounce(() => {
-      const parsedUrl = new URL(fromBase64(url), window.location.origin);
-      parsedUrl.search = '';
-      queries.forEach(({ key, value }) => {
-        parsedUrl.searchParams.append(key, value);
-      });
-      setUrl(
-        toBase64(parsedUrl.toString().replace(window.location.origin + '/', ''))
-      );
+      let baseDecodedUrl = fromBase64(url);
+
+      const urlWithoutQuery = baseDecodedUrl.split('?')[0];
+
+      const queryString = queries
+        .map(
+          ({ key, value }) =>
+            `${encodeURIComponent(key || '')}=${encodeURIComponent(value || '')}`
+        )
+        .join('&');
+
+      const finalUrl = queryString
+        ? `${urlWithoutQuery}?${queryString}`
+        : urlWithoutQuery;
+
+      setUrl(toBase64(finalUrl));
     }, 300);
 
     updateUrlWithQueries();
@@ -69,18 +76,24 @@ const RestClient: React.FC<RestClientProps> = ({
   }, [queries, url]);
 
   useEffect(() => {
-    const parsedUrl = new URL(fromBase64(url), window.location.origin);
-    const newQueries: KeyValuePair[] = [];
-    const urlQuries = Array.from(parsedUrl.searchParams.entries());
-    urlQuries.forEach(([key, value], index) => {
-      newQueries.push({ id: index, key, value });
+    const baseDecodedUrl = fromBase64(url);
+
+    const queryParamsString = baseDecodedUrl.split('?')[1] || '';
+    const queryParams = queryParamsString.split('&').filter(Boolean);
+
+    const newQueries: KeyValuePair[] = queryParams.map((param, index) => {
+      const [key, value] = param.split('=');
+      return {
+        id: index,
+        key: decodeURIComponent(key || ''),
+        value: decodeURIComponent(value || ''),
+      };
     });
-    if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '?') {
-      newQueries.push({ id: urlQuries.length + 1, key: '', value: '' });
+
+    if (baseDecodedUrl.endsWith('?') || baseDecodedUrl.endsWith('&')) {
+      newQueries.push({ id: newQueries.length, key: '', value: '' });
     }
-    if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '&') {
-      newQueries.push({ id: urlQuries.length + 2, key: '', value: '' });
-    }
+
     setQueries(newQueries);
   }, [url]);
 
@@ -138,7 +151,7 @@ const RestClient: React.FC<RestClientProps> = ({
       saveRequestToHistory({
         method,
         fullUrl: decodedUrl,
-        headers: {},
+        headers: searchParams.toString(),
         body: updatedBody,
       });
     } catch (error) {

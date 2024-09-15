@@ -24,15 +24,6 @@ vi.mock('next-intl/server', () => ({
   getMessages: vi.fn(() => localeMessages),
 }));
 
-const store = configureStore({
-  reducer: {
-    loginState: loginStateReducer,
-  },
-  preloadedState: {
-    loginState: { loggedIn: false, error: false },
-  },
-});
-
 vi.mock('nextjs-toploader/app', () => ({
   useRouter: vi.fn(() => ({
     push: vi.fn(),
@@ -43,7 +34,15 @@ vi.mock('nextjs-toploader/app', () => ({
 }));
 
 describe('Welcome test', () => {
-  it('Should render Welcome page', async () => {
+  it('Should render Welcome page while is not` logged in', async () => {
+    const store = configureStore({
+      reducer: {
+        loginState: loginStateReducer,
+      },
+      preloadedState: {
+        loginState: { loggedIn: false, error: false },
+      },
+    });
     const locale = await getLocale();
     const messages = await getMessages();
     const { getByTestId, getByText } = render(
@@ -61,5 +60,34 @@ describe('Welcome test', () => {
     const signUp = getByText('Sign Up');
     expect(signIn).toBeInTheDocument();
     expect(signUp).toBeInTheDocument();
+  });
+  it('Should render Welcome page while is not` logged in', async () => {
+    const store = configureStore({
+      reducer: {
+        loginState: loginStateReducer,
+      },
+      preloadedState: {
+        loginState: { loggedIn: true, error: false },
+      },
+    });
+    const locale = await getLocale();
+    const messages = await getMessages();
+    const { getByTestId, getByText } = render(
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <Provider store={store}>
+          <Welcome userName={null} />
+        </Provider>
+      </NextIntlClientProvider>
+    );
+
+    const welcomeBlock = getByTestId('welcome');
+    expect(welcomeBlock).toBeInTheDocument();
+
+    const rest = getByText('REST Client');
+    const graphi = getByText('GraphiQL Client');
+    const history = getByText('History');
+    expect(rest).toBeInTheDocument();
+    expect(graphi).toBeInTheDocument();
+    expect(history).toBeInTheDocument();
   });
 });
