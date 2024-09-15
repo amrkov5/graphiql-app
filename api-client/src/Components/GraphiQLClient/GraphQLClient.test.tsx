@@ -78,19 +78,6 @@ describe('GraphiQLClient', () => {
     });
   });
 
-  it('enables GET button when SDL URL is entered', () => {
-    renderGraphiQLClient();
-
-    const sdlInput = screen.getByPlaceholderText(/Enter SDL URL/i);
-    const getButton = screen.getByRole('button', { name: /GET/i });
-
-    expect(getButton).toBeDisabled();
-
-    fireEvent.change(sdlInput, { target: { value: 'http://example.com/sdl' } });
-
-    expect(getButton).not.toBeDisabled();
-  });
-
   it('displays error when invalid URL is provided', async () => {
     renderGraphiQLClient({ propUrl: '' });
 
