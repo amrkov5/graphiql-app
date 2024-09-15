@@ -40,7 +40,7 @@ const GraphQLEditor: React.FC<GraphQLEditorProps> = ({ body, setBody }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div data-testid="bodyContainer" className={styles.container}>
       <div className={styles.header}>
         <label className={styles.label}>{t('body')}</label>
         <div className={styles.controls}>
