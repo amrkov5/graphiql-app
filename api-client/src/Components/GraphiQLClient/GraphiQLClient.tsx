@@ -161,7 +161,11 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         <div className={styles.inputSection}>
           <div className={styles.select}>GRAPHQL</div>
           <EndpointInput url={url} setUrl={setUrl} />
-          <button className={styles.send} onClick={handleRequestSend}>
+          <button
+            data-testid="send-button"
+            className={styles.send}
+            onClick={handleRequestSend}
+          >
             {t('sendButton')}
           </button>
         </div>
@@ -170,6 +174,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
             SDL endpoint:
           </label>
           <input
+            data-testid="sdl-input"
             value={sdlUrl}
             onChange={(e) => setSdlUrl(e.target.value)}
             id="sdl"
@@ -178,6 +183,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
             type="text"
           />
           <button
+            data-testid="get-button"
             className={styles.getSdl}
             disabled={!Boolean(sdlUrl)}
             onClick={handleLoadDocs}
@@ -214,6 +220,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         </div>
         {activeTab === 'response' && (
           <ResponseSection
+            data-testid="response-section"
             response={response}
             error={error}
             statusCode={statusCode}

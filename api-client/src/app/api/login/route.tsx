@@ -3,6 +3,7 @@ import { auth } from 'firebase-admin';
 import { FirebaseAuthError } from 'firebase-admin/auth';
 import { cookies, headers } from 'next/headers';
 import { NextResponse } from 'next/server';
+import 'server-only';
 
 customInitApp();
 
