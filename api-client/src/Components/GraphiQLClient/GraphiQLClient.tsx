@@ -10,10 +10,9 @@ import { useTranslations } from 'next-intl';
 import styles from './GraphiQLClient.module.css';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
-import { safeBase64Decode } from '@/services/safeBase64Decode';
+import { fromBase64 } from '@/services/safeBase64';
 import { saveRequestToHistory } from '@/services/historyUtils';
 import { buildClientSchema, printSchema } from 'graphql';
-// import { buildClientSchema, printSchema } from 'graphql';
 
 interface GraphiQLClientProps {
   propUrl: string;
@@ -62,8 +61,8 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         process.env.NODE_ENV === 'development'
           ? 'http://localhost:3000/api/proxy'
           : 'https://ai-team-api-app.vercel.app/api/proxy';
-      const decodedUrl = safeBase64Decode(url);
-      const decodedBody = safeBase64Decode(body);
+      const decodedUrl = fromBase64(url);
+      const decodedBody = fromBase64(body);
 
       if (!decodedUrl) {
         setError('URLbase64');
@@ -80,26 +79,18 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
       });
 
       const vars: Record<string, string> = {};
-
       let updatedBody = decodedBody;
-      variables.forEach(({ key, value }) => {
-        vars[key] = value;
-        // const placeholder = `$${key}`;
+      if (variables.length > 0) {
+        updatedBody = updatedBody.replace(/\(.*\)/, '');
+        variables.forEach(({ key, value }) => {
+          vars[key] = value;
+          const replacementValue =
+            typeof value === 'string' ? `"${value}"` : value;
+          const regex = new RegExp(`\\$${key}\\b`, 'g');
+          updatedBody = updatedBody.replace(regex, replacementValue);
+        });
+      }
 
-        // if (updatedBody) {
-        //   const splittedBody = updatedBody.split(placeholder);
-        //   const firstPart = splittedBody.shift();
-        //   const secondPart = splittedBody.shift();
-        //   if (secondPart) {
-        //     splittedBody.unshift(`${firstPart}$${key}${secondPart}`);
-        //     updatedBody = splittedBody.join(value);
-        //   } else {
-        //     splittedBody.unshift(firstPart!);
-        //     updatedBody = splittedBody.join(value);
-        //   }
-        // }
-      });
-      // console.log(updatedBody);
       const res = await fetch(serverApiUrl, {
         method: 'POST',
         headers: {
@@ -108,7 +99,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
         body: JSON.stringify({
           fullUrl: decodedUrl,
           headers: parsedHeaders,
-          body: updatedBody,
+          body: decodedBody,
           variables: vars,
         }),
       });
@@ -121,12 +112,11 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
       const result = await res.json();
       setResponse(JSON.stringify(result, null, 2));
       setError(null);
-
       saveRequestToHistory({
         method: 'GRAPHQL',
         fullUrl: decodedUrl,
         headers: {},
-        body: decodedBody,
+        body: updatedBody,
       });
     } catch (error) {
       setResponse(null);
@@ -139,7 +129,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
   };
 
   const handleLoadDocs = async () => {
-    const decodedUrl = sdlUrl ? sdlUrl : safeBase64Decode(url) + '?sdl';
+    const decodedUrl = sdlUrl ? sdlUrl : fromBase64(url) + '?sdl';
     const serverApiUrl =
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3000/api/proxy'

@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import styles from './EndpointInput.module.css';
 import { useTranslations } from 'next-intl';
+import { fromBase64, toBase64 } from '@/services/safeBase64';
 
 interface EndpointInputProps {
   url: string;
@@ -9,15 +10,14 @@ interface EndpointInputProps {
 
 const EndpointInput: React.FC<EndpointInputProps> = ({ url, setUrl }) => {
   const t = useTranslations('RestClient');
-  const handleEndpointChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const encodedUrl = btoa(event.target.value);
-    setUrl(encodedUrl);
-  };
 
+  const handleEndpointChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUrl(toBase64(event.target.value));
+  };
   return (
     <input
       type="text"
-      value={atob(decodeURIComponent(url))}
+      value={fromBase64(url)}
       onChange={handleEndpointChange}
       placeholder={t('endpointPlaceholder')}
       className={styles.input}

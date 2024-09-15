@@ -8,6 +8,7 @@ import { auth } from 'firebase-admin';
 import '../../firebase/firebase';
 import { getUserName } from '../../firebase/firebase';
 import NotFound from '@/Components/NotFound/NotFound';
+import { fromBase64 } from '@/services/safeBase64';
 
 customInitApp();
 
@@ -28,8 +29,8 @@ const ClientPage = async ({ params }: { params: { request?: string[] } }) => {
     return <Welcome userName={userName} />;
   } else if (params.request.length <= 3) {
     try {
-      atob(decodeURIComponent(params.request[1] ?? ''));
-      atob(decodeURIComponent(params.request[2] ?? ''));
+      fromBase64(params.request[1] ?? '');
+      fromBase64(params.request[2] ?? '');
       if (METHODS.includes(params.request[0])) {
         return (
           <RestClient

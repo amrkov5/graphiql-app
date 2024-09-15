@@ -10,7 +10,7 @@ import HeadersEditor from '../HeadersEditor/HeadersEditor';
 import BodyEditor from '../BodyEditor/BodyEditor';
 import KeyValueEditor, { KeyValuePair } from '../KeyValueEditor/KeyValueEditor';
 import ResponseSection from '../ResponseSection/ResponseSection';
-import { safeBase64Decode } from '@/services/safeBase64Decode';
+import { fromBase64, toBase64 } from '@/services/safeBase64';
 import { saveRequestToHistory } from '@/services/historyUtils';
 import { useTranslations } from 'next-intl';
 
@@ -53,21 +53,14 @@ const RestClient: React.FC<RestClientProps> = ({
 
   useEffect(() => {
     const updateUrlWithQueries = debounce(() => {
-      try {
-        const parsedUrl = new URL(
-          atob(decodeURIComponent(url)),
-          window.location.origin
-        );
-        parsedUrl.search = '';
-        queries.forEach(({ key, value }) => {
-          parsedUrl.searchParams.append(key, value);
-        });
-        setUrl(
-          btoa(parsedUrl.toString().replace(window.location.origin + '/', ''))
-        );
-      } catch (error) {
-        // console.error('Error updating URL with queries:', error);
-      }
+      const parsedUrl = new URL(fromBase64(url), window.location.origin);
+      parsedUrl.search = '';
+      queries.forEach(({ key, value }) => {
+        parsedUrl.searchParams.append(key, value);
+      });
+      setUrl(
+        toBase64(parsedUrl.toString().replace(window.location.origin + '/', ''))
+      );
     }, 300);
 
     updateUrlWithQueries();
@@ -76,26 +69,19 @@ const RestClient: React.FC<RestClientProps> = ({
   }, [queries, url]);
 
   useEffect(() => {
-    try {
-      const parsedUrl = new URL(
-        atob(decodeURIComponent(url)),
-        window.location.origin
-      );
-      const newQueries: KeyValuePair[] = [];
-      const urlQuries = Array.from(parsedUrl.searchParams.entries());
-      urlQuries.forEach(([key, value], index) => {
-        newQueries.push({ id: index, key, value });
-      });
-      if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '?') {
-        newQueries.push({ id: urlQuries.length + 1, key: '', value: '' });
-      }
-      if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '&') {
-        newQueries.push({ id: urlQuries.length + 2, key: '', value: '' });
-      }
-      setQueries(newQueries);
-    } catch (error) {
-      // console.error('Invalid URL:', error);
+    const parsedUrl = new URL(fromBase64(url), window.location.origin);
+    const newQueries: KeyValuePair[] = [];
+    const urlQuries = Array.from(parsedUrl.searchParams.entries());
+    urlQuries.forEach(([key, value], index) => {
+      newQueries.push({ id: index, key, value });
+    });
+    if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '?') {
+      newQueries.push({ id: urlQuries.length + 1, key: '', value: '' });
     }
+    if (parsedUrl.href.charAt(parsedUrl.href.length - 1) === '&') {
+      newQueries.push({ id: urlQuries.length + 2, key: '', value: '' });
+    }
+    setQueries(newQueries);
   }, [url]);
 
   const handleRequestSend = async () => {
@@ -104,8 +90,8 @@ const RestClient: React.FC<RestClientProps> = ({
         process.env.NODE_ENV === 'development'
           ? 'http://localhost:3000/api/proxy'
           : 'https://ai-team-api-app.vercel.app/api/proxy';
-      const decodedUrl = safeBase64Decode(url);
-      const decodedBody = safeBase64Decode(body);
+      const decodedUrl = fromBase64(url);
+      const decodedBody = fromBase64(body);
 
       if (!decodedUrl) {
         setError('URLbase64');
@@ -153,7 +139,7 @@ const RestClient: React.FC<RestClientProps> = ({
         method,
         fullUrl: decodedUrl,
         headers: {},
-        body: decodedBody,
+        body: updatedBody,
       });
     } catch (error) {
       setResponse(null);
