@@ -78,7 +78,7 @@
     "toMain": " На главную"
   },
   "RequestErrors": {
-    "URLbase64": "Неверный URL: URL должен быть закодирован в base64.",
+    "URLbase64": "Неверный URL",
     "errorSending": "Ошибка отправки запроса.",
     "unknownError": "Произошла неизвестная ошибка.",
     "status": "Код ответа:",
@@ -101,5 +101,14 @@
     "deleteButton": "Удалить",
     "keyPlaceholder": "Ключ",
     "valuePlaceholder": "Значение"
+  },
+  "GraphqlClient": {
+    "sdlLabel": "Адрес SDL:",
+    "getDocs": "Получить",
+    "response": "Ответ",
+    "docs": "Документация",
+    "sdlPlaceholder": "Введите SDL URL",
+    "bodyVariables": "Переменные тела запроса",
+    "sendButton": "Отправить"
   }
 }

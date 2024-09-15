@@ -6,7 +6,7 @@ import { getLocale, getMessages } from 'next-intl/server';
 
 const localeMessages = {
   RequestErrors: {
-    URLbase64: 'Invalid URL: The URL must be base64 encoded.',
+    URLbase64: 'Invalid URL',
     errorSending: 'Error sending request.',
     unknownError: 'Unknown error occurred.',
     status: 'Status code:',
