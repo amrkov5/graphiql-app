@@ -14,9 +14,32 @@ vi.mock('next/navigation', () => ({
   toString: vi.fn(),
 }));
 
-const renderComponent = (props = {}) => {
+const messages = {
+  RestClient: {
+    sendButton: 'Send',
+    addButton: 'Add New',
+    headers: 'Headers:',
+    body: 'Body:',
+    query: 'Query params:',
+    format: 'Format',
+    bodyVariables: 'Body variables:',
+    endpointPlaceholder: 'Enter endpoint URL',
+    deleteButton: 'Delete',
+    keyPlaceholder: 'Key',
+    valuePlaceholder: 'Value',
+  },
+  RequestErrors: {
+    URLbase64: 'Invalid URL: The URL must be base64 encoded.',
+    errorSending: 'Error sending request.',
+    unknownError: 'Unknown error occurred.',
+    status: 'Status code:',
+    'Failed to fetch': 'Failed to fetch data. Please check Internet connection',
+  },
+};
+
+const renderComponent = () => {
   return render(
-    <NextIntlClientProvider locale="en">
+    <NextIntlClientProvider locale="en" messages={messages}>
       <RestClient
         propMethod="GET"
         propUrl="aHR0cHM6Ly9leGFtcGxlLmNvbQ=="
@@ -65,7 +88,7 @@ describe('RestClient', () => {
     fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledWith(
-        '/api/proxy',
+        'https://ai-team-api-app.vercel.app/api/proxy',
         expect.objectContaining({
           method: 'POST',
         })
@@ -84,11 +107,13 @@ describe('RestClient', () => {
 
     fireEvent.click(screen.getByTestId('send-button'));
 
-    expect(await screen.findByText(/errorSending/)).toBeInTheDocument();
+    expect(
+      await screen.findByText('Error sending request.')
+    ).toBeInTheDocument();
   });
 
   it('shows error when URL is invalid', async () => {
-    global.fetch = vi.fn().mockRejectedValue(new Error('Invalid URL'));
+    global.fetch = vi.fn().mockRejectedValue(new Error('URLbase64'));
 
     renderComponent();
 

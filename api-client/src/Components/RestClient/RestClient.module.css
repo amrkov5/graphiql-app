@@ -1,4 +1,5 @@
 .wrapper {
+  align-self: center;
   display: flex;
   flex-direction: row;
   margin: 0 auto;
@@ -69,8 +70,25 @@
   gap: 10px;
 }
 
+.response {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--background-color);
+}
+
 @media screen and (max-width: 1200px) {
   .wrapper {
     flex-direction: column;
+  }
+  .response {
+    margin: 10px;
+    height: calc(100vh - 191px);
+    width: 100%;
+    max-width: 1047px;
   }
 }

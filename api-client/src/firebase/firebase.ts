@@ -82,7 +82,7 @@ const registerWithEmailAndPassword = async (
 
 const logout = async () => {
   try {
-    const res = await signOut(auth);
+    await signOut(auth);
   } catch (err: unknown) {
     const msg: string = (err as FirebaseError).message;
     throw new Error(msg);

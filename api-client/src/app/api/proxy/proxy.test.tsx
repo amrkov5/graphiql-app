@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { POST } from './route';
 
 global.fetch = vi.fn();

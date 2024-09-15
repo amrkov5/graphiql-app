@@ -16,7 +16,7 @@ const localeMessages = {
 
 const mockCookies = () => {
   return {
-    get: (name: string) => {
+    get: () => {
       return null;
     },
   };

@@ -5,7 +5,6 @@ import styles from './welcome.module.css';
 import { useTranslations } from 'next-intl';
 import { useSelector } from 'react-redux';
 import { selectLoginState } from '@/slices/loginSlice';
-// import { useRouter } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
 
 export default function Welcome({ userName }: { userName: string | null }) {
@@ -41,7 +40,7 @@ export default function Welcome({ userName }: { userName: string | null }) {
             </button>
             <button
               className={styles.btn}
-              onClick={() => handleClick('/GRAPHIQL')}
+              onClick={() => handleClick('/GRAPHQL')}
             >
               {t('graphiql')}
             </button>

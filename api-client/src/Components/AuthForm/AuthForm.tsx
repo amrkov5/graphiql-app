@@ -9,10 +9,9 @@ import styles from './authForm.module.css';
 import { useTranslations } from 'next-intl';
 import { useSelector } from 'react-redux';
 import { selectLoginError } from '@/slices/loginSlice';
-
 interface AuthFormProps {
   isRegistering: boolean;
-  onSubmit: (data: AuthFormInputs) => void;
+  onSubmit: (data: AuthFormInputs) => void; // eslint-disable-line
 }
 
 export interface AuthFormInputs {

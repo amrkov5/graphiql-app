@@ -1,5 +1,5 @@
 import React from 'react';
-import MonacoEditor from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 import styles from './ResponseSection.module.css';
 import { useTranslations } from 'next-intl';
 
@@ -7,12 +7,14 @@ interface ResponseSectionProps {
   response: string | null;
   error: string | null;
   statusCode: number | null;
+  language: 'json' | 'graphql';
 }
 
 const ResponseSection: React.FC<ResponseSectionProps> = ({
   response,
   error,
   statusCode,
+  language,
 }) => {
   const e = useTranslations('RequestErrors');
   return (
@@ -24,9 +26,9 @@ const ResponseSection: React.FC<ResponseSectionProps> = ({
       )}
       {response && (
         <div data-testid="editor-container" className={styles.editorContainer}>
-          <MonacoEditor
+          <Editor
             height="100%"
-            language="json"
+            language={language}
             value={response}
             theme="vs-dark"
             options={{

@@ -1,4 +1,4 @@
-// import { useRouter } from 'next/navigation';
+'use client';
 import { useTranslations } from 'next-intl';
 import styles from './notFound.module.css';
 import { useRouter } from 'nextjs-toploader/app';

@@ -1,9 +1,32 @@
+.wrapper {
+  width: 100%;
+}
+
 .container {
+  padding: 20px;
+  position: relative;
   border-radius: 8px;
   color: var(--text-color);
   border: 1px solid var(--border-color);
-  padding: 20px;
-  width: 100%;
+}
+
+.showButton {
+  width: 25px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background-color: var(--background-color-intense);
+  border: none;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  padding: 4px 8px;
+}
+
+.collapsed {
+  font-size: 18px;
+  line-height: 25px;
+  color: var(--text-color);
 }
 
 .controls {

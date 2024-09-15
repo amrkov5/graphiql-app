@@ -1,12 +1,21 @@
 'use client';
 
+import { toBase64 } from './safeBase64';
+
 export function saveRequestToHistory(requestData: {
   method: string;
   fullUrl: string;
   headers: Record<string, string>;
   body: string | null;
 }) {
-  const currentUrl = window.location.href;
+  const currentUrl =
+    window.location.origin +
+    '/' +
+    requestData.method +
+    '/' +
+    toBase64(requestData.fullUrl) +
+    '/' +
+    toBase64(requestData.body ?? '');
   const requestKey = currentUrl;
 
   const requestWithUrl = {

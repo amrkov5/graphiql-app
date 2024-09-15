@@ -20,32 +20,8 @@ const TestProviders: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-vi.mock('@monaco-editor/react', () => ({
-  Editor: ({
-    onMount,
-    value,
-  }: {
-    onMount: (editor: unknown) => void;
-    value: string;
-  }) => {
-    const mockEditor = {
-      getAction: vi.fn().mockReturnValue({
-        run: vi.fn(),
-      }),
-      onDidBlurEditorWidget: vi.fn((callback) => {
-        callback();
-      }),
-      setValue: vi.fn(),
-    };
-
-    onMount(mockEditor);
-
-    return <textarea data-testid="mock-editor" defaultValue={value} />;
-  },
-}));
-
 describe('BodyEditor', () => {
-  const body = btoa(encodeURIComponent('{"key": "value"}')); // Base64 encode the initial value
+  const body = btoa(encodeURIComponent('{"key": "value"}'));
   const setBody = vi.fn();
 
   beforeEach(() => {

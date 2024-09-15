@@ -24,7 +24,7 @@
     "confirm": "Confirm the password"
   },
   "SignUpPage": {
-    "noInternet": "No Internet connection. Please check connectiont.",
+    "noInternet": "No Internet connection. Please check connection.",
     "inUse": "E-Mail is already in use."
   },
   "SignInPage": {
@@ -82,7 +82,8 @@
     "errorSending": "Error sending request.",
     "unknownError": "Unknown error occurred.",
     "status": "Status code:",
-    "Failed to fetch": "Failed to fetch data. Please check Internet connection"
+    "Failed to fetch": "Failed to fetch data. Please check Internet connection",
+    "Documentation not found": "Documentation not found. Check sdl url"
   },
   "History": {
     "h1": "History of Requests",
@@ -91,11 +92,11 @@
   "RestClient": {
     "sendButton": "Send",
     "addButton": "Add New",
-    "headers": "Headers:",
+    "headers": "Headers",
     "body": "Body:",
-    "query": "Query params:",
+    "query": "Query params",
     "format": "Format",
-    "bodyVariables": "Body variables:",
+    "bodyVariables": "Body variables",
     "endpointPlaceholder": "Enter endpoint URL",
     "deleteButton": "Delete",
     "keyPlaceholder": "Key",

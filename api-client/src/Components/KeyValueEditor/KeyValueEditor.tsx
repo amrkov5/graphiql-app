@@ -21,6 +21,7 @@ const KeyValueEditor: React.FC<KeyValueEditorProps> = ({
 }) => {
   const t = useTranslations('RestClient');
   const [nextId, setNextId] = useState<number>(keyValues.length + 1);
+  const [isShown, setIsShown] = useState<boolean>(true);
   const addPair = () => {
     setKeyValues([...keyValues, { id: nextId, key: '', value: '' }]);
     setNextId(nextId + 1);
@@ -37,41 +38,63 @@ const KeyValueEditor: React.FC<KeyValueEditorProps> = ({
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.controls}>
-        <h3 className={styles.title}>{name}</h3>
-        <button className={styles.addButton} onClick={addPair}>
-          {t('addButton')}
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <button
+          className={styles.showButton}
+          onClick={() => setIsShown((state) => !state)}
+        >
+          {isShown ? '–' : '+'}
         </button>
+        <div className={styles.controls}>
+          <h3 className={styles.title}>
+            {name} ({keyValues.length})
+          </h3>
+          <button
+            className={styles.addButton}
+            onClick={() => {
+              addPair();
+              setIsShown(true);
+            }}
+          >
+            {t('addButton')}
+          </button>
+        </div>
+        {isShown && keyValues.length > 0 && (
+          <ul className={styles.list}>
+            {keyValues.map((pair) => (
+              <li key={pair.id} className={styles.item}>
+                <input
+                  name="key"
+                  type="text"
+                  placeholder={t('keyPlaceholder')}
+                  value={pair.key}
+                  onChange={(e) =>
+                    updatePair(pair.id, e.target.value, pair.value)
+                  }
+                  className={styles.input}
+                />
+                <input
+                  name="value"
+                  type="text"
+                  placeholder={t('valuePlaceholder')}
+                  value={pair.value}
+                  onChange={(e) =>
+                    updatePair(pair.id, pair.key, e.target.value)
+                  }
+                  className={styles.input}
+                />
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => deletePair(pair.id)}
+                >
+                  {t('deleteButton')}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      <ul className={styles.list}>
-        {keyValues.map((pair) => (
-          <li key={pair.id} className={styles.item}>
-            <input
-              name="key"
-              type="text"
-              placeholder={t('keyPlaceholder')}
-              value={pair.key}
-              onChange={(e) => updatePair(pair.id, e.target.value, pair.value)}
-              className={styles.input}
-            />
-            <input
-              name="value"
-              type="text"
-              placeholder={t('valuePlaceholder')}
-              value={pair.value}
-              onChange={(e) => updatePair(pair.id, pair.key, e.target.value)}
-              className={styles.input}
-            />
-            <button
-              className={styles.deleteButton}
-              onClick={() => deletePair(pair.id)}
-            >
-              {t('deleteButton')}
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

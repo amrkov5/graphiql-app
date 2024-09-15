@@ -6,40 +6,6 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import loginStateReducer from '../../slices/loginSlice';
 import { logInWithEmailAndPassword } from '../../firebase/firebase';
-import { getLocale, getMessages } from 'next-intl/server';
-
-const localeMessages = {
-  AuthForm: {
-    login: 'Sign In',
-    register: 'Sign Up',
-    name: 'Name',
-    email: 'Email',
-    password: 'Password',
-    confirm: 'Confirm password',
-  },
-  SignInPage: {
-    modalMessage:
-      'Sign-in failed. Please check your credentials and try again.',
-  },
-  ValidationErrors: {
-    nameRequired: 'Name is required',
-    emailFormat: 'Invalid email format',
-    emailRequired: 'Email is required',
-    PSWDletterRequired: 'At least one letter required',
-    PSWDdigitRequired: 'At least one digit required',
-    PSWDspecCharRequired: 'At least one special character required',
-    PSWDsupportUnicode: 'Password must support Unicode characters',
-    PSWDlength: 'Must be at least 8 characters long',
-    PSWDrequired: 'Password is required',
-    ConfirmPSWDdoNotMatch: 'Passwords do not match',
-    ConfirmPSWDrequired: 'Confirm your password',
-  },
-};
-
-vi.mock('next-intl/server', () => ({
-  getLocale: vi.fn(() => 'en'),
-  getMessages: vi.fn(() => localeMessages),
-}));
 
 vi.mock('nextjs-toploader/app', () => ({
   useRouter: () => ({
@@ -71,6 +37,19 @@ const messages = {
     email: 'Email',
     password: 'Password',
     login: 'Sign In',
+  },
+  ValidationErrors: {
+    nameRequired: 'Name is required',
+    emailFormat: 'Invalid email format',
+    emailRequired: 'Email is required',
+    PSWDletterRequired: 'At least one letter required',
+    PSWDdigitRequired: 'At least one digit required',
+    PSWDspecCharRequired: 'At least one special character required',
+    PSWDsupportUnicode: 'Password must support Unicode characters',
+    PSWDlength: 'Must be at least 8 characters long',
+    PSWDrequired: 'Password is required',
+    ConfirmPSWDdoNotMatch: 'Passwords do not match',
+    ConfirmPSWDrequired: 'Confirm your password',
   },
 };
 
@@ -108,8 +87,6 @@ describe('SignInPage', () => {
     });
   });
   it('renders the AuthForm component', async () => {
-    const locale = await getLocale();
-    const messages = await getMessages();
     render(
       <NextIntlClientProvider locale={locale} messages={messages}>
         <Provider store={store}>
@@ -122,4 +99,4 @@ describe('SignInPage', () => {
   });
 });
 
-process.on('unhandledRejection', (error) => {});
+process.on('unhandledRejection', () => {});
