@@ -33,3 +33,15 @@ body {
   flex-grow: 1;
   padding: 20px;
 }
+
+.globalError {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.globalErrorButton {
+  background-color: transparent;
+  color: var(--text-color);
+  align-self: center;
+}

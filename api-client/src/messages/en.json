@@ -78,7 +78,7 @@
     "toMain": "Go to Main"
   },
   "RequestErrors": {
-    "URLbase64": "Invalid URL: The URL must be base64 encoded.",
+    "URLbase64": "Invalid URL",
     "errorSending": "Error sending request.",
     "unknownError": "Unknown error occurred.",
     "status": "Status code:",
@@ -101,5 +101,14 @@
     "deleteButton": "Delete",
     "keyPlaceholder": "Key",
     "valuePlaceholder": "Value"
+  },
+  "GraphqlClient": {
+    "sdlLabel": "SDL endpoint:",
+    "getDocs": "GET",
+    "response": "Response",
+    "docs": "Documentation",
+    "sdlPlaceholder": "Enter SDL URL",
+    "bodyVariables": "Body variables",
+    "sendButton": "Send"
   }
 }
