@@ -13,7 +13,6 @@ import GraphQLEditor from '../GraphQLEditor/GraphQLEditor';
 import { safeBase64Decode } from '@/services/safeBase64Decode';
 import { saveRequestToHistory } from '@/services/historyUtils';
 import { buildClientSchema, printSchema } from 'graphql';
-// import { buildClientSchema, printSchema } from 'graphql';
 
 interface GraphiQLClientProps {
   propUrl: string;
@@ -26,8 +25,8 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
 }) => {
   const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
-  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
-  const [body, setBody] = useState(propBody ?? ''); // in base 64
+  const [url, setUrl] = useState(propUrl ?? '');
+  const [body, setBody] = useState(propBody ?? '');
   const [variables, setVariables] = useState<KeyValuePair[]>([]);
 
   const [response, setResponse] = useState<string | null>(null);
@@ -84,22 +83,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
       let updatedBody = decodedBody;
       variables.forEach(({ key, value }) => {
         vars[key] = value;
-        // const placeholder = `$${key}`;
-
-        // if (updatedBody) {
-        //   const splittedBody = updatedBody.split(placeholder);
-        //   const firstPart = splittedBody.shift();
-        //   const secondPart = splittedBody.shift();
-        //   if (secondPart) {
-        //     splittedBody.unshift(`${firstPart}$${key}${secondPart}`);
-        //     updatedBody = splittedBody.join(value);
-        //   } else {
-        //     splittedBody.unshift(firstPart!);
-        //     updatedBody = splittedBody.join(value);
-        //   }
-        // }
       });
-      // console.log(updatedBody);
       const res = await fetch(serverApiUrl, {
         method: 'POST',
         headers: {

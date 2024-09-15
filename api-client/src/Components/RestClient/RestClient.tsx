@@ -28,8 +28,8 @@ const RestClient: React.FC<RestClientProps> = ({
   const t = useTranslations('RestClient');
   const searchParams = useSearchParams();
   const [method, setMethod] = useState(propMethod);
-  const [url, setUrl] = useState(propUrl ?? ''); // in base 64
-  const [body, setBody] = useState(propBody ?? ''); // in base 64
+  const [url, setUrl] = useState(propUrl ?? '');
+  const [body, setBody] = useState(propBody ?? '');
   const [queries, setQueries] = useState<KeyValuePair[]>([]);
   const [variables, setVariables] = useState<KeyValuePair[]>([]);
 
@@ -65,9 +65,7 @@ const RestClient: React.FC<RestClientProps> = ({
         setUrl(
           btoa(parsedUrl.toString().replace(window.location.origin + '/', ''))
         );
-      } catch (error) {
-        // console.error('Error updating URL with queries:', error);
-      }
+      } catch (error) {}
     }, 300);
 
     updateUrlWithQueries();
@@ -93,9 +91,7 @@ const RestClient: React.FC<RestClientProps> = ({
         newQueries.push({ id: urlQuries.length + 2, key: '', value: '' });
       }
       setQueries(newQueries);
-    } catch (error) {
-      // console.error('Invalid URL:', error);
-    }
+    } catch (error) {}
   }, [url]);
 
   const handleRequestSend = async () => {

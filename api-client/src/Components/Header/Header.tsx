@@ -4,7 +4,6 @@ import { logout } from '../../firebase/firebase';
 import Link from 'next/link';
 import LocaleSwitcher from '../LocaleSwitcher/LocaleSwitcher';
 import { useTranslations } from 'next-intl';
-// import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import styles from './header.module.css';

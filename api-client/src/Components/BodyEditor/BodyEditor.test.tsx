@@ -21,7 +21,7 @@ const TestProviders: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 describe('BodyEditor', () => {
-  const body = btoa(encodeURIComponent('{"key": "value"}')); // Base64 encode the initial value
+  const body = btoa(encodeURIComponent('{"key": "value"}'));
   const setBody = vi.fn();
 
   beforeEach(() => {

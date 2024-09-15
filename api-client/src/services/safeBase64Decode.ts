@@ -8,7 +8,6 @@ export const safeBase64Decode = (str: string): string | null => {
     const decoded = atob(cleanStr);
     return decodeURIComponent(escape(decoded));
   } catch (error) {
-    // console.error('Failed to decode base64:', error);
     return null;
   }
 };
