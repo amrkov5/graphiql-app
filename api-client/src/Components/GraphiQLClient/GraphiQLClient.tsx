@@ -115,7 +115,7 @@ const GraphiQLClient: React.FC<GraphiQLClientProps> = ({
       saveRequestToHistory({
         method: 'GRAPHQL',
         fullUrl: decodedUrl,
-        headers: {},
+        headers: searchParams.toString(),
         body: updatedBody,
       });
     } catch (error) {

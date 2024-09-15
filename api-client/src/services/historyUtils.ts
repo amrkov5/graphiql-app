@@ -5,7 +5,7 @@ import { toBase64 } from './safeBase64';
 export function saveRequestToHistory(requestData: {
   method: string;
   fullUrl: string;
-  headers: Record<string, string>;
+  headers: string;
   body: string | null;
 }) {
   const currentUrl =
@@ -15,7 +15,9 @@ export function saveRequestToHistory(requestData: {
     '/' +
     toBase64(requestData.fullUrl) +
     '/' +
-    toBase64(requestData.body ?? '');
+    toBase64(requestData.body ?? '') +
+    '?' +
+    requestData.headers;
   const requestKey = currentUrl;
 
   const requestWithUrl = {

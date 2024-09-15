@@ -160,7 +160,7 @@ const RestClient: React.FC<RestClientProps> = ({
       saveRequestToHistory({
         method,
         fullUrl: decodedUrl,
-        headers: {},
+        headers: searchParams.toString(),
         body: updatedBody,
       });
     } catch (error) {
