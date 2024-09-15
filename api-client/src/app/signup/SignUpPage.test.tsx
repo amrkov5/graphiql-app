@@ -101,18 +101,4 @@ describe('SignUpPage', () => {
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByLabelText('Confirm password')).toBeInTheDocument();
   });
-
-  // it('calls the unsubscribe function on unmount', async () => {
-  //   const locale = await getLocale();
-  //   const messages = await getMessages();
-  //   const { unmount } = render(
-  //     <NextIntlClientProvider locale={locale} messages={messages}>
-  //       <Provider store={store}>
-  //         <SignUpPage />
-  //       </Provider>
-  //     </NextIntlClientProvider>
-  //   );
-  //   unmount();
-  //   expect(unsubscribeMock).toHaveBeenCalled();
-  // });
 });
