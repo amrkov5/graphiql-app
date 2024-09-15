@@ -27,14 +27,23 @@ vi.mock('https://unpkg.com/prettier@3.3.3/standalone.mjs', () => ({
 vi.mock('https://unpkg.com/prettier@3.3.3/plugins/graphql.mjs', () => ({}));
 
 const messages = {
+  GraphqlClient: {
+    sdlLabel: 'SDL endpoint:',
+    getDocs: 'GET',
+    response: 'Response',
+    docs: 'Documentation',
+    sdlPlaceholder: 'Enter SDL URL',
+    bodyVariables: 'Body variables',
+    sendButton: 'Send',
+  },
   RestClient: {
     sendButton: 'Send',
     addButton: 'Add New',
-    headers: 'Headers:',
+    headers: 'Headers',
     body: 'Body:',
-    query: 'Query params:',
+    query: 'Query params',
     format: 'Format',
-    bodyVariables: 'Body variables:',
+    bodyVariables: 'Body variables',
     endpointPlaceholder: 'Enter endpoint URL',
     deleteButton: 'Delete',
     keyPlaceholder: 'Key',

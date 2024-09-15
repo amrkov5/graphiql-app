@@ -15,12 +15,12 @@ export default defineConfig({
     globals: true,
     include: ['src/**/*.test.tsx'],
     coverage: {
-      include: ['src/Components/**', 'src/app/api/**'],
+      include: ['src/Components/**', 'src/app/api/**', 'src/app/about/*'],
       exclude: [
         'src/app/[[...request]]/**',
         'src/app/history/**',
-        'src/app/signin/**',
-        'src/app/signup/**',
+        'src/app/**/*.test.tsx',
+        'src/Components/**/*.test.tsx',
       ],
     },
   },
