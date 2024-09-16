@@ -1,0 +1,15 @@
+.input {
+  background-color: var(--background-color-intense);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 70%;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: var(--input-border-focus);
+}

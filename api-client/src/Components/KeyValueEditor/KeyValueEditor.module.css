@@ -1,0 +1,98 @@
+.wrapper {
+  width: 100%;
+}
+
+.container {
+  padding: 20px;
+  position: relative;
+  border-radius: 8px;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.showButton {
+  width: 25px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background-color: var(--background-color-intense);
+  border: none;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  padding: 4px 8px;
+}
+
+.collapsed {
+  font-size: 18px;
+  line-height: 25px;
+  color: var(--text-color);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.title {
+  font-size: 18px;
+  margin: 0;
+}
+
+.addButton {
+  background-color: var(--button-background);
+  color: var(--text-color);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: var(--button-background-hover);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input {
+  background-color: var(--background-color-intense);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  border-radius: 4px;
+  margin-right: 10px;
+  flex: 1;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--place-holder-color);
+}
+
+.input:focus {
+  border-color: var(--input-border-focus);
+}
+
+.deleteButton {
+  background-color: var(--button-background-red);
+  color: var(--text-color);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: var(--button-background-red-hover);
+}

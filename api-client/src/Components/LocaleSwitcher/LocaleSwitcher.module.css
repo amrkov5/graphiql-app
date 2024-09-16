@@ -1,0 +1,10 @@
+.locale {
+  padding: 2px;
+  cursor: pointer;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--background-color);
+}
+
+.selected {
+  border-bottom: 2px solid var(--text-color);
+}

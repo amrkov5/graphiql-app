@@ -1,0 +1,47 @@
+:root {
+  --text-color: #f0eaea;
+  --background-color: #242424;
+  --background-color-intense: #1e1e1e;
+  --border-color: #3a3a3a;
+  --place-holder-color: #888;
+  --modal-background: rgb(0, 0, 0, 0.1);
+  --disabled-background: #363d428f;
+  --disabled-text: #746767;
+  --button-background: #007acc;
+  --button-background-hover: #005f9e;
+  --input-border-focus: #007acc;
+  --button-background-red: #e53935;
+  --button-background-red-hover: #c62828;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.main {
+  display: grid;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.globalError {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.globalErrorButton {
+  background-color: transparent;
+  color: var(--text-color);
+  align-self: center;
+}

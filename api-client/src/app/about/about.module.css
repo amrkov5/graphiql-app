@@ -1,0 +1,69 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 1156px;
+  margin: 0 auto;
+}
+.aboutHeading {
+  text-align: center;
+  margin-top: 0;
+}
+.aboutWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.personCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 33%;
+  max-width: 372px;
+  min-width: 300px;
+  padding: 15px;
+  text-align: left;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  box-shadow: 0 0 5px var(--text-color);
+}
+.photoContainer {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 5px var(--text-color);
+}
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.personName {
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+.personBio {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+.personGitHub {
+  display: block;
+  justify-self: baseline;
+  margin-top: 10px;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+.personGitHub:hover {
+  text-shadow: 0 0 5px var(--text-color);
+  transform: scale(1.01);
+}
+.projectInfoWrapper,
+.courseWrapper {
+  margin-top: 20px;
+  padding: 0 20px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  box-shadow: 0 0 5px var(--text-color);
+}

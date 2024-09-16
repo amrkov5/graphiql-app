@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.clientLinkWrapper {
+  display: flex;
+  column-gap: 50px;
+  justify-content: center;
+  width: 500px;
+  margin-top: 40px;
+}
+
+.clientLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 30px;
+  color: var(--text-color);
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+.clientLink:hover {
+  box-shadow: 0 0 5px var(--text-color);
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.noRequestsMsg {
+  text-align: center;
+}
+.request {
+  display: flex;
+  flex-direction: row;
+}
+
+.url {
+  background-color: transparent;
+  color: var(--text-color);
+  margin-bottom: 10px;
+  border: transparent;
+}
+
+.url:hover {
+  color: rgb(67, 130, 247);
+  cursor: pointer;
+}
+
+.historyList {
+  border: 1px solid var(--border-color);
+  padding: 30px;
+  border-radius: 15px;
+  background-color: var(--background-color-intense);
+}
+
+.method {
+  width: 100px;
+  color: rgba(235, 186, 26, 0.74);
+  font-weight: 700;
+  text-align: center;
+}

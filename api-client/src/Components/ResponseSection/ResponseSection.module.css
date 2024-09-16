@@ -1,0 +1,24 @@
+.responseSection {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.statusCode {
+  text-align: end;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.editorContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.errorSection {
+  color: red;
+  margin-top: 16px;
+}
